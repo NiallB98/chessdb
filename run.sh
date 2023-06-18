@@ -4,6 +4,7 @@ RUN_SCRIPT_DIR=$(cd -- "$( dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 MAIN_SCRIPT_DIR="${RUN_SCRIPT_DIR}/src/q"
 PAUSE="true"
 DEBUG="true"
+DEBUG_CLEAR_ON_RESTART="true"
 IGNORE_SERVER="false"
 SERVER_PROC_ID=""
 
@@ -67,6 +68,10 @@ actions () {
 
 actions
 while [ "$DEBUG" = "true" ]; do
+    if [ "$DEBUG" = "true" ] && [ "$DEBUG_CLEAR_ON_RESTART" = "true" ]; then
+        clear
+    fi
+
     actions
 done
 
