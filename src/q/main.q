@@ -7,6 +7,7 @@ system"l post.q";
 FPS:10;
 LEVELS:getlevelnames[];
 DEBUG:0b;
+SERVER_PROCESS_ID:"";
 
 main:{
   pre[];

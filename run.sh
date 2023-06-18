@@ -10,8 +10,8 @@ SERVER_PROC_ID=""
 
 # Server handling
 startserver () {
-    if [ "$SERVER_PROC_ID" = "" ]; then
-        q server.q &
+    if [ -z "$SERVER_PROC_ID" ]; then
+        q "server.q" & >/dev/null
         SERVER_PROC_ID="$!"
         echo "Background server process started"
     else
@@ -20,7 +20,7 @@ startserver () {
 }
 
 killserver () {
-    if [ ! "$SERVER_PROC_ID" = "" ]; then
+    if [ ! -z "$SERVER_PROC_ID" ]; then
         if ps -p "$SERVER_PROC_ID" > /dev/null; then
             isup="true"
         else
@@ -29,7 +29,7 @@ killserver () {
 
         if [ "$isup" = "true" ]; then
             has_errored="false"
-            kill "$SERVER_PROC_ID" || has_errored="true"
+            kill -9 "$SERVER_PROC_ID" || has_errored="true"
 
             if [ "$has_errored" = "true" ]; then
                 echo "Could not end server process with ID: $SERVER_PROC_ID"
@@ -52,9 +52,9 @@ killserver () {
 cd "${MAIN_SCRIPT_DIR}"
 
 actions () {
-    startserver
+    #startserver
     q "main.q"
-    killserver
+    #killserver
 
     if [ "$PAUSE" = "true" ]  && [ "$DEBUG" = "false" ]; then
         read -p "Press Enter to continue . . . " ans

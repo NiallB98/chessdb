@@ -30,10 +30,20 @@ loadlevels:{
   loadhowtosections[];
  };
 
+trystartserver:{[port]
+  
+
+  SERVER_PROCESS_ID:raze system"bash ../sh/startserver.sh ",port;
+
+  :1b;
+ };
+
 pre:{
   -1"Loading level data . . .";
   loadlevels[];
   -1"All level data loaded";
+
+  startserver[];
 
   -1"Starting game . . .";
   cls[];
