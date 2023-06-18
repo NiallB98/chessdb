@@ -23,9 +23,9 @@ BLACK_PAWN_CHAR:"p";
 
 system"l game/play/draw.q";
 
-.play.quitgame:{[nextscene]
-  stophost[];
-  :`scene`params!(nextscene;());
+.play.quitgame:{[ishost;nextscene]
+  if[ishost;.game.killserver[]];
+  :`scene`params!(nextscene;()!());
  };
 
 .play.waitforinput:{[]
@@ -37,6 +37,7 @@ play:{[params]
   otherpname:params`otherpname;
   iswhite:params`iswhite;
   ishost:params`ishost;
+  port:params`port;
 
   gd:`scene`params!(`play;()!());
 

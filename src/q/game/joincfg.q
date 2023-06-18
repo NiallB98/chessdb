@@ -1,10 +1,10 @@
 .joincfg.tryquery:{[ip;port]
-  res:@[{2~(`$":",x,":",string y)z}[ip;port];"1+1";0b];
+  res:@[{(`$":",x,":",string y)z}[ip;port];"kdbchessverify[]";0b];
 
   :$[res;(1b;"");(0b;"ERROR: Host unreachable")];
  };
 
-.joincfg.confirm:{[ip;port]
+.joincfg.confirm:{[ip;port]  // Confirms the following: the host exists; they were looking for another player
   res:.joincfg.tryquery[ip;port];
   :(first res;first res;selected;last res);
  };
@@ -42,7 +42,7 @@ joincfg:{[params]
 
   gd:`scene`params!(`joincfg;()!());
   gd[`params;`pname]:params`pname;
-  gd[`params;`address]:`::0;
+  gd[`params;`handle]:`::0;
 
   selections:`ip`port`join;
   selected:0;

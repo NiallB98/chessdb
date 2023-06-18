@@ -1,5 +1,10 @@
 .hostcfg.tryport:{[num]
-  :@[{value "\\p ",string x;1b};num;0b];
+  res:@[{value "\\p ",string x;value"\\ p 0";1b};num;0b];
+  if[not res;:0b];
+
+  .game.startserver[num];
+
+  :1b;
  };
 
 .hostcfg.formatport:{[input]
@@ -43,29 +48,29 @@
 hostcfg:{[params]
   gd:`scene`params!(`hostcfg;()!());
   gd[`params;`pname]:params`pname;
+  gd[`params;`port]:0;
 
   confirmed:0b;
-  port:0;
   isediting:1b;
   haserrored:0b;
 
-  .hostcfg.draw[isediting;port;haserrored];
+  .hostcfg.draw[isediting;gd[`params;`port];haserrored];
 
   while[`hostcfg~gd`scene;
     input:$[isediting;-1 _ read0 0;getinput[]];
 
     $[
-      not[isediting] and input~"q";[stophost[];:.game.quitdict];
-      not[isediting] and input~"m";[stophost[];:.game.menudict];
-      not[isediting] and input~"y";[confirmed:.hostcfg.tryport[port];haserrored:not confirmed];
+      not[isediting] and input~"q";[.game.killserver[];:.game.quitdict];
+      not[isediting] and input~"m";[.game.killserver[];:.game.menudict];
+      not[isediting] and input~"y";[confirmed:.hostcfg.tryport[gd[`params;`port]];haserrored:not confirmed];
       not[isediting] and input~"n";isediting:1b;
-      isediting and .hostcfg.isvalid input;[port:.hostcfg.formatport input;isediting:0b];
+      isediting and .hostcfg.isvalid input;[gd[`params;`port]:.hostcfg.formatport input;isediting:0b];
       isediting and not .hostcfg.isvalid input;haserrored:1b;
     ];
 
-    if[confirmed;:`scene`params!(`hostwait;enlist[`pname]!enlist gd[`params;`pname])];
+    if[confirmed;gd[`scene]:`hostwait;:gd];
 
-    .hostcfg.draw[isediting;port;haserrored];
+    .hostcfg.draw[isediting;gd[`params;`port];haserrored];
 
     haserrored:0b;
   ];

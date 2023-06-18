@@ -20,20 +20,20 @@ hostwait:{[params]
   gd[`params;`otherpname]:"Other player";
   gd[`params;`iswhite]:1b;
   gd[`params;`ishost]:1b;
+  gd[`params;`port]:params`port;
 
-  port:value"\\p";
   ip:"." sv string 256 vs .z.a;
 
-  .hostwait.draw[port;ip];
+  .hostwait.draw[gd[`params;`port];ip];
 
   while[`hostwait~gd`scene;
     input:getinput[];
     $[
-      input~"q";:.game.quitdict;
-      input~"m";:.game.menudict;
+      input~"q";[.game.killserver[];:.game.quitdict];
+      input~"m";[.game.killserver[];:.game.menudict];
     ];
 
-    .hostwait.draw[port;ip];
+    .hostwait.draw[gd[`params;`port];ip];
   ];
 
   :gd;

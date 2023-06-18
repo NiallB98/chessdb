@@ -31,7 +31,7 @@
 menu:{[params]
   gd:`scene`params!(`menu;()!());
 
-  selections:`host`join`spectatecfg`howto`;
+  selections:`join`spectatecfg`howto`;
   selected:0;
 
   .menu.draw[selected];                                                                             // Initial draw step
