@@ -1,5 +1,3 @@
-system"l game/hostcfg.q";
-system"l game/hostwait.q";
 system"l game/howto.q";
 system"l game/joincfg.q";
 system"l game/joinwait.q";
