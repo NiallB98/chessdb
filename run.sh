@@ -36,8 +36,6 @@ killserver () {
                 echo "Ended background server process"
             fi
 
-            SERVER_PROC_ID=""
-
         elif [ "$DEBUG" = "true" ]; then
             echo "No background server process found"
         fi
@@ -45,6 +43,8 @@ killserver () {
     elif [ "$DEBUG" = "true" ]; then
             echo "No background server process was started, nothing to end"
     fi
+
+    SERVER_PROC_ID=""
 }
 
 # Move user into directory of the q files
