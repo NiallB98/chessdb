@@ -22,7 +22,6 @@
  };
 
 .menu.draw:{[selected]
-  0N!1111111111111;
   lvl:.menu.level;
   lvl:.menu.showselection[lvl;selected];
 
