@@ -39,10 +39,10 @@ namecfg:{[params]
     input:$[isediting;-1 _ read0 0;getinput[]];
 
     $[
-      not[isediting] and 0N!input~"q";:.game.quitdict;
-      not[isediting] and 0N!input~"m";:.game.menudict;
-      not[isediting] and 0N!input~"y";:.namecfg.confirmname[gd[`params;`pname];passtoscene];
-      not[isediting] and 0N!input~"n";isediting:1b;
+      not[isediting] and input~"q";:.game.quitdict;
+      not[isediting] and input~"m";:.game.menudict;
+      not[isediting] and input~"y";:.namecfg.confirmname[gd[`params;`pname];passtoscene];
+      not[isediting] and input~"n";isediting:1b;
       isediting and not ""~limitlen[18;trim raze input];
         [gd[`params;`pname]:limitlen[18;trim raze input];isediting:0b];
     ];
