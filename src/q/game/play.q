@@ -23,43 +23,59 @@ BLACK_PAWN_CHAR:"p";
 
 system"l game/play/draw.q";
 
-.play.quitgame:{[ishost;nextscene]
-  if[ishost;.game.killserver[]];
+.play.quitgame:{[nextscene;handle;id]
+  @[{0N!x y};(`postupdate;id;0b);()];  // Trying to tell the server the player is quitting
   :`scene`params!(nextscene;()!());
  };
 
-.play.waitforinput:{[]
-  :getinput[];  // Placeholder
+.play.getupdate:{[handle;id]
+  res:@[{x y}[handle];(`getupdate;id);(0b;`)];
+  
+  if[not[first res] or not `mid~res 1;:(0b;"<Lost connection>")];  // If error has occurred, return 0b along with the error message (Max 20 characters to display fully)
+
+  :(1b;"Waiting for turn...");
  };
 
 play:{[params]
+  gd:`scene`params!(`play;()!());
+
   pname:params`pname;
   otherpname:params`otherpname;
+
   iswhite:params`iswhite;
+  isturn:iswhite;
+
   handle:params`handle;
   id:params`id;
 
-  gd:`scene`params!(`play;()!());
-
-  isturn:iswhite;
   logmsg:"Game started!";
+  haserrored:0b;
 
-  .play.draw[iswhite;isturn;pname;logmsg;otherpname];
+  .play.draw[iswhite;isturn;pname;logmsg;otherpname;haserrored];
 
   while[`play~gd`scene;
     sts:.z.p;
 
-    input:$[isturn;getinput[];.play.waitforinput[]];
+    input:$[haserrored or isturn;getinput[];""];
 
-    gd:$[
-      input~"q";.play.quitgame`;
-      input~"m";.play.quitgame`menu;
-      gd
+    $[
+      input~"q";:.play.quitgame[`;handle;id];
+      input~"m";:.play.quitgame[`menu;handle;id]
     ];
 
-    .play.draw[iswhite;isturn;pname;logmsg;otherpname];
+    if[not[haserrored] and isturn;
+      .play.turnlogic[];
+    ];
 
-    if[not isturn;limitfps sts];
+    if[not[haserrored] and not isturn;
+      res:0N!.play.getupdate[handle;id];
+      haserrored:not first res;
+      logmsg:res 1;
+    ];
+
+    .play.draw[iswhite;isturn;pname;logmsg;otherpname;haserrored];
+
+    if[not[haserrored] and not isturn;limitfps sts];
   ];
 
   :gd;

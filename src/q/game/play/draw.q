@@ -11,14 +11,19 @@
   :lvl;
  };
 
-.play.draw:{[iswhite;isturn;pname;logmsg;otherpname]
+.play.draw:{[iswhite;isturn;pname;logmsg;otherpname;haserrored]
   lvl:$[iswhite;.play.level;.playflipped.level];
 
-  lvl:0N!.play.showpiecestaken[lvl];
-  lvl:0N!autoshowmsg[lvl;logmsg;"^";`];
-  lvl:0N!.play.showturntaker[lvl;isturn;otherpname];
-  lvl:0N!.play.showpieces[lvl];
+  lvl:.play.showpiecestaken[lvl];
+  lvl:.play.showturntaker[lvl;isturn;otherpname];
+  lvl:.play.showpieces[lvl];
+  lvl:autoshowmsg[lvl;logmsg;"^";`];
 
-  prompt:$[isturn;"Up/Left/Down/Right [W/A/S/D], Quit [Q], Menu [M] ";""];
+  prompt:$[
+    haserrored;"Quit [Q], Menu [M] ";
+    isturn;"Up/Left/Down/Right [W/A/S/D], Quit [Q], Menu [M] ";
+    ""
+  ];
+
   draw[lvl;prompt];
  };
