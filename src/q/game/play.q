@@ -38,6 +38,7 @@ play:{[params]
   iswhite:params`iswhite;
   ishost:params`ishost;
   port:params`port;
+  id:params`id;
 
   gd:`scene`params!(`play;()!());
 

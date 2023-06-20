@@ -9,13 +9,13 @@
 |                                                          |
 |                                                          |
 |                                                          |
-|                % Host IP: 255.255.255.255 @              |
-|                   % Port: 25565 @                        |
+|                % Host IP: ############### @              |
+|                   % Port: $$$$$ @                        |
 |                                                          |
 |                        % Join @                          |
 |                                                          |
 |                                                          |
-| LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL |
+| &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& |
 |                                                          |
 |                                                          |
 |                                                          |

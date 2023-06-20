@@ -1,3 +1,7 @@
+.joinwait.getupdate:{[]
+  
+ };
+
 joinwait:{[params]  // Repeatedly tries to send a query to the host address until a response is made, it will then receive the final details needed to move onto playing the game
   address:params`address;
 
@@ -7,6 +11,7 @@ joinwait:{[params]  // Repeatedly tries to send a query to the host address unti
   gd[`params;`iswhite]:0b;
   gd[`params;`ishost]:0b;
   gd[`params;`port]:params`port;
+  gd[`params;`id]:params`id;
 
   draw[.joinwait.level;""];
 

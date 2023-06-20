@@ -1,8 +1,7 @@
 .menu.confirm:{[choice]
   :$[
-    choice~`host;`scene`params!(`namecfg;enlist[`passtoscene]!enlist`hostcfg);
     choice~`join;`scene`params!(`namecfg;enlist[`passtoscene]!enlist`joincfg);
-    `scene`params!(choice;())
+    `scene`params!(choice;()!())
   ];
  };
 
@@ -31,7 +30,7 @@
 menu:{[params]
   gd:`scene`params!(`menu;()!());
 
-  selections:`join`spectatecfg`howto`;
+  selections:`join`howto`;
   selected:0;
 
   .menu.draw[selected];                                                                             // Initial draw step

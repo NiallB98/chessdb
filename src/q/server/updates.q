@@ -1,25 +1,47 @@
-verifyplayer:{[handle]
-  :handle in key .server.players;
+system"l server/updates/errorupdate.q";
+system"l server/updates/pregame.q";
+system"l server/updates/midgame.q";
+system"l server/updates/postgame.q";
+
+verifyplayer:{[id]
+  :id in key .subs.players;
  };
 
-getplayerupdate:{[]  // Player processes execute this query to get the latest updates
-  if[not verifyplayer .z.w;log_warn"Unverified player tried to connect";:()];
+getupdate:{[id]  // Game processes execute this query to get the latest updates
+  if[not verifyplayer id;
+    log_warn"Unverified instance tried to connect with handle [",string[.z.w],"]";
+    :();
+  ];
 
-  .server.players[.z.w]:.z.p;  // Update player's timestamp
-  log_debug"Player with handle [",string[.z.w],"] requested an update";
+  log_debug"Player ",string[.subs.playernames id],
+           " with handle [",string[.z.w],"] requested an update";
 
-  :.server.errorresult; // Placeholder
+  .subs.players[id]:.z.p;  // Update player's timestamp
+
+  :$[
+    not first .eu.errormsg;.eu.getupdate[];
+    .mid.iscomplete;.post.getupdate[];
+    .pre.iscomplete[];.mid.getupdate[id];
+    .pre.getupdate[id]
+  ];
  };
 
-verifyspectator:{[handle]
-  :handle in key .server.spectators;
- };
+postupdate:{[id;res]  // Game processes execute this query to update the server if they are leaving (They just pass 0b in res) or posting updates
+  if[not verifyplayer id;
+    log_warn"Unverified instance tried to connect with handle [",string[.z.w],"]";
+    :();
+  ];
 
-getspectatorupdate:{[]  // Spectator processes execute this query to get the latest updates
-  if[not verifyspectator .z.w;log_warn"Unverified spectator tried to connect";:()];
+  log_info"Player ",string[.subs.playernames id],
+          " with handle [",string[.z.w],"] sent an update";
+  
+  if[res~0b;removeplayer[id];:1b];  // If the player is leaving, remove player then send back confirmation the server received the update
 
-  .server.spectators[.z.w]:.z.p;  // Update spectator's timestamp
-  log_debug"Spectator with handle [",string[.z.w],"] requested an update";
+  .subs.players[id]:.z.p;  // Update player's timestamp
 
-  :.server.errorresult; // Placeholder
+  :$[
+    .mid.iscomplete;.post.postupdate[];
+    .pre.iscomplete[];.mid.postupdate[];
+    0b  // There is no .pre.postupdate
+  ];
  };

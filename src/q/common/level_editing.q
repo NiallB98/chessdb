@@ -28,6 +28,7 @@ showmsg:{[lvl;msg;tgtstr;align]
  };
 
 autoshowmsg:{[lvl;msg;tgtchar;align]
+  tgtchar;
   num:getnumchars[lvl;tgtchar];
   :showmsg[lvl;msg;num#tgtchar;align];
  };

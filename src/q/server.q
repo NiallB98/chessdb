@@ -6,27 +6,16 @@ INACTIVE_SPECTATOR_TIMEOUT:0D00:00:30;       // Timeout for spectators
 
 DEBUG:0b;                                    // Shows debug logs
 
-.server.players:(`int$())!`timestamp$();     // Player handles paired with the most recent time they have queried the server
-.server.playernames:(`int$())!`symbol();     // Maps player handles to their chosen names
-.server.spectators:(`int$())!`timestamp$();  // Spectator handles paired with the most recent time they have queried the server
-
-.server.activeplayer:0Ni;                    // Holds the handle for the player that currently is taking their turn
-.server.isplaying:0b;                        // If the game has started
-
-.server.errorresult:(1b;"");                 // Keeps track of an error message to pass to subscribers if the first element is 0b
-
 system"l server/log.q";
 system"l server/subscription.q";
+system"l server/removeplayer.q";
 system"l server/updates.q";
+system"l server/timeout.q";
 
 .z.ts:{[]
-  if[not first .server.errorresult;:()];  // Skip further execution if an error has already occurred
-  removeinactivesubs[];
- };
-
-shutdown:{[]
-  log_warn"Shutting down . . .";
-  exit 0;
+  if[not first .eu.errormsg;:()];  // Skip further execution if an error has already occurred
+  .timeout.checkplayertimeouts[];
+  .eu.resetonempty[];
  };
 
 run:{[]  // Runs on the startup of the server
