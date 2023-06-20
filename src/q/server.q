@@ -19,7 +19,9 @@ system"l server/timeout.q";
  };
 
 run:{[]  // Runs on the startup of the server
-  log_info"Chessdb+ server started on port: ",string value"\\p";
+  log_info"Chessdb+ server started on:";
+  -1"- IP:    ","." sv string"i"$0x0 vs .z.a;
+  -1"- Port:  ",string[value"\\p"],"\n";
   value"\\t ",string UPDATE_INTERVAL_MS;
  };
 

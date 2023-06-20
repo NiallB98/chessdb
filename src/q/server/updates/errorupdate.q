@@ -11,5 +11,8 @@
  };
 
 .eu.getupdate:{[]
-  :.eu.errormsg;
+  :$[
+    first .eu.errormsg;.eu.errormsg;
+    (0b;"ERROR: ",last .eu.errormsg)
+  ];
  };

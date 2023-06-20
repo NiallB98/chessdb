@@ -1,5 +1,6 @@
 #!/bin/bash
 
+Q_CMD="q"
 RUN_SCRIPT_DIR=$(cd -- "$( dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 MAIN_SCRIPT_DIR="${RUN_SCRIPT_DIR}/src/q"
 PAUSE_ON_END="true";
@@ -8,7 +9,8 @@ PAUSE_ON_END="true";
 cd "${MAIN_SCRIPT_DIR}"
 
 # Starting main.q
-q "main.q"
+echo "Starting main.q . . ."
+$Q_CMD "main.q"
 
 # Return user to previous directory they were in
 cd "$OLDPWD"

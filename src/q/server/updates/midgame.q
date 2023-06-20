@@ -3,6 +3,11 @@
 .mid.wins:(`symbol$())!`long$();                                        // Tracks number of wins for both players
 .mid.activeplayer:`;                                                    // For the server to track the active player
 
+.mid.isactiveplayer:{[id]
+  .pre.sides[id]~"w"~first vs[" ";.mid.board]1
+  vs[" ";.mid.board]
+ };
+
 .mid.getupdate:{[]  // For the players to get updates on the progress of the ongoing game
   :(`mid;.mid.board);
  };
@@ -13,4 +18,5 @@
 
 .mid.startnew:{[]  // For the new game to start
   .mid.haswon:0b;
+  .pre.sides:reverse .pre.sides;
  };

@@ -2,6 +2,7 @@
 
 # This script takes the port of the server as an argument, though a default is specified if one isn't passed
 
+Q_CMD="q"
 DEFAULT_PORT=25565
 RUN_SCRIPT_DIR=$(cd -- "$( dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 MAIN_SCRIPT_DIR="${RUN_SCRIPT_DIR}/src/q"
@@ -17,8 +18,8 @@ fi
 # Move user into directory of the q files
 cd "${MAIN_SCRIPT_DIR}"
 
-# Starting server on port
-q server.q -p "$PORT" || echo -e "\nCould not host server on port $PORT"
+echo "Starting server.q . . ."
+$Q_CMD server.q -p "$PORT" || echo -e "\nCould not host server on port $PORT"
 
 # Return user to previous directory they were in
 cd "$OLDPWD"
