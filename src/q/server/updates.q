@@ -19,9 +19,9 @@ getupdate:{[id]  // Game processes execute this query to get the latest updates
   .subs.players[id]:.z.p;  // Update player's timestamp
 
   :$[
-    not first .eu.errormsg;.eu.getupdate[];
-    .mid.iscomplete;.post.getupdate[];
-    .pre.iscomplete[];.mid.getupdate[id];
+    haserrored[];.eu.getupdate[id];
+    .mid.iscomplete;.post.getupdate[id];
+    .pre.iscomplete[id];.mid.getupdate[id];
     .pre.getupdate[id]
   ];
  };
@@ -35,13 +35,17 @@ postupdate:{[id;res]  // Game processes execute this query to update the server 
   log_info"Player ",string[.subs.playernames id],
           " with handle [",string[.z.w],"] sent an update";
   
-  if[res~0b;removeplayer[id];:1b];  // If the player is leaving, remove player then send back confirmation the server received the update
+  if[res~0b;
+    msg:"Player '",string[.subs.playernames id],"' left the game";
+    removeplayer[id;msg];
+    :1b;
+  ];  // If the player is leaving, remove player then send back confirmation the server received the update
 
   .subs.players[id]:.z.p;  // Update player's timestamp
 
   :$[
     .mid.iscomplete;.post.postupdate[];
-    .pre.iscomplete[];.mid.postupdate[];
+    .pre.iscomplete[id];.mid.postupdate[];
     0b  // There is no .pre.postupdate
   ];
  };

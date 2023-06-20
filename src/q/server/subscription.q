@@ -9,7 +9,7 @@
 
 .subs.chessplayersub:{[pname]
   if[2<=count .subs.players;
-    log_warn"Extra player with handle [",string[.z.w],"] tried to connect";:0b];
+    log_warn"Extra player with handle [",string[.z.w],"] tried to connect";:(0b;"Server full")];
 
   log_info"New player '",pname,"' joined with handle [",string[.z.w],"]";
 

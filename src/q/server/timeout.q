@@ -1,12 +1,10 @@
-.timeout.timeoutplayer:{[pl]
-  doerror:.pre.iscomplete[];
-  msg:"Player '",string[.subs.playernames pl],"' timed out";
-  removeplayer[pl];
-  if[doerror;[log_error msg;.eu.errormsg:(0b;msg);log_warn msg]]
+.timeout.timeoutplayer:{[id]
+  msg:"Player '",string[.subs.playernames id],"' timed out";
+  removeplayer[id;msg];
  };
 
 .timeout.checkplayertimeout:{[id]
-  res:$[id~.mid.activeplayer;
+  res:$[.mid.isactiveplayer[id];
     ACTIVE_PLAYER_TIMEOUT<.z.p-.subs.players id;
     INACTIVE_PLAYER_TIMEOUT<.z.p-.subs.players id
   ];

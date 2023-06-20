@@ -1,7 +1,8 @@
-removeplayer:{[id]
-  if[.mid.activeplayer~id;.mid.activeplayer:0Ni];
+removeplayer:{[id;msg] // Remove player and if the game has progress past the pre-game stage, flag an error
+  doerror:.pre.iscomplete[id];
+
   .subs.players:raze[id] _ .subs.players;
   .subs.playernames:raze[id] _ .subs.playernames;
 
-  log_warn"Player removed from player list";
+  if[doerror;[log_error msg;.eu.errormsg:msg;log_warn msg]];
  };

@@ -13,7 +13,6 @@ system"l server/updates.q";
 system"l server/timeout.q";
 
 .z.ts:{[]
-  if[not first .eu.errormsg;:()];  // Skip further execution if an error has already occurred
   .timeout.checkplayertimeouts[];
   .eu.resetonempty[];
  };
