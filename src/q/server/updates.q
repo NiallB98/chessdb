@@ -19,7 +19,7 @@ getupdate:{[id]  // Game processes execute this query to get the latest updates
   .subs.players[id]:.z.p;  // Update player's timestamp
 
   :$[
-    haserrored[];.eu.getupdate[id];
+    .eu.haserrored[];.eu.getupdate[id];
     .mid.iscomplete;.post.getupdate[id];
     .pre.iscomplete[id];.mid.getupdate[id];
     .pre.getupdate[id]

@@ -36,18 +36,19 @@ play:{[params]
   pname:params`pname;
   otherpname:params`otherpname;
   iswhite:params`iswhite;
-  ishost:params`ishost;
-  port:params`port;
+  handle:params`handle;
   id:params`id;
 
   gd:`scene`params!(`play;()!());
 
   isturn:iswhite;
-  logmsg:"";
+  logmsg:"Game started!";
 
-  .play.draw[iswhite;isturn;pname;"Game started!";otherpname];
+  .play.draw[iswhite;isturn;pname;logmsg;otherpname];
 
   while[`play~gd`scene;
+    sts:.z.p;
+
     input:$[isturn;getinput[];.play.waitforinput[]];
 
     gd:$[
@@ -57,6 +58,8 @@ play:{[params]
     ];
 
     .play.draw[iswhite;isturn;pname;logmsg;otherpname];
+
+    if[not isturn;limitfps sts];
   ];
 
   :gd;

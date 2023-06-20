@@ -36,8 +36,6 @@ menu:{[params]
   .menu.draw[selected];                                                                             // Initial draw step
   
   while[`menu~gd`scene;
-    st:.z.t;
-
     input:getinput[];
     if[input~"q";:.game.quitdict];
 

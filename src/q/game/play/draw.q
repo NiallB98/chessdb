@@ -2,44 +2,23 @@
   :lvl;
  };
 
-.play.showmsg:{[lvl;msg]
-  tgtstr:"LLLLLLLLLLLLLLLLLLLL";
-  msg:setlen[count tgtstr;msg;`];
-
-  :replaceall[lvl;tgtstr;msg];
- };
-
 .play.showturntaker:{[lvl;isturn;otherpname]
   msg:$[isturn;"Your";otherpname,"'s"];
-
-  tgtstr:"TTTTTTTTTTTTTTTTTTTT";
-  msg:setlen[count tgtstr;msg;`];
-
-  :replaceall[lvl;tgtstr;msg];
- };
-
-.play.showspectating:{[lvl]
-  :lvl;
+  :autoshowmsg[lvl;msg;"`";`];
  };
 
 .play.showpiecestaken:{[lvl]
   :lvl;
  };
 
-.play.showlastmoves:{[lvl]
-  :lvl;
- };
-
 .play.draw:{[iswhite;isturn;pname;logmsg;otherpname]
   lvl:$[iswhite;.play.level;.playflipped.level];
 
-  lvl:.play.showpiecestaken[lvl];
-  lvl:.play.showpieces[lvl];
-  lvl:showmsg[lvl;logmsg;"LLLLLLLLLLLLLLLLLLLL"];
-  lvl:.play.showturntaker[lvl;isturn;otherpname];
-  lvl:.play.showspectating[lvl];
-  lvl:.play.showpiecestaken[lvl];
-  lvl:.play.showlastmoves[lvl];
+  lvl:0N!.play.showpiecestaken[lvl];
+  lvl:0N!autoshowmsg[lvl;logmsg;"^";`];
+  lvl:0N!.play.showturntaker[lvl;isturn;otherpname];
+  lvl:0N!.play.showpieces[lvl];
 
-  draw[lvl;"Up/Left/Down/Right [W/A/S/D], Quit [Q], Menu [M] "];
+  prompt:$[isturn;"Up/Left/Down/Right [W/A/S/D], Quit [Q], Menu [M] ";""];
+  draw[lvl;prompt];
  };

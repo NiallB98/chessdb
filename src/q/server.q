@@ -1,8 +1,8 @@
 UPDATE_INTERVAL_MS:3000;                     // How often the server runs .z.ts (in milliseconds)
 
-INACTIVE_PLAYER_TIMEOUT:0D00:00:30;          // Timeout for player who is not taking on their turn
+INACTIVE_PLAYER_TIMEOUT:0D00:00:05;          // Timeout for player who is not taking on their turn (They should be pinging the server constantly so set this low)
 ACTIVE_PLAYER_TIMEOUT:0D00:10:00;            // Timeout for player whose turn it is, should be the larger of the two
-INACTIVE_SPECTATOR_TIMEOUT:0D00:00:30;       // Timeout for spectators
+POSTGAME_PLAYER_TIMEOUT:0D00:01:00;          // Timeout for players if server is waiting for a response after a game has finished
 
 DEBUG:0b;                                    // Shows debug logs
 

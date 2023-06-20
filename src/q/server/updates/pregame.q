@@ -34,7 +34,7 @@
  };
 
 .pre.getupdate:{[id]
-  log_debug"Pre-game update received for player '",string[.subs.playernames[id]],
+  log_debug"Pre-game update being received for player '",string[.subs.playernames[id]],
            "' with handle [",string[.z.w],"]";
   
   otherpname:.pre.getotherpname id;
@@ -42,5 +42,5 @@
 
   if[.pre.iscomplete[id];log_info"Both players updated, game has started"];
 
-  :(`pre;otherpname;side);
+  :(1b;`pre;otherpname;side);
  };

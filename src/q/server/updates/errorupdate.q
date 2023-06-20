@@ -11,7 +11,7 @@
  };
 
 .eu.getupdate:{[id]
-  .log.info"Player '",.pre.playernames[id],"' with handle [",string[.z.w],"] received error message";
+  .log.info"Player '",.pre.playernames[id],"' with handle [",string[.z.w],"] getting error message";
   :(1b;`error;"ERROR: ",.eu.errormsg);
  };
 

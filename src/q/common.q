@@ -9,8 +9,9 @@ getinput:{
   :lower last -1 _ read0 0;
  };
 
-limitfps:{[st]
-  system"sleep ",string max,[%[1;FPS]-%[.z.t-st]1e3;0];
+limitfps:{[sts]
+  ts:(.z.p-sts)%1e9;
+  system"sleep ",string max,[%[1;FPS]-ts;0];
  };
 
 draw:{[lvl;prompt]

@@ -25,6 +25,11 @@
   :`scene`params!(passtoscene;enlist[`pname]!enlist pname);
  };
 
+.namecfg.isvalidname:{[input]
+  input:trim raze input;
+  :all[input in .Q.an] and not ""~limitlen[18;input];  // Name has to be all alphanumeric characters and not an empty string
+ };
+
 namecfg:{[params]
   passtoscene:params`passtoscene;
 
@@ -43,8 +48,10 @@ namecfg:{[params]
       not[isediting] and input~"m";:.game.menudict;
       not[isediting] and input~"y";:.namecfg.confirmname[gd[`params;`pname];passtoscene];
       not[isediting] and input~"n";isediting:1b;
-      isediting and not ""~limitlen[18;trim raze input];
-        [gd[`params;`pname]:limitlen[18;trim raze input];isediting:0b];
+      isediting and .namecfg.isvalidname input;[
+          gd[`params;`pname]:limitlen[18;trim raze input];
+          isediting:0b;
+        ]
     ];
 
     .namecfg.draw[gd[`params;`pname];isediting];

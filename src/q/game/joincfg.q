@@ -41,14 +41,18 @@ joincfg:{[params]
     input:trim -1 _ read0 0;
     $[
       "q"~last input;:.game.quitdict;
-      "m"~last input;:.game.menudict;
+      "m"~last input;:.game.menudict
     ];
 
     res:.joincfg.logic[input;selections;selected;ip;port;gd[`params;`pname];id];
     confirmed:res 0; selected:res 1; msg:res 2; ip:res 3; port:res 4; id:res 5;
 
     if[confirmed;
-      :`scene`params!(`joinwait;`pname`address`id!(gd[`params;`pname];`$":",ip,":",string port;id))];
+      gd[`scene]:`joinwait;
+      gd[`params;`handle]:`$":",ip,":",string port;
+      gd[`params;`id]:id;
+      :gd;
+    ];
 
     .joincfg.draw[selections;selected;msg;ip;port];
 

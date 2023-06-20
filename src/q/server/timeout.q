@@ -4,8 +4,8 @@
  };
 
 .timeout.checkplayertimeout:{[id]
-  res:$[.mid.isactiveplayer[id];
-    ACTIVE_PLAYER_TIMEOUT<.z.p-.subs.players id;
+  res:$[.mid.iscomplete;POSTGAME_PLAYER_TIMEOUT<.z.p-.subs.players id;
+    .mid.isactiveplayer id;ACTIVE_PLAYER_TIMEOUT<.z.p-.subs.players id;
     INACTIVE_PLAYER_TIMEOUT<.z.p-.subs.players id
   ];
 
