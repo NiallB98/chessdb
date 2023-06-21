@@ -1,25 +1,4 @@
-.namecfg.showpname:{[lvl;pname]
-  :autoshowmsg[lvl;pname;"@";`];
- };
-
-.namecfg.showmsg:{[lvl;isediting]
-  tgtchar:"&";
-
-  :$[
-    not isediting;autoshowmsg[lvl;"Confirm? [Y/N]";tgtchar;`];
-    autoshowmsg[lvl;"";tgtchar;`]
-  ];
- };
-
-.namecfg.draw:{[pname;isediting]
-  lvl:.namecfg.level;
-  lvl:.namecfg.showpname[lvl;pname];
-  lvl:.namecfg.showmsg[lvl;isediting];
-
-  prompt:$[isediting;"> ";"Quit [Q], Menu [M], Yes [Y], No [N] "];
-
-  draw[lvl;prompt];
- };
+system"l game/namecfg/draw.q";
 
 .namecfg.confirmname:{[pname;passtoscene]
   :`scene`params!(passtoscene;enlist[`pname]!enlist pname);

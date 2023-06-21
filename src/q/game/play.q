@@ -1,40 +1,11 @@
-CHECK_CHAR_DICT:`nw`ne`sw`se!"!!!!";
-CURSOR_CHAR_DICT:`n`w`e`s!"-||-";
-SELECTED_CHAR_DICT:`nw`ne`sw`se!"/\\\\/";
-CAN_MOVE_CHAR_DICT:`nw`ne`sw`se!"\\//\\";
-LAST_MOVE_CHAR_DICT:`nw`ne`sw`se!"++++";
-
-BLACK_SQUARE_CHAR:"#";
-WHITE_SQUARE_CHAR:" ";
-
-WHITE_KING_CHAR:"K";
-WHITE_QUEEN_CHAR:"Q";
-WHITE_ROOK_CHAR:"R";
-WHITE_BISHOP_CHAR:"B";
-WHITE_KNIGHT_CHAR:"K";
-WHITE_PAWN_CHAR:"P";
-
-BLACK_KING_CHAR:"k";
-BLACK_QUEEN_CHAR:"q";
-BLACK_ROOK_CHAR:"r";
-BLACK_BISHOP_CHAR:"b";
-BLACK_KNIGHT_CHAR:"k";
-BLACK_PAWN_CHAR:"p";
-
+system"l game/play/constants.q";
+system"l game/play/common.q";
+system"l game/play/turnlogic.q";
+system"l game/play/initboard.q";
+system"l game/play/getupdate.q";
+system"l game/play/postupdate.q";
 system"l game/play/draw.q";
-
-.play.quitgame:{[nextscene;handle;id]
-  @[{x y}[handle];(`postupdate;id;0b);()];  // Trying to tell the server the player is quitting
-  :`scene`params!(nextscene;()!());
- };
-
-.play.getupdate:{[handle;id]
-  res:@[{x y}[handle];(`getupdate;id);(0b;`)];
-  
-  if[not[first res] or not `mid~res 1;:(0b;"<Lost connection>")];  // If error has occurred, return 0b along with the error message (Max 20 characters to display fully)
-
-  :(1b;"Waiting for turn...");
- };
+system"l game/play/quitgame.q";
 
 play:{[params]
   gd:`scene`params!(`play;()!());
@@ -42,40 +13,71 @@ play:{[params]
   pname:params`pname;
   otherpname:params`otherpname;
 
+  board:"";
   iswhite:params`iswhite;
-  isturn:iswhite;
+  turndone:0b;
 
   handle:hopen params`address;
   id:params`id;
 
-  logmsg:"Game started!";
+  0N!logmsg:"Game started!";
   haserrored:0b;
 
-  .play.draw[iswhite;isturn;pname;logmsg;otherpname;haserrored];
+  .play.draw[board;iswhite;pname;logmsg;otherpname;haserrored];
 
   while[`play~gd`scene;
     sts:.z.p;
 
-    input:$[haserrored or isturn;getinput[];""];
+    0N!"0";
+
+    input:$[haserrored or .play.isturn[board;iswhite];getinput[];""];
+
+    0N!"1";
 
     $[
       input~"q";:.play.quitgame[`;handle;id];
       input~"m";:.play.quitgame[`menu;handle;id]
     ];
+    
+    0N!"2";
 
-    if[not[haserrored] and isturn;
-      .play.turnlogic[];
+    if[(not board~"") and not[haserrored] and .play.isturn[board;iswhite];      // If taking turn (and not errored)
+      res:.play.turnlogic[input];
+      turndone:res 0; board:res 1;
     ];
 
-    if[not[haserrored] and not isturn;
-      res:.play.getupdate[handle;id];
-      haserrored:not first res;
-      logmsg:res 1;
+    0N!"3";
+
+    if[turndone;                                                                // If turn is done
+          res:.play.postupdate[id;board];  // Send updated board to server
+          haserrored:not res 0; logmsg:res 1;
+
+          turndone:0b; picksq:-1;
     ];
 
-    .play.draw[iswhite;isturn;pname;logmsg;otherpname;haserrored];
+    0N!"4";
 
-    if[not[haserrored] and not isturn;limitfps sts];
+    if[(not board~"") and not[haserrored] and not .play.isturn[board;iswhite];  // If other player's turn (and not errored)
+      res:.play.getupdate[handle;id;board];
+      haserrored:not res 0; logmsg:res 1;
+
+      if[not haserrored;board:res 2];
+    ];
+
+    0N!"5";
+
+    if[board~"";                                                                // If waiting to get initial board from server
+      res:0N!.play.initboard[handle;id];
+      haserrored:not res 0; logmsg:res 1;
+
+      if[not haserrored;board:res 2];
+    ];
+
+    0N!"6";
+
+    .play.draw[board;iswhite;pname;logmsg;otherpname;haserrored];
+
+    if[(board~"") or not[haserrored] and not .play.isturn[board;iswhite];limitfps sts];
   ];
 
   :gd;

@@ -10,7 +10,7 @@ verifyplayer:{[id]
 getupdate:{[id]  // Game processes execute this query to get the latest updates
   if[not verifyplayer id;
     log_warn"Unverified instance tried to connect with handle [",string[.z.w],"]";
-    :();
+    :(0b;"Unverified instance");
   ];
 
   log_debug"Player ",string[.subs.playernames id],
@@ -29,7 +29,7 @@ getupdate:{[id]  // Game processes execute this query to get the latest updates
 postupdate:{[id;res]  // Game processes execute this query to update the server if they are leaving (They just pass 0b in res) or posting updates
   if[not verifyplayer id;
     if[not res~0b;log_warn"Unverified instance tried to connect with handle [",string[.z.w],"]"];  // If it isn't a timed out player sending a late quitting notification to the server, log a warning
-    :();
+    :(0b;"Unverified instance");
   ];
 
   log_info"Player ",string[.subs.playernames id],

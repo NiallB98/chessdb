@@ -1,21 +1,7 @@
 system"l game/joincfg/edit.q";
 system"l game/joincfg/confirm.q";
 system"l game/joincfg/draw.q";
-
-.joincfg.logic:{[input;selections;selected;ip;port;pname;id]
-  $[
-    "w"~last input;selected:mod[selected-1;count selections];
-    "s"~last input;selected:mod[selected+1;count selections];
-    (`join~selections selected) and "e"~last input;:.joincfg.confirm[ip;port;pname];
-    (1<count input) and selections[selected] in `ip`port;
-      :.joincfg.edit[input;selections;selected;ip;port];
-  ];
-
-  :$[
-    `join~selections selected;(0b;selected;"Confirm? [E]";ip;port;id);
-    (0b;selected;"";ip;port;id)
-  ];
- };
+system"l game/joincfg/logic.q";
 
 joincfg:{[params]
   pname:params`pname;
@@ -40,8 +26,8 @@ joincfg:{[params]
   while[`joincfg~gd`scene;
     input:trim -1 _ read0 0;
     $[
-      "q"~last input;:.game.quitdict;
-      "m"~last input;:.game.menudict
+      "q"~lower last input;:.game.quitdict;
+      "m"~lower last input;:.game.menudict
     ];
 
     res:.joincfg.logic[input;selections;selected;ip;port;gd[`params;`pname];id];

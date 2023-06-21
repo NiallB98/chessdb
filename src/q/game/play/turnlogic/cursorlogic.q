@@ -1,0 +1,3 @@
+cursorlogic:{[input;board;cursorpos]
+  
+ };
