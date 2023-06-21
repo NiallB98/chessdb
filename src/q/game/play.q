@@ -24,7 +24,7 @@ BLACK_PAWN_CHAR:"p";
 system"l game/play/draw.q";
 
 .play.quitgame:{[nextscene;handle;id]
-  @[{0N!x y};(`postupdate;id;0b);()];  // Trying to tell the server the player is quitting
+  @[{x y}[handle];(`postupdate;id;0b);()];  // Trying to tell the server the player is quitting
   :`scene`params!(nextscene;()!());
  };
 
