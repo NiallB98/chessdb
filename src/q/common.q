@@ -17,7 +17,7 @@ limitfps:{[sts]
 draw:{[lvl;prompt]
   cls[];
   -1 lvl;
-  1 prompt;
+  if[not prompt~"";1 prompt];
  };
 
 limitlen:{[size;str]

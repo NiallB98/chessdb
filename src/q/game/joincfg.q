@@ -22,7 +22,7 @@ joincfg:{[params]
 
   gd:`scene`params!(`joincfg;()!());
   gd[`params;`pname]:params`pname;
-  gd[`params;`handle]:`::0;
+  gd[`params;`address]:`::0;
   gd[`params;`id]:`;
 
   selections:`ip`port`join;
@@ -49,7 +49,7 @@ joincfg:{[params]
 
     if[confirmed;
       gd[`scene]:`joinwait;
-      gd[`params;`handle]:`$":",ip,":",string port;
+      gd[`params;`address]:`$":",ip,":",string port;
       gd[`params;`id]:id;
       :gd;
     ];

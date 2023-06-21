@@ -1,5 +1,5 @@
-.joinwait.getupdate:{[handle;id]  // Either returns 4 arguments if no error occured or 2 if one has, the first argument == 0b if an error has occurred
-  res:@[{x y}[handle];(`getupdate;id);0b];  // If successful res == (1b;`pre;"Some player name";"w" or "b")
+.joinwait.getupdate:{[address;id]  // Either returns 4 arguments if no error occured or 2 if one has, the first argument == 0b if an error has occurred
+  res:@[{x y}[address];(`getupdate;id);0b];  // If successful res == (1b;`pre;"Some player name";"w" or "b")
 
   if[not first res;:(0b;"ERROR: Lost connection to the host")];  // Return early if query failed
   

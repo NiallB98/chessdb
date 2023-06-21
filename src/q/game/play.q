@@ -45,7 +45,7 @@ play:{[params]
   iswhite:params`iswhite;
   isturn:iswhite;
 
-  handle:params`handle;
+  handle:hopen params`address;
   id:params`id;
 
   logmsg:"Game started!";
@@ -68,7 +68,7 @@ play:{[params]
     ];
 
     if[not[haserrored] and not isturn;
-      res:0N!.play.getupdate[handle;id];
+      res:.play.getupdate[handle;id];
       haserrored:not first res;
       logmsg:res 1;
     ];

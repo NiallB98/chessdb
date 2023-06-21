@@ -3,7 +3,7 @@ system"l pre.q";
 system"l game.q";
 system"l post.q";
 
-FPS:10;
+FPS:5;
 DEBUG:0b;
 LEVELS:getlevelnames[];
 

@@ -19,16 +19,16 @@ getupdate:{[id]  // Game processes execute this query to get the latest updates
   .subs.players[id]:.z.p;  // Update player's timestamp
 
   :$[
-    .eu.haserrored[];.eu.getupdate[id];
-    .mid.iscomplete;.post.getupdate[id];
-    .pre.iscomplete[id];.mid.getupdate[id];
-    .pre.getupdate[id]
+    .eu.haserrored[];.eu.getupdate id;
+    .mid.iscomplete;.post.getupdate id;
+    .pre.iscomplete[id];["Trying to get mid update";.mid.getupdate id];
+    .pre.getupdate id
   ];
  };
 
 postupdate:{[id;res]  // Game processes execute this query to update the server if they are leaving (They just pass 0b in res) or posting updates
   if[not verifyplayer id;
-    log_warn"Unverified instance tried to connect with handle [",string[.z.w],"]";
+    if[not res~0b;log_warn"Unverified instance tried to connect with handle [",string[.z.w],"]"];  // If it isn't a timed out player sending a late quitting notification to the server, log a warning
     :();
   ];
 

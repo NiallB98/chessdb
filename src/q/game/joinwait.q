@@ -12,16 +12,16 @@ system"l game/joinwait/getupdate.q";
   draw[lvl;prompt];
  };
 
-joinwait:{[params]  // Repeatedly tries to send a query to the host address until it receives the other player's name and what colour to start as
+joinwait:{[params]  // Repeatedly queries the host address until it receives the other player's name and what colour to start as
   gd:`scene`params!(`joinwait;()!());
   gd[`params;`pname]:params`pname;
-  gd[`params;`handle]:params`handle;
+  gd[`params;`address]:params`address;
   gd[`params;`id]:params`id;
   gd[`params;`otherpname]:"";  // Will be assigned by the server
   gd[`params;`iswhite]:0b;     // Will be assigned by the server
 
-  ip:vs[":";string gd[`params;`handle]]1;
-  portstr:vs[":";string gd[`params;`handle]]2;
+  ip:vs[":";string gd[`params;`address]]1;
+  portstr:vs[":";string gd[`params;`address]]2;
 
   ready:0b;  // If ready to go to play mode
   msg:"";
@@ -44,7 +44,7 @@ joinwait:{[params]  // Repeatedly tries to send a query to the host address unti
     if[not haserrored;
       loadprog:mod[loadprog+1;4];
 
-      res:.joinwait.getupdate[gd[`params;`handle];gd[`params;`id]];
+      res:.joinwait.getupdate[gd[`params;`address];gd[`params;`id]];
       $[first res;if[res 1;  // If received all the details needed from the server
           gd[`params;`otherpname]:res 2;
           gd[`params;`iswhite]:res 3;

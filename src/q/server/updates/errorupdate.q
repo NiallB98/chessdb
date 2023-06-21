@@ -2,7 +2,7 @@
 
 .eu.reset:{[]  // Resets global variables to their initial values by reloading the server's child scripts that initialise them
   log_warn"Server resetting . . . ";
-  {system 0N!"l server/",x}each("subscription.q";"updates.q");
+  {system "l server/",x}each("subscription.q";"updates.q");
   log_info"Server reset";
  };
 

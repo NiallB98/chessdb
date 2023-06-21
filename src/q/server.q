@@ -17,6 +17,11 @@ system"l server/timeout.q";
   .eu.resetonempty[];
  };
 
+.z.pg:{[qry]
+  log_debug"Received query:\n",-3!qry;
+  :value qry;
+ };
+
 run:{[]  // Runs on the startup of the server
   log_info"Chessdb+ server started on:";
   -1"- IP:    ","." sv string"i"$0x0 vs .z.a;
