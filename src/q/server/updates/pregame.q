@@ -40,7 +40,7 @@
   otherpname:.pre.getotherpname id;
   side:.pre.assignside id;
 
-  if[.pre.iscomplete[id];log_info"Both players updated, game has started"];
+  if[all .pre.iscomplete each key .subs.players;log_info"Both players updated, game has started"];
 
   :(1b;`pre;otherpname;side);
  };
