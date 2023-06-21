@@ -20,7 +20,7 @@ namecfg:{[params]
   .namecfg.draw[gd[`params;`pname];isediting];
 
   while[`namecfg~gd`scene;
-    input:$[isediting;-1 _ read0 0;getinput[]];
+    input:$[isediting;getfullinput[];getinput[]];
 
     $[
       not[isediting] and input~"q";:.game.quitdict;

@@ -24,7 +24,7 @@ joincfg:{[params]
   .joincfg.draw[selections;selected;msg;ip;port];
 
   while[`joincfg~gd`scene;
-    input:trim -1 _ read0 0;
+    input:getfullinput[];
     $[
       "q"~lower last input;:.game.quitdict;
       "m"~lower last input;:.game.menudict
