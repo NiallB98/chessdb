@@ -23,6 +23,9 @@ play:{[params]
   0N!logmsg:"Game started!";
   haserrored:0b;
 
+  cursorpos:0;
+  picksq:-1;
+
   .play.draw[board;iswhite;pname;logmsg;otherpname;haserrored];
 
   while[`play~gd`scene;
@@ -42,7 +45,7 @@ play:{[params]
     0N!"2";
 
     if[(not board~"") and not[haserrored] and .play.isturn[board;iswhite];      // If taking turn (and not errored)
-      res:.play.turnlogic[input];
+      res:.play.turnlogic[input;board;cursorpos;picksq];
       turndone:res 0; board:res 1;
     ];
 
