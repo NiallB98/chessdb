@@ -1,6 +1,6 @@
 .play.showpieces:{[lvl;board]
   indices:lvl ss "@";
-  emptysqchars:64#{x,reverse x}8#BLACK_SQUARE_CHAR,WHITE_SQUARE_CHAR;
+  emptysqchars:64#{x,reverse x}8#WHITE_SQUARE_CHAR,BLACK_SQUARE_CHAR;
 
   if[board~"";
     lvl[indices]:emptysqchars;
