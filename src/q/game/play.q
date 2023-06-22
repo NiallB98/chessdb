@@ -13,7 +13,7 @@ play:{[params]
   nd:`name`other!(params`pname;params`otherpname);  // Name dictionary, holds both player names
   cd:`bd`iswhite`turndone!("";params`iswhite;0b);   // Chess dictionary, holds the FEN board string, whether the player is playing as white and whether the player's turn is done
   qd:`h`id!(hopen params`address;params`id);        // Query dictionary, holds the handle and player id needed for querying the server
-  csrd:`pos`picksq!0 -1;                            // Cursor dictionary, holds the position of the player's cursor and what square they have picked (-1 if none)
+  csrd:`pos`picksq!0 -1;                            // Cursor dictionary, holds the position of the player's cursor and what square they have picked (-1 if none and if picked can be 0-63 inclusive where 0 is top left (as white) and 63 bottom right)
 
   logmsg:"Game started!";
   haserrored:0b;

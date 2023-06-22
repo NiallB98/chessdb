@@ -1,4 +1,4 @@
-.play.showpieces:{[lvl;board]
+.play.showpieces:{[lvl;board;iswhite]
   indices:lvl ss "@";
   emptysqchars:64#{x,reverse x}8#WHITE_SQUARE_CHAR,BLACK_SQUARE_CHAR;
 
@@ -7,7 +7,9 @@
     :lvl;
   ];
 
-  sqs:{$[x~" ";y;x]}'[.play.getboard1d board;emptysqchars];
+  board1d:$[iswhite;.play.getboard1d board;reverse .play.getboard1d board];
+
+  sqs:{$[x~" ";y;x]}'[board1d;emptysqchars];
   lvl[indices]:sqs;
 
   :lvl;
@@ -44,7 +46,7 @@
 
   lvl:.play.showpiecestaken[lvl];
   lvl:.play.showturntaker[lvl;.play.isturn[cd];nd`other];
-  lvl:.play.showpieces[lvl;cd`bd];
+  lvl:.play.showpieces[lvl;cd`bd;cd`iswhite];
   lvl:autoshowmsg[lvl;logmsg;"^";`];
   lvl:.play.showturnnum[lvl;cd`bd];
   lvl:.play.showwins[lvl;nd`other;(0;0)];
