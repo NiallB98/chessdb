@@ -1,5 +1,5 @@
-.play.isturn:{[board;iswhite]
-  :$[board~"";0b;iswhite~"w"~first vs[" ";board]1];
+.play.isturn:{[cd]
+  :$[cd[`bd]~"";0b;cd[`iswhite]~"w"~first vs[" ";cd`bd]1];
  };
 
 .play.getboard2d:{[board]

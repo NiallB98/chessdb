@@ -10,77 +10,55 @@ system"l game/play/quitgame.q";
 play:{[params]
   gd:`scene`params!(`play;()!());
 
-  pname:params`pname;
-  otherpname:params`otherpname;
+  nd:`name`other!(params`pname;params`otherpname);  // Name dictionary, holds both player names
+  cd:`bd`iswhite`turndone!("";params`iswhite;0b);   // Chess dictionary, holds the FEN board string, whether the player is playing as white and whether the player's turn is done
+  qd:`h`id!(hopen params`address;params`id);        // Query dictionary, holds the handle and player id needed for querying the server
+  csrd:`pos`picksq!0 -1;                            // Cursor dictionary, holds the position of the player's cursor and what square they have picked (-1 if none)
 
-  board:"";
-  iswhite:params`iswhite;
-  turndone:0b;
-
-  handle:hopen params`address;
-  id:params`id;
-
-  0N!logmsg:"Game started!";
+  logmsg:"Game started!";
   haserrored:0b;
 
-  cursorpos:0;
-  picksq:-1;
-
-  .play.draw[board;iswhite;pname;logmsg;otherpname;haserrored];
+  .play.draw[cd;nd;logmsg;haserrored];
 
   while[`play~gd`scene;
     sts:.z.p;
 
-    0N!"0";
+    input:$[haserrored or .play.isturn[cd];getinput[];""];          // Getting input if it is the player's turn or the server flagged an error
 
-    input:$[haserrored or .play.isturn[board;iswhite];getinput[];""];
-
-    0N!"1";
-
-    $[
-      input~"q";:.play.quitgame[`;handle;id];
-      input~"m";:.play.quitgame[`menu;handle;id]
-    ];
-    
-    0N!"2";
-
-    if[(not board~"") and not[haserrored] and .play.isturn[board;iswhite];      // If taking turn (and not errored)
-      res:.play.turnlogic[input;board;cursorpos;picksq];
-      turndone:res 0; board:res 1;
+    $[                                                              // Checking standard input
+      input~"q";:.play.quitgame[qd;`];
+      input~"m";:.play.quitgame[qd;`menu]
     ];
 
-    0N!"3";
+    if[(not ""~cd`bd) and not[haserrored] and .play.isturn cd;      // If taking turn (and not errored)
+      res:.play.turnlogic[input;cd;csrd];
+      cd:res 0; csrd:res 1;
+    ];
 
-    if[turndone;                                                                // If turn is done
-          res:.play.postupdate[id;board];  // Send updated board to server
+    if[cd`turndone;                                                 // If turn is done
+          res:.play.postupdate[qd;cd`bd];  // Send updated board to server
           haserrored:not res 0; logmsg:res 1;
 
-          turndone:0b; picksq:-1;
+          cd[`turndone]:0b; csrd[`picksq]:-1;
     ];
 
-    0N!"4";
-
-    if[(not board~"") and not[haserrored] and not .play.isturn[board;iswhite];  // If other player's turn (and not errored)
-      res:.play.getupdate[handle;id;board];
+    if[(not ""~cd`bd) and not[haserrored] and not .play.isturn cd;  // If other player's turn (and not errored)
+      res:.play.getupdate[qd;cd`bd];
       haserrored:not res 0; logmsg:res 1;
 
-      if[not haserrored;board:res 2];
+      if[not haserrored;cd[`bd]:res 2];
     ];
 
-    0N!"5";
-
-    if[board~"";                                                                // If waiting to get initial board from server
-      res:0N!.play.initboard[handle;id];
+    if[""~cd`bd;                                                    // If waiting to get initial board from server
+      res:.play.initboard[qd];
       haserrored:not res 0; logmsg:res 1;
 
-      if[not haserrored;board:res 2];
+      if[not haserrored;cd[`bd]:res 2];
     ];
 
-    0N!"6";
+    .play.draw[cd;nd;logmsg;haserrored];
 
-    .play.draw[board;iswhite;pname;logmsg;otherpname;haserrored];
-
-    if[(board~"") or not[haserrored] and not .play.isturn[board;iswhite];limitfps sts];
+    if[(""~cd`bd) or not[haserrored] and not .play.isturn cd;limitfps sts];
   ];
 
   :gd;

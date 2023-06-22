@@ -1,5 +1,5 @@
-.play.initboard:{[handle;id]
-  0N!res:@[{x y}[handle];(`.mid.initboard;id);(0b;"<Lost connection>")];
+.play.initboard:{[qd]
+  0N!res:@[{x y}[qd`h];(`.mid.initboard;qd`id);(0b;"<Lost connection>")];
 
   if[not first res;:res];
 

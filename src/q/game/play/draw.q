@@ -30,7 +30,7 @@
   :showmsg[lvl;msg;20#"T";`];
  };
 
-.play.showwins:{[lvl;pname;otherpname;wins]
+.play.showwins:{[lvl;otherpname;wins]
   lvl:showmsg[lvl;"You:";20#"P";`];
   lvl:autoshowmsg[lvl;string first wins;"!";`];
   lvl:showmsg[lvl;otherpname,":";20#"p";`];
@@ -39,19 +39,19 @@
   :lvl;
  };
 
-.play.draw:{[board;iswhite;pname;logmsg;otherpname;haserrored]
-  lvl:$[iswhite;.play.level;.playflipped.level];
+.play.draw:{[cd;nd;logmsg;haserrored]
+  lvl:$[cd`iswhite;.play.level;.playflipped.level];
 
-  0N!lvl:.play.showpiecestaken[lvl];
-  0N!lvl:.play.showturntaker[lvl;.play.isturn[board;iswhite];otherpname];
-  0N!lvl:.play.showpieces[lvl;board];
-  0N!lvl:autoshowmsg[lvl;logmsg;"^";`];
-  0N!lvl:.play.showturnnum[lvl;board];
-  0N!lvl:.play.showwins[lvl;pname;otherpname;(0;0)];
+  lvl:.play.showpiecestaken[lvl];
+  lvl:.play.showturntaker[lvl;.play.isturn[cd];nd`other];
+  lvl:.play.showpieces[lvl;cd`bd];
+  lvl:autoshowmsg[lvl;logmsg;"^";`];
+  lvl:.play.showturnnum[lvl;cd`bd];
+  lvl:.play.showwins[lvl;nd`other;(0;0)];
 
-  0N!prompt:$[
+  prompt:$[
     haserrored;"Quit [Q], Menu [M] ";
-    .play.isturn[board;iswhite];"Up/Left/Down/Right [W/A/S/D], Quit [Q], Menu [M] ";
+    .play.isturn[cd];"Up/Left/Down/Right [W/A/S/D], Quit [Q], Menu [M] ";
     ""
   ];
 
