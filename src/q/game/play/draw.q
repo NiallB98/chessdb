@@ -9,6 +9,7 @@
 
   sqs:{$[x~" ";y;x]}'[.play.getboard1d board;emptysqchars];
   lvl[indices]:sqs;
+
   :lvl;
  };
 
@@ -18,6 +19,23 @@
  };
 
 .play.showpiecestaken:{[lvl]
+  lvl:showmsg[lvl;"";16#"w";`];
+  lvl:showmsg[lvl;"";16#"b";`];
+
+  :lvl;
+ };
+
+.play.showturnnum:{[lvl;board]
+  msg:"Turn number: ",last " " vs board;
+  :showmsg[lvl;msg;20#"T";`];
+ };
+
+.play.showwins:{[lvl;pname;otherpname;wins]
+  lvl:showmsg[lvl;"You:";20#"P";`];
+  lvl:autoshowmsg[lvl;string first wins;"!";`];
+  lvl:showmsg[lvl;otherpname,":";20#"p";`];
+  lvl:autoshowmsg[lvl;string last wins;";";`];
+
   :lvl;
  };
 
@@ -28,6 +46,8 @@
   0N!lvl:.play.showturntaker[lvl;.play.isturn[board;iswhite];otherpname];
   0N!lvl:.play.showpieces[lvl;board];
   0N!lvl:autoshowmsg[lvl;logmsg;"^";`];
+  0N!lvl:.play.showturnnum[lvl;board];
+  0N!lvl:.play.showwins[lvl;pname;otherpname;(0;0)];
 
   0N!prompt:$[
     haserrored;"Quit [Q], Menu [M] ";
