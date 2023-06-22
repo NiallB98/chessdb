@@ -4,7 +4,7 @@
     "s"~lower last input;selected:mod[selected+1;count selections];
     (`join~selections selected) and "e"~lower last input;:.joincfg.confirm[ip;port;pname];
     (1<count input) and selections[selected] in `ip`port;
-      :.joincfg.edit[input;selections;selected;ip;port];
+      :.joincfg.edit[input;selections;selected;ip;port;id]
   ];
 
   :$[
