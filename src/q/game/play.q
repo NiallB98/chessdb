@@ -10,15 +10,15 @@ system"l game/play/quitgame.q";
 play:{[params]
   gd:`scene`params!(`play;()!());
 
-  nd:`name`other!(params`pname;params`otherpname);  // Name dictionary, holds both player names
-  cd:`bd`iswhite`turndone!("";params`iswhite;0b);   // Chess dictionary, holds the FEN board string, whether the player is playing as white and whether the player's turn is done
-  qd:`h`id!(hopen params`address;params`id);        // Query dictionary, holds the handle and player id needed for querying the server
-  csrd:`pos`picksq!0 -1;                            // Cursor dictionary, holds the position of the player's cursor and what square they have picked (-1 if none and if picked can be 0-63 inclusive where 0 is top left (as white) and 63 bottom right)
+  nd:`name`other!(params`pname;params`otherpname);                         // Name dictionary, holds both player names
+  cd:`bd`iswhite`turndone`checksq`lastmove!("";params`iswhite;0b;-1;());   // Chess dictionary, holds 1. the FEN board string, 2. whether the player is playing as white, 3. whether the player's turn is done, 4. position of a checked square (-1 if none), 5. last move start and end position (empty list if no last move)
+  qd:`h`id!(hopen params`address;params`id);                               // Query dictionary, holds the handle and player id needed for querying the server
+  csrd:`pos`picksq`moves!(-1;-1;());                                       // Cursor dictionary, holds 1. the position of the player's cursor, 2. what square they have picked (-1 if none and if picked can be 0-63 inclusive where 0 is top left (as white) and 63 bottom right), 3. the possible squares the player can move to
 
   logmsg:"Game started!";
   haserrored:0b;
 
-  .play.draw[cd;nd;logmsg;haserrored];
+  .play.draw[cd;nd;csrd;logmsg;haserrored];
 
   while[`play~gd`scene;
     sts:.z.p;
@@ -56,7 +56,7 @@ play:{[params]
       if[not haserrored;cd[`bd]:res 2];
     ];
 
-    .play.draw[cd;nd;logmsg;haserrored];
+    .play.draw[cd;nd;csrd;logmsg;haserrored];
 
     if[(""~cd`bd) or not[haserrored] and not .play.isturn cd;limitfps sts];
   ];

@@ -1,3 +1,5 @@
+system"l game/play/draw/showboardui.q";
+
 .play.showpieces:{[lvl;board;iswhite]
   indices:lvl ss "@";
   emptysqchars:64#{x,reverse x}8#WHITE_SQUARE_CHAR,BLACK_SQUARE_CHAR;
@@ -41,7 +43,7 @@
   :lvl;
  };
 
-.play.draw:{[cd;nd;logmsg;haserrored]
+.play.draw:{[cd;nd;csrd;logmsg;haserrored]
   lvl:$[cd`iswhite;.play.level;.playflipped.level];
 
   lvl:.play.showpiecestaken[lvl];
@@ -49,7 +51,8 @@
   lvl:.play.showpieces[lvl;cd`bd;cd`iswhite];
   lvl:autoshowmsg[lvl;logmsg;"^";`];
   lvl:.play.showturnnum[lvl;cd`bd];
-  lvl:.play.showwins[lvl;nd`other;(0;0)];
+  lvl:.play.showwins[lvl;nd`other;(0;0)];  // Need to track wins
+  lvl:.play.showboardui[lvl;cd;csrd];
 
   prompt:$[
     haserrored;"Quit [Q], Menu [M] ";

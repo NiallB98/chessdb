@@ -1,5 +1,5 @@
 CHECK_CHAR_DICT:`nw`ne`sw`se!"!!!!";
-CURSOR_CHAR_DICT:`n`w`e`s!"-||-";
+CURSOR_CHAR_DICT:`n`w`e`s!"^<>v";
 SELECTED_CHAR_DICT:`nw`ne`sw`se!"/\\\\/";
 CAN_MOVE_CHAR_DICT:`nw`ne`sw`se!"\\//\\";
 LAST_MOVE_CHAR_DICT:`nw`ne`sw`se!"++++";

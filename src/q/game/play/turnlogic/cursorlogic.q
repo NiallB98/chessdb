@@ -1,3 +1,3 @@
-cursorlogic:{[input;board;cursorpos]
+movecursor:{[input;board;cursorpos]
   
  };
