@@ -1,0 +1,3 @@
+.tl.addcastlemoves:{[moves]
+  :moves;
+ };

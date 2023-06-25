@@ -1,9 +1,21 @@
-.play.showcheck:{[lvl;iswhite;pos]
-  if[pos~-1;:lvl];  // Do not show if position is -1
-  if[not iswhite;pos:63-pos];
+.play.showcheck:{[lvl;board;iswhite]
+  bd:.play.getboard1d board;
 
-  indices:.play.indices[key CHECK_CHAR_DICT;pos];
-  lvl[indices]:value CHECK_CHAR_DICT;
+  if[.play.ischecked[board;1b];  // If white king is checked
+    pos:first bd ss WHITE_KING_CHAR;
+    if[not iswhite;pos:63-pos];
+
+    indices:.play.indices[key CHECK_CHAR_DICT;pos];
+    lvl[indices]:value CHECK_CHAR_DICT;
+  ];
+
+  if[.play.ischecked[board;0b];  // If black king is checked
+    pos:first bd ss BLACK_KING_CHAR;
+    if[not iswhite;pos:63-pos];
+
+    indices:.play.indices[key CHECK_CHAR_DICT;pos];
+    lvl[indices]:value CHECK_CHAR_DICT;
+  ];
 
   :lvl;
  };
@@ -52,7 +64,7 @@
 
 .play.showboardui:{[lvl;cd;csrd]
   lvl:.play.showlastmove[lvl;cd`iswhite;cd`lastmove];
-  lvl:.play.showcheck[lvl;cd`iswhite;cd`checksq];
+  lvl:.play.showcheck[lvl;cd`bd;cd`iswhite];
   lvl:.play.showmoves[lvl;cd`iswhite;csrd`moves];
   lvl:.play.showselected[lvl;cd`iswhite;csrd`picksq];
   lvl:.play.showcursor[lvl;cd`iswhite;csrd`pos];

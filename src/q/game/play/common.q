@@ -1,3 +1,7 @@
+system"l game/play/common/2dgrid.q";
+system"l game/play/common/getmaxmoves.q";
+system"l game/play/common/isattacked.q";
+
 .play.isturn:{[cd]
   :$[cd[`bd]~"";0b;cd[`iswhite]~"w"~first vs[" ";cd`bd]1];
  };
@@ -28,9 +32,9 @@
   :bd[pos] in WHITE_PIECES,BLACK_PIECES;
  };
 
-.play.get2dpos:{[pos]
-  x:pos mod 8;
-  y:pos div 8;
+.play.ischecked:{[board;iswhite]
+  bd:.play.getboard1d board;
+  kingpos:first bd ss $[iswhite;WHITE_KING_CHAR;BLACK_KING_CHAR];
 
-  :x,y;
+  :$[kingpos~0N;0b;.play.isattacked[kingpos;board;iswhite]];
  };
