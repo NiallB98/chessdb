@@ -2,7 +2,15 @@
 
 # This script takes the port of the server as an argument, though a default is specified if one isn't passed
 
-Q_CMD="q"
+case "$OSTYPE" in
+    msys*)  # Windows
+        Q_CMD="q"
+        ;;
+    *)      # Other
+        Q_CMD="$QHOME/l[36][24]/q"
+        ;;
+esac
+
 DEFAULT_PORT=25565
 RUN_SCRIPT_DIR=$(cd -- "$( dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 MAIN_SCRIPT_DIR="${RUN_SCRIPT_DIR}/src/q"

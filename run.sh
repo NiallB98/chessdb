@@ -1,6 +1,14 @@
 #!/bin/bash
 
-Q_CMD="q"
+case "$OSTYPE" in
+    msys*)  # Windows
+        Q_CMD="q"
+        ;;
+    *)      # Other
+        Q_CMD="$QHOME/l[36][24]/q"
+        ;;
+esac
+
 RUN_SCRIPT_DIR=$(cd -- "$( dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 MAIN_SCRIPT_DIR="${RUN_SCRIPT_DIR}/src/q"
 PAUSE_ON_END="true";
