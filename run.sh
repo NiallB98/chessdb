@@ -4,8 +4,14 @@ case "$OSTYPE" in
     msys*)  # Windows
         Q_CMD="q"
         ;;
-    *)      # Other
-        Q_CMD="$QHOME/l[36][24]/q"
+    *)      # Other (Linux for example)
+        if [ ! -z "`command -v rlwrap`" ]; then
+            RLWRAP_CMD="rlwrap"
+        else
+            RLWRAP_CMD=""
+        fi
+
+        Q_CMD="$RLWRAP_CMD $QHOME/l[36][24]/q"
         ;;
 esac
 
