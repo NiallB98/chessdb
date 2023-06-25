@@ -17,3 +17,13 @@
 .play.getboard1d:{[board]
   :raze .play.getboard2d[board];
  };
+
+.play.isownedpiece:{[board;pos;iswhite]
+  bd:.play.getboard1d board;
+  :bd[pos] in $[iswhite;WHITE_PIECES;BLACK_PIECES];
+ };
+
+.play.ispiece:{[board;pos]
+  bd:.play.getboard1d board;
+  :bd[pos] in WHITE_PIECES,BLACK_PIECES;
+ };

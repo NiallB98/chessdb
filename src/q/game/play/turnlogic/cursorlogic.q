@@ -1,3 +1,0 @@
-movecursor:{[input;board;cursorpos]
-  
- };

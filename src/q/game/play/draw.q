@@ -43,6 +43,22 @@ system"l game/play/draw/showboardui.q";
   :lvl;
  };
 
+.play.showprompt:{[haserrored;cd;csrd]
+  $[haserrored;:"Quit [Q], Menu [M] ";not .play.isturn cd;:""];
+
+  prompt:"Up/Left/Down/Right [W/A/S/D], Quit [Q], Menu [M]";  // Base prompt
+
+  prompt,:$[
+    csrd[`pos]~csrd`picksq;", Deselect [E] ";
+    .play.isownedpiece[cd`bd;csrd`pos;cd`iswhite];", Select [E] ";
+    -1~csrd`picksq;" ";
+    csrd[`pos] in csrd`moves;", Move [E] ";
+    ", Deselect [E] "
+  ];
+
+  :prompt;
+ };
+
 .play.draw:{[cd;nd;csrd;logmsg;haserrored]
   lvl:$[cd`iswhite;.play.level;.playflipped.level];
 
@@ -54,11 +70,7 @@ system"l game/play/draw/showboardui.q";
   lvl:.play.showwins[lvl;nd`other;(0;0)];  // Need to track wins
   lvl:.play.showboardui[lvl;cd;csrd];
 
-  prompt:$[
-    haserrored;"Quit [Q], Menu [M] ";
-    .play.isturn[cd];"Up/Left/Down/Right [W/A/S/D], Quit [Q], Menu [M] ";
-    ""
-  ];
+  prompt:.play.showprompt[haserrored;cd;csrd];
 
   draw[lvl;prompt];
  };

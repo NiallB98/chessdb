@@ -29,6 +29,13 @@ play:{[params]
       input~"q";:.play.quitgame[qd;`];
       input~"m";:.play.quitgame[qd;`menu]
     ];
+  
+    if[""~cd`bd;                                                    // If waiting to get initial board from server
+      res:.play.initboard[qd];
+      haserrored:not res 0; logmsg:res 1;
+
+      if[not haserrored;cd[`bd]:res 2];
+    ];
 
     if[(not ""~cd`bd) and not[haserrored] and .play.isturn cd;      // If taking turn (and not errored)
       res:.play.turnlogic[input;cd;csrd];
@@ -44,13 +51,6 @@ play:{[params]
 
     if[(not ""~cd`bd) and not[haserrored] and not .play.isturn cd;  // If other player's turn (and not errored)
       res:.play.getupdate[qd;cd`bd];
-      haserrored:not res 0; logmsg:res 1;
-
-      if[not haserrored;cd[`bd]:res 2];
-    ];
-
-    if[""~cd`bd;                                                    // If waiting to get initial board from server
-      res:.play.initboard[qd];
       haserrored:not res 0; logmsg:res 1;
 
       if[not haserrored;cd[`bd]:res 2];
