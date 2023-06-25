@@ -1,4 +1,5 @@
 system"l game/play/turnlogic/movecursor.q";
+system"l game/play/turnlogic/getmoves.q";
 
 .tl.move:{[cd;startpos;endpos]
   
@@ -22,6 +23,8 @@ system"l game/play/turnlogic/movecursor.q";
     if[input in "wasd";csrd:.tl.movecursor[input;csrd;cd`iswhite]];
     if[input~"e";res:.tl.selectsq[cd;csrd];cd:res 0;csrd:res 1];
   ];
+
+  csrd[`moves]:$[-1~csrd`picksq;();.tl.getmoves[cd;csrd]];
 
   :(cd;csrd);
  };

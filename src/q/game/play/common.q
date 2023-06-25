@@ -27,3 +27,10 @@
   bd:.play.getboard1d board;
   :bd[pos] in WHITE_PIECES,BLACK_PIECES;
  };
+
+.play.get2dpos:{[pos]
+  x:pos mod 8;
+  y:pos div 8;
+
+  :x,y;
+ };
