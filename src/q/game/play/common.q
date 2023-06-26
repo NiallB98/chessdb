@@ -1,6 +1,7 @@
 system"l game/play/common/2dgrid.q";
 system"l game/play/common/getmaxmoves.q";
 system"l game/play/common/isattacked.q";
+system"l game/play/common/movepiece.q";
 
 .play.isturn:{[cd]
   :$[cd[`bd]~"";0b;cd[`iswhite]~"w"~first vs[" ";cd`bd]1];
@@ -20,6 +21,11 @@ system"l game/play/common/isattacked.q";
 
 .play.getboard1d:{[board]
   :raze .play.getboard2d[board];
+ };
+
+.play.fmtboard1d:{[board1d]
+  bd:-1 _ raze{x[(y*8)+til 8],"/"}[board1d]each til 8;
+  :{ssr[x;y#" ";string y]}/[bd;reverse 1+til 8];
  };
 
 .play.isownedpiece:{[board;pos;iswhite]

@@ -1,13 +1,17 @@
-system"l game/play/turnlogic/getmoves/pawnlimits.q";
-system"l game/play/turnlogic/getmoves/generallimits.q";
-system"l game/play/turnlogic/getmoves/checklimits.q";
-system"l game/play/turnlogic/getmoves/addcastlemoves.q";
+system"l game/play/turnlogic/getmoves/pawnmoves.q";
+system"l game/play/turnlogic/getmoves/knightmoves.q";
+system"l game/play/turnlogic/getmoves/bishopmoves.q";
+system"l game/play/turnlogic/getmoves/rookmoves.q";
+system"l game/play/turnlogic/getmoves/queenmoves.q";
+system"l game/play/turnlogic/getmoves/kingmoves.q";
+
 
 .tl.getpiece:{[board;pos]
   bd:.play.getboard1d[board];
   :bd[pos];
  };
 
+/
 .tl.getmoves:{[cd;csrd]
   piece:.tl.getpiece[cd`bd;csrd`picksq];
 
@@ -26,6 +30,23 @@ system"l game/play/turnlogic/getmoves/addcastlemoves.q";
 
   if[not "n"~lower piece;moves:.tl.notblockedmoves[moves]];  // If piece is not a knight, make sure moves have no pieces between the start and endpos
   moves:.tl.notmovesonfriendly[moves];                       // Make sure endpos is either an enemy or empty
+
+  :moves;
+ };
+\
+
+.tl.getmoves:{[board;picksq;iswhite]
+  piece:lower .tl.getpiece[board;picksq];
+
+  moves:$[
+    piece~"p";.tl.pawnmoves[board;picksq;iswhite];
+    piece~"n";.tl.knightmoves[board;picksq;iswhite];
+    piece~"b";.tl.bishopmoves[board;picksq;iswhite];
+    piece~"r";.tl.rookmoves[board;picksq;iswhite];
+    piece~"q";.tl.queenmoves[board;picksq;iswhite];
+    piece~"k";.tl.kingmoves[board;picksq;iswhite];
+    ()
+  ];
 
   :moves;
  };

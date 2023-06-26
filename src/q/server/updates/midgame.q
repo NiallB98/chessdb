@@ -21,16 +21,21 @@ START_BOARD:"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";  // Boar
   :(1b;.mid.board);
  };
 
+.mid.getboard:{[]
+  :.mid.board;
+ };
+
 .mid.updateboard:{[board]
-  .mid.board:board;
+  `.mid.board set board;
   log_info"Board updated";
+  log_debug"Board is now:\n",.mid.getboard[];
  };
 
 .mid.getupdate:{[id]  // For the players to get updates on the progress of the ongoing game
   log_debug"Player '",string[.subs.playernames id],
            "' with handle [",string[.z.w],"] getting a mid-game update";
   
-  :(1b;`mid;.mid.board);
+  :(1b;`mid;.mid.getboard[]);
  };
 
 .mid.postupdate:{[id;board]  // For the players to send updates after they move

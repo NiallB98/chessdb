@@ -10,10 +10,10 @@ system"l game/play/quitgame.q";
 play:{[params]
   gd:`scene`params!(`play;()!());
 
-  nd:`name`other!(params`pname;params`otherpname);                         // Name dictionary, holds both player names
-  cd:`bd`iswhite`turndone`checksq`lastmove!("";params`iswhite;0b;-1;());   // Chess dictionary, holds 1. the FEN board string, 2. whether the player is playing as white, 3. whether the player's turn is done, 4. position of a checked square (-1 if none), 5. last move start and end position (empty list if no last move)
-  qd:`h`id!(hopen params`address;params`id);                               // Query dictionary, holds the handle and player id needed for querying the server
-  csrd:`pos`picksq`moves!(-1;-1;());                                       // Cursor dictionary, holds 1. the position of the player's cursor, 2. what square they have picked (-1 if none and if picked can be 0-63 inclusive where 0 is top left (as white) and 63 bottom right), 3. the possible squares the player can move to
+  nd:`name`other!(params`pname;params`otherpname);                              // Name dictionary, holds both player names
+  cd:`bd`iswhite`turndone`lastmove`takenpcs!("";params`iswhite;0b;();("";""));  // Chess dictionary, holds 1. the FEN board string, 2. whether the player is playing as white, 3. whether the player's turn is done, 4. last move start and end position (empty list if no last move), 5. Pieces that have been taken this game (First string for what white has taken and last for what black has taken)
+  qd:`h`id!(hopen params`address;params`id);                                    // Query dictionary, holds the handle and player id needed for querying the server
+  csrd:`pos`picksq`moves!(-1;-1;());                                            // Cursor dictionary, holds 1. the position of the player's cursor, 2. what square they have picked (-1 if none and if picked can be 0-63 inclusive where 0 is top left (as white) and 63 bottom right), 3. the possible squares the player can move to
 
   logmsg:"Game started!";
   haserrored:0b;
@@ -43,7 +43,7 @@ play:{[params]
     ];
 
     if[cd`turndone;                                                 // If turn is done
-          res:.play.postupdate[qd;cd`bd];  // Send updated board to server
+          res:.play.postupdate[qd;0N!cd`bd];  // Send updated board to server
           haserrored:not res 0; logmsg:res 1;
 
           cd[`turndone]:0b; csrd[`picksq]:-1;

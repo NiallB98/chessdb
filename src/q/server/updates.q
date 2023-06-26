@@ -44,8 +44,8 @@ postupdate:{[id;res]  // Game processes execute this query to update the server 
   .subs.players[id]:.z.p;  // Update player's timestamp
 
   :$[
-    .mid.iscomplete;.post.postupdate[];
-    .pre.iscomplete[id];.mid.postupdate[];
+    .mid.iscomplete;.post.postupdate[id;res];
+    .pre.iscomplete[id];.mid.postupdate[id;res];
     0b  // There is no .pre.postupdate
   ];
  };
