@@ -5,7 +5,7 @@ CAN_MOVE_CHAR_DICT:`nw`ne`sw`se!"\\//\\";
 LAST_MOVE_CHAR_DICT:`nw`ne`sw`se!"++++";
 
 BLACK_SQUARE_CHAR:" ";
-WHITE_SQUARE_CHAR:"#";
+WHITE_SQUARE_CHAR:".";
 
 WHITE_KING_CHAR:"K";
 WHITE_QUEEN_CHAR:"Q";

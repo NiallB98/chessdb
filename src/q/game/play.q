@@ -50,7 +50,7 @@ play:{[params]
     ];
 
     if[(not ""~cd`bd) and not[haserrored] and not .play.isturn cd;  // If other player's turn (and not errored)
-      res:.play.getupdate[qd;cd`bd];
+      res:.play.getupdate[qd;cd`bd;cd`iswhite];
       haserrored:not res 0; logmsg:res 1;
 
       if[not haserrored;cd[`bd]:res 2];
