@@ -26,8 +26,8 @@ play:{[params]
     input:$[haserrored or .play.isturn[cd];getinput[];""];          // Getting input if it is the player's turn or the server flagged an error
 
     $[                                                              // Checking standard input
-      input~"q";:.play.quitgame[qd;`];
-      input~"m";:.play.quitgame[qd;`menu]
+      input~"q";:.play.quitgame[qd;haserrored;`];
+      input~"m";:.play.quitgame[qd;haserrored;`menu]
     ];
   
     if[""~cd`bd;                                                    // If waiting to get initial board from server
@@ -42,11 +42,11 @@ play:{[params]
       cd:res 0; csrd:res 1;
     ];
 
-    if[cd`turndone;                                                 // If turn is done
+    if[not[haserrored] and cd`turndone;                             // If turn is done
           res:.play.postupdate[qd;0N!cd`bd];  // Send updated board to server
           haserrored:not res 0; logmsg:res 1;
 
-          cd[`turndone]:0b; csrd[`picksq]:-1;
+          cd[`turndone]:0b; csrd[`picksq]:-1; csrd[`pos]: -1;
     ];
 
     if[(not ""~cd`bd) and not[haserrored] and not .play.isturn cd;  // If other player's turn (and not errored)
@@ -55,6 +55,8 @@ play:{[params]
 
       if[not haserrored;cd[`bd]:res 2];
     ];
+
+    if[.play.isturn[cd] and -1~csrd`pos;csrd[`pos]:$[cd`iswhite;63-11;11]];
 
     .play.draw[cd;nd;csrd;logmsg;haserrored];
 
