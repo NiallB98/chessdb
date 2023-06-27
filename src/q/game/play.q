@@ -43,17 +43,17 @@ play:{[params]
     ];
 
     if[not[haserrored] and cd`turndone;                             // If turn is done
-          res:.play.postupdate[qd;0N!cd`bd];  // Send updated board to server
+          res:.play.postupdate[qd;cd`bd;cd`takenpcs];  // Send updated board to server
           haserrored:not res 0; logmsg:res 1;
 
           cd[`turndone]:0b; csrd[`picksq]:-1; csrd[`pos]: -1;
     ];
 
     if[(not ""~cd`bd) and not[haserrored] and not .play.isturn cd;  // If other player's turn (and not errored)
-      res:.play.getupdate[qd;cd`bd;cd`iswhite];
+      res:.play.getupdate[qd;cd`bd;cd`takenpcs;cd`iswhite];
       haserrored:not res 0; logmsg:res 1;
 
-      if[not haserrored;cd[`bd]:res 2];
+      if[not haserrored; cd[`bd]:res 2; cd[`takenpcs]:res 3];
     ];
 
     if[.play.isturn[cd] and -1~csrd`pos;csrd[`pos]:$[cd`iswhite;63-11;11]];

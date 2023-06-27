@@ -22,9 +22,9 @@ system"l game/play/draw/showboardui.q";
   :autoshowmsg[lvl;msg;"`";`];
  };
 
-.play.showpiecestaken:{[lvl]
-  lvl:showmsg[lvl;"";16#"w";`];
-  lvl:showmsg[lvl;"";16#"b";`];
+.play.showpiecestaken:{[lvl;takenpcs]
+  lvl:showmsg[lvl;asc takenpcs 0;16#"w";`];
+  lvl:showmsg[lvl;asc takenpcs 1;16#"b";`];
 
   :lvl;
  };
@@ -36,9 +36,9 @@ system"l game/play/draw/showboardui.q";
 
 .play.showwins:{[lvl;otherpname;wins]
   lvl:showmsg[lvl;"You:";20#"P";`];
-  lvl:autoshowmsg[lvl;string first wins;"!";`];
+  lvl:showmsg[lvl;string first wins;18#"!";`];
   lvl:showmsg[lvl;otherpname,":";20#"p";`];
-  lvl:autoshowmsg[lvl;string last wins;";";`];
+  lvl:showmsg[lvl;string last wins;18#";";`];
 
   :lvl;
  };
@@ -62,7 +62,7 @@ system"l game/play/draw/showboardui.q";
 .play.draw:{[cd;nd;csrd;logmsg;haserrored]
   lvl:$[cd`iswhite;.play.level;.playflipped.level];
 
-  lvl:.play.showpiecestaken[lvl];
+  lvl:.play.showpiecestaken[lvl;cd`takenpcs];
   lvl:.play.showturntaker[lvl;.play.isturn[cd];nd`other];
   lvl:.play.showpieces[lvl;cd`bd;cd`iswhite];
   lvl:autoshowmsg[lvl;logmsg;"^";`];

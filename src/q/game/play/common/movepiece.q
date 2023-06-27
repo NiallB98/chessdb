@@ -56,16 +56,14 @@
   if[first[enpassstr]~"-";:" "];
 
   tgtx:first where (`$first enpassstr)=`a`b`c`d`e`f`g`h;
-  tgty:8-value last enpassstr;
-
-  $["3"~last enpassstr;tgty-:1;tgty+:1];  // Either white side or black side enpassant can only be coords X3 and X6 respectively
-
+  tgty:$["3"~last enpassstr;4;3];
+  
   :bd tgtx+8*tgty;
  };
 
 .play.rmenpasspiece:{[bd;enpassstr]
   tgtx:first where (`$first enpassstr)=`a`b`c`d`e`f`g`h;
-  tgty:8-value last enpassstr;
+  tgty:$["3"~last enpassstr;4;3];
 
   bd[tgtx+8*tgty]:" ";
 
