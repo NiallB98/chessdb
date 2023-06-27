@@ -1,20 +1,42 @@
+.play.rmcastle:{[castlestr;iswhite;side]
+  rmstr:$[
+    side~`;$[iswhite;"KQ";"kq"];
+    side~`k;$[iswhite;"K";"q"];
+    side~`q;$[iswhite;"Q";"q"];
+    ""
+  ];
+
+  castlestr:castlestr except rmstr;
+  if[castlestr~"";castlestr:raze"-"];
+
+  :castlestr;
+ };
+
 .play.updatecastle:{[bd;castlestr;movepiece;startpos;endpos]
+  iswhite:movepiece in WHITE_PIECES;
+
+  $[
+    (startpos~0) and movepiece~"r";castlestr:.play.rmcastle[castlestr;iswhite;`q];
+    (startpos~7) and movepiece~"r";castlestr:.play.rmcastle[castlestr;iswhite;`k];
+    (startpos~56) and movepiece~"R";castlestr:.play.rmcastle[castlestr;iswhite;`q];
+    (startpos~63) and movepiece~"R";castlestr:.play.rmcastle[castlestr;iswhite;`k]
+  ];
+
   if["k"<>lower movepiece;:(bd;castlestr)];
+
+  castlestr:.play.rmcastle[castlestr;iswhite;`];
+
   if[2<>abs startpos-endpos;:(bd;castlestr)];
 
-  iswhite:movepiece~WHITE_KING_CHAR;
-  dir:$[0>endpos-startpos;$[iswhite;"K";"k"];$[iswhite;"Q";"q"]];  // Determining whether king or queen side castling, capitalised if player castling is white
+  dir:$[0<endpos-startpos;`k;`q];  // Determining whether king or queen side castling
 
-  rookstartpos:$["k"~lower dir;startpos+3;startpos-4];
-  rookendpos:$["k"~lower dir;startpos+1;startpos-1];
+  rookstartpos:$[dir~`k;startpos+3;startpos-4];
+  rookendpos:$[dir~`k;startpos+1;startpos-1];
 
   rookchar:bd[rookstartpos];
 
   bd[rookstartpos]:" ";
   bd[rookendpos]:rookchar;
-
-  castlestr:castlestr except dir;
-  if[castlestr~"";castlestr:"-"];
 
   :(bd;castlestr);
  };

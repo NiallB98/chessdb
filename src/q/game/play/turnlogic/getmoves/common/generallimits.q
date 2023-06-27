@@ -1,5 +1,6 @@
 .tl.notonfriendly:{[bd;iswhite;move]
-  :not iswhite~bd[move] in WHITE_PIECES;
+  sidepcs:$[iswhite;WHITE_PIECES;BLACK_PIECES];
+  :not bd[move] in sidepcs;
  };
 
 .tl.notmovesonfriendly:{[moves;board;iswhite]
