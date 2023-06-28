@@ -1,5 +1,34 @@
 .play.waitingnum:0;
 
+.play.getpromotedmsg:{[bdstart;bdend]
+  bd1dstart:.play.getboard1d bdstart;
+  bd1dend:.play.getboard1d bdend;
+
+  case:$[not iswhite;upper;lower];  // What case the other player's pieces are
+
+  piece:$[
+    count[bd1dend ss case"q"]>count bd1dstart ss case"q";case"q";
+    count[bd1dend ss case"q"]>count bd1dstart ss case"r";case"r";
+    case"b"
+  ];
+
+  :case["p"]," to ",piece," promotion!";
+ };
+
+.play.haspromoted:{[bdstart;bdend;iswhite]
+  bd1dstart:.play.getboard1d bdstart;
+  bd1dend:.play.getboard1d bdend;
+
+  case:$[not iswhite;upper;lower];  // What case the other player's pieces are
+
+  :$[
+    count[bd1dend ss case"q"]>count bd1dstart ss case"q";1b;
+    count[bd1dend ss case"r"]>count bd1dstart ss case"r";1b;
+    count[bd1dend ss case"b"]>count bd1dstart ss case"b";1b;
+    0b
+  ];
+ };
+
 .play.getwaitingnum:{[]
   .play.waitingnum:(.play.waitingnum+1) mod 4;
   :.play.waitingnum;
@@ -9,6 +38,7 @@
   msg:$[
     bdstart~bdend;(n#" "),"Waiting",(n:.play.getwaitingnum[])#".";
     .play.ischecked[bdend;iswhite];"You are checked!";
+    .play.haspromoted[bdstart;bdend;iswhite];.play.getpromotedmsg[bdstart;bdend];
     not starttknpcs~endtknpcs;"Piece captured!";
     "It is your turn"
   ];

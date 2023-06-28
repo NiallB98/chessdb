@@ -3,7 +3,14 @@ system"l game/play/common/getmaxmoves.q";
 system"l game/play/common/isattacked.q";
 system"l game/play/common/movepiece.q";
 
+.play.ispromoting:{[board]
+  bd:.play.getboard1d board;
+  :("P" in bd[til 8]) or "p" in bd[56+til 8];
+ };
+
 .play.isturn:{[cd]
+  if[.play.ispromoting cd`bd;:1b];
+
   :$[cd[`bd]~"";0b;cd[`iswhite]~"w"~first vs[" ";cd`bd]1];
  };
 

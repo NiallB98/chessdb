@@ -10,7 +10,7 @@ system"l game/play/turnlogic/getmoves.q";
     $[cd`iswhite;cd[`takenpcs;0],:last res;cd[`takenpcs;1],:last res];
   ];
 
-  cd[`turndone]:1b;
+  cd[`turndone]:not .play.ispromoting cd`bd;  // Making sure to only say turn is done if not waiting for player to promote a pawn
 
   :cd;
  };
@@ -29,7 +29,49 @@ system"l game/play/turnlogic/getmoves.q";
   :(cd;csrd);
  };
 
+.tl.getpromotingpawn:{[board]
+  bd:.play.getboard1d board;
+  :$["P" in bd[til 8];first where bd[til 8]="P";56+first where bd[56+til 8]="p"];
+ };
+
+.tl.promotepawn:{[board;pawnpos;newpiece]
+  if[newpiece~`;:(0b;board)];
+
+  bd:.play.getboard1d board;
+  case:$[pawnpos within 0 7;upper;lower];
+
+  bd[pawnpos]:$[
+    newpiece~`q;case"q";
+    newpiece~`b;case"b";
+    case"b"
+  ];
+
+  board:" " sv enlist[.play.fmtboard1d bd],1 _ " " vs board;
+
+  (1b;board);
+ };
+
+.tl.getpromotion:{[input;board]
+  pawnpos:.tl.getpromotingpawn board;
+
+  choice:$[
+    input~"q";`q;  // Queen
+    input~"b";`b;  // Bishop
+    input~"r";`r;  // Rook
+    `              // If input matches none, ask again
+  ];
+
+  :.tl.promotepawn[board;pawnpos;choice];
+ };
+
 .play.turnlogic:{[input;cd;csrd]
+  if[.play.ispromoting cd`bd;
+    res:.tl.getpromotion[input;cd`bd];
+    cd[`turndone]:res 0;
+    cd[`bd]:res 1;
+    :(cd;csrd);
+  ];
+
   if[-1~csrd`pos;csrd[`pos]:$[cd`iswhite;63-11;12]];
   
   if[not input~"";
