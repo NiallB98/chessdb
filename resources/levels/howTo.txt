@@ -1,0 +1,30 @@
++----------------------------------------------------------+
+|                                                          |
+|        __ __             __         ___  __              |
+|       / // /__ _    __  / /____    / _ \/ /__ ___ __     |
+|      / _  / _ \ |/|/ / / __/ _ \  / ___/ / _ `/ // /     |
+|     /_//_/\___/__,__/  \__/\___/ /_/  /_/\_,_/\_, /      |
+|                                              /___/       |
+|                                                          |
+|----------------------++----------------------------------|
+|          $$          ||                                  |
+| SSSSSSSSSSSSSSSSSSSS || TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT |
+| SSSSSSSSSSSSSSSSSSSS ||                                  |
+| SSSSSSSSSSSSSSSSSSSS |+----------------------------------|
+| SSSSSSSSSSSSSSSSSSSS ||                &&                |
+| SSSSSSSSSSSSSSSSSSSS |DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+| SSSSSSSSSSSSSSSSSSSS |DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+| SSSSSSSSSSSSSSSSSSSS |DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+| SSSSSSSSSSSSSSSSSSSS |DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+| SSSSSSSSSSSSSSSSSSSS |DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+| SSSSSSSSSSSSSSSSSSSS |DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+| SSSSSSSSSSSSSSSSSSSS |DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+| SSSSSSSSSSSSSSSSSSSS |DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+| SSSSSSSSSSSSSSSSSSSS |DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+| SSSSSSSSSSSSSSSSSSSS |DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+| SSSSSSSSSSSSSSSSSSSS |DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+| SSSSSSSSSSSSSSSSSSSS |DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+| SSSSSSSSSSSSSSSSSSSS |DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+| SSSSSSSSSSSSSSSSSSSS |DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+|          ££          ||                %%                |
++----------------------------------------------------------+

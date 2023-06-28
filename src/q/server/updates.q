@@ -1,7 +1,7 @@
 system"l server/updates/errorUpdate.q";
-system"l server/updates/pregame.q";
-system"l server/updates/midgame.q";
-system"l server/updates/postgame.q";
+system"l server/updates/preGame.q";
+system"l server/updates/midGame.q";
+system"l server/updates/postGame.q";
 
 verifyPlayer:{[id]
   :id in key .subs.players;
