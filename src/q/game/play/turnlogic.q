@@ -48,7 +48,7 @@ system"l game/play/turnlogic/getmoves.q";
 
   board:" " sv enlist[.play.fmtboard1d bd],1 _ " " vs board;
 
-  (1b;board);
+  :(1b;board);
  };
 
 .tl.getpromotion:{[input;board]
