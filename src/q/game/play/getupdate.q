@@ -1,6 +1,6 @@
 .play.waitingnum:0;
 
-.play.getpromotedmsg:{[bdstart;bdend]
+.play.getpromotedmsg:{[bdstart;bdend;iswhite]
   bd1dstart:.play.getboard1d bdstart;
   bd1dend:.play.getboard1d bdend;
 
@@ -38,7 +38,7 @@
   msg:$[
     bdstart~bdend;(n#" "),"Waiting",(n:.play.getwaitingnum[])#".";
     .play.ischecked[bdend;iswhite];"You are checked!";
-    .play.haspromoted[bdstart;bdend;iswhite];.play.getpromotedmsg[bdstart;bdend];
+    .play.haspromoted[bdstart;bdend;iswhite];.play.getpromotedmsg[bdstart;bdend;iswhite];
     not starttknpcs~endtknpcs;"Piece captured!";
     "It is your turn"
   ];
