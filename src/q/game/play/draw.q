@@ -46,7 +46,7 @@ system"l game/play/draw/showboardui.q";
 .play.showprompt:{[haserrored;cd;csrd]
   $[haserrored;:"Quit [Q], Menu [M] ";not .play.isturn cd;:""];
 
-  if[.play.ispromoting cd;:"Promote to: Queen [Q], Rook [R], Bishop [B] ? "];
+  if[.play.ispromoting cd`bd;:"Promote to: Queen [Q], Rook [R], Bishop [B] ? "];
 
   prompt:"Up/Left/Down/Right [W/A/S/D], Quit [Q], Menu [M]";  // Base prompt
 
