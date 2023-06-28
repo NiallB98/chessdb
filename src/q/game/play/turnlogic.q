@@ -1,58 +1,58 @@
-system"l game/play/turnlogic/movecursor.q";
-system"l game/play/turnlogic/getmoves.q";
+system"l game/play/turnLogic/moveCursor.q";
+system"l game/play/turnLogic/getMoves.q";
 
-.tl.move:{[cd;startpos;endpos]
-  res:.play.movepiece[cd`bd;startpos;endpos];
+.tl.move:{[cd;startPos;endPos]
+  res:.play.movePiece[cd`bd;startPos;endPos];
 
   cd[`bd]:first res;
 
   if[last res<>" ";
-    $[cd`iswhite;cd[`takenpcs;0],:last res;cd[`takenpcs;1],:last res];
+    $[cd`isWhite;cd[`takenPcs;0],:last res;cd[`takenPcs;1],:last res];
   ];
 
-  cd[`turndone]:not .play.ispromoting cd`bd;  // Making sure to only say turn is done if not waiting for player to promote a pawn
+  cd[`turnDone]:not .play.isPromoting cd`bd;  // Making sure to only say turn is done if not waiting for player to promote a pawn
 
   :cd;
  };
 
-.tl.selectsq:{[cd;csrd]
-  if[(csrd[`pos] in csrd`moves) and -1<>csrd`picksq;
-    cd:.tl.move[cd;csrd`picksq;csrd`pos];
+.tl.selectSq:{[cd;csrd]
+  if[(csrd[`pos] in csrd`moves) and -1<>csrd`pickSq;
+    cd:.tl.move[cd;csrd`pickSq;csrd`pos];
     :(cd;csrd);
   ];
 
-  csrd[`picksq]:$[
-    not[.play.isownedpiece[cd`bd;csrd`pos;cd`iswhite]] or csrd[`picksq]~csrd`pos;-1;
+  csrd[`pickSq]:$[
+    not[.play.isOwnedPiece[cd`bd;csrd`pos;cd`isWhite]] or csrd[`pickSq]~csrd`pos;-1;
     csrd`pos
   ];
 
   :(cd;csrd);
  };
 
-.tl.getpromotingpawn:{[board]
-  bd:.play.getboard1d board;
+.tl.getPromotingPawn:{[board]
+  bd:.play.getBoard1D board;
   :$["P" in bd[til 8];first where bd[til 8]="P";56+first where bd[56+til 8]="p"];
  };
 
-.tl.promotepawn:{[board;pawnpos;newpiece]
-  if[newpiece~`;:(0b;board)];
+.tl.promotePawn:{[board;pawnPos;newPiece]
+  if[newPiece~`;:(0b;board)];
 
-  bd:.play.getboard1d board;
-  case:$[pawnpos within 0 7;upper;lower];
+  bd:.play.getBoard1D board;
+  case:$[pawnPos within 0 7;upper;lower];
 
-  bd[pawnpos]:$[
-    newpiece~`q;case"q";
-    newpiece~`b;case"b";
+  bd[pawnPos]:$[
+    newPiece~`q;case"q";
+    newPiece~`b;case"b";
     case"b"
   ];
 
-  board:" " sv enlist[.play.fmtboard1d bd],1 _ " " vs board;
+  board:" " sv enlist[.play.fmtBoard1D bd],1 _ " " vs board;
 
   :(1b;board);
  };
 
-.tl.getpromotion:{[input;board]
-  pawnpos:.tl.getpromotingpawn board;
+.tl.getPromotion:{[input;board]
+  pawnPos:.tl.getPromotingPawn board;
 
   choice:$[
     input~"q";`q;  // Queen
@@ -61,25 +61,25 @@ system"l game/play/turnlogic/getmoves.q";
     `              // If input matches none, ask again
   ];
 
-  :.tl.promotepawn[board;pawnpos;choice];
+  :.tl.promotePawn[board;pawnPos;choice];
  };
 
-.play.turnlogic:{[input;cd;csrd]
-  if[.play.ispromoting cd`bd;
-    res:.tl.getpromotion[input;cd`bd];
-    cd[`turndone]:res 0;
+.play.turnLogic:{[input;cd;csrd]
+  if[.play.isPromoting cd`bd;
+    res:.tl.getPromotion[input;cd`bd];
+    cd[`turnDone]:res 0;
     cd[`bd]:res 1;
     :(cd;csrd);
   ];
 
-  if[-1~csrd`pos;csrd[`pos]:$[cd`iswhite;63-11;12]];
+  if[-1~csrd`pos;csrd[`pos]:$[cd`isWhite;63-11;12]];
   
   if[not input~"";
-    if[input in "wasd";csrd:.tl.movecursor[input;csrd;cd`iswhite]];
-    if[input~"e";res:.tl.selectsq[cd;csrd];cd:res 0;csrd:res 1];
+    if[input in "wasd";csrd:.tl.moveCursor[input;csrd;cd`isWhite]];
+    if[input~"e";res:.tl.selectSq[cd;csrd];cd:res 0;csrd:res 1];
   ];
 
-  csrd[`moves]:$[-1~csrd`picksq;();.tl.getmoves[cd`bd;csrd`picksq;cd`iswhite]];
+  csrd[`moves]:$[-1~csrd`pickSq;();.tl.getMoves[cd`bd;csrd`pickSq;cd`isWhite]];
 
   :(cd;csrd);
  };

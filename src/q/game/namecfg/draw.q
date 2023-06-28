@@ -1,18 +1,18 @@
-.namecfg.showmsg:{[lvl;isediting]
-  tgtchar:"&";
+.nameCfg.showMsg:{[lvl;isEditing]
+  tgtChar:"&";
 
   :$[
-    not isediting;autoshowmsg[lvl;"Confirm? [Y/N]";tgtchar;`];
-    autoshowmsg[lvl;"";tgtchar;`]
+    not isEditing;autoShowMsg[lvl;"Confirm? [Y/N]";tgtChar;`];
+    autoShowMsg[lvl;"";tgtChar;`]
   ];
  };
 
-.namecfg.draw:{[pname;isediting]
-  lvl:.namecfg.level;
-  lvl:autoshowmsg[lvl;pname;"@";`];
-  lvl:.namecfg.showmsg[lvl;isediting];
+.nameCfg.draw:{[pName;isEditing]
+  lvl:.nameCfg.level;
+  lvl:autoShowMsg[lvl;pName;"@";`];
+  lvl:.nameCfg.showMsg[lvl;isEditing];
 
-  prompt:$[isediting;"> ";"Quit [Q], Menu [M], Yes [Y], No [N] "];
+  prompt:$[isEditing;"> ";"Quit [Q], Menu [M], Yes [Y], No [N] "];
 
   draw[lvl;prompt];
  };

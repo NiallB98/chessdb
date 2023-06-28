@@ -1,20 +1,20 @@
-system"l game/play/common/2dgrid.q";
-system"l game/play/common/getmaxmoves.q";
-system"l game/play/common/isattacked.q";
-system"l game/play/common/movepiece.q";
+system"l game/play/common/2DGrid.q";
+system"l game/play/common/getMaxMoves.q";
+system"l game/play/common/isAttacked.q";
+system"l game/play/common/movePiece.q";
 
-.play.ispromoting:{[board]
-  bd:.play.getboard1d board;
+.play.isPromoting:{[board]
+  bd:.play.getBoard1D board;
   :("P" in bd[til 8]) or "p" in bd[56+til 8];
  };
 
-.play.isturn:{[cd]
-  if[.play.ispromoting cd`bd;:1b];
+.play.isTurn:{[cd]
+  if[.play.isPromoting cd`bd;:1b];
 
-  :$[cd[`bd]~"";0b;cd[`iswhite]~"w"~first vs[" ";cd`bd]1];
+  :$[cd[`bd]~"";0b;cd[`isWhite]~"w"~first vs[" ";cd`bd]1];
  };
 
-.play.getboard2d:{[board]
+.play.getBoard2D:{[board]
   bd:first " " vs board;
 
   n:8;
@@ -26,28 +26,28 @@ system"l game/play/common/movepiece.q";
   :"/" vs bd;  // Returns the whole board as a 2d list, can be indexed with [row;column] where [0;0] is the top left corner
  };
 
-.play.getboard1d:{[board]
-  :raze .play.getboard2d[board];
+.play.getBoard1D:{[board]
+  :raze .play.getBoard2D[board];
  };
 
-.play.fmtboard1d:{[board1d]
-  bd:-1 _ raze{x[(y*8)+til 8],"/"}[board1d]each til 8;
+.play.fmtBoard1D:{[board1D]
+  bd:-1 _ raze{x[(y*8)+til 8],"/"}[board1D]each til 8;
   :{ssr[x;y#" ";string y]}/[bd;reverse 1+til 8];
  };
 
-.play.isownedpiece:{[board;pos;iswhite]
-  bd:.play.getboard1d board;
-  :bd[pos] in $[iswhite;WHITE_PIECES;BLACK_PIECES];
+.play.isOwnedPiece:{[board;pos;isWhite]
+  bd:.play.getBoard1D board;
+  :bd[pos] in $[isWhite;WHITE_PIECES;BLACK_PIECES];
  };
 
-.play.ispiece:{[board;pos]
-  bd:.play.getboard1d board;
+.play.isPiece:{[board;pos]
+  bd:.play.getBoard1D board;
   :bd[pos] in WHITE_PIECES,BLACK_PIECES;
  };
 
-.play.ischecked:{[board;iswhite]
-  bd:.play.getboard1d board;
-  kingpos:first bd ss $[iswhite;WHITE_KING_CHAR;BLACK_KING_CHAR];
+.play.isChecked:{[board;isWhite]
+  bd:.play.getBoard1D board;
+  kingPos:first bd ss $[isWhite;WHITE_KING_CHAR;BLACK_KING_CHAR];
 
-  :$[kingpos~0N;0b;.play.isattacked[kingpos;board;iswhite]];
+  :$[kingPos~0N;0b;.play.isAttacked[kingPos;board;isWhite]];
  };

@@ -1,76 +1,76 @@
-system"l game/play/turnlogic/getmoves/common/checklimits.q";
+system"l game/play/turnLogic/getMoves/common/checkLimits.q";
 
-.pawn.addbasicmove:{[moves;board;picksq;iswhite]
-  excludechars:WHITE_PIECES,BLACK_PIECES;
-  bd:.play.getboard1d board;
-  movesq:$[iswhite;picksq-8;picksq+8];
+.pawn.addBasicMove:{[moves;board;pickSq;isWhite]
+  excludeChars:WHITE_PIECES,BLACK_PIECES;
+  bd:.play.getBoard1D board;
+  moveSq:$[isWhite;pickSq-8;pickSq+8];
 
-  :$[(movesq div 8) within 0 7;$[bd[movesq] in excludechars;moves;moves,movesq];moves];
+  :$[(moveSq div 8) within 0 7;$[bd[moveSq] in excludeChars;moves;moves,moveSq];moves];
  };
 
-.pawn.addattackmoves:{[moves;board;picksq;iswhite]
-  x:picksq mod 8;
-  y:picksq div 8;
-  sign:$[iswhite;1;-1];
+.pawn.addAttackMoves:{[moves;board;pickSq;isWhite]
+  x:pickSq mod 8;
+  y:pickSq div 8;
+  sign:$[isWhite;1;-1];
 
-  tgtx:x + (1, -1);
-  tgty:y + sign * 2#-1;
+  tgtX:x + (1, -1);
+  tgtY:y + sign * 2#-1;
 
-  bd:.play.getboard1d board;
+  bd:.play.getBoard1D board;
 
-  :raze moves,{[bd;iswhite;x;y]
+  :raze moves,{[bd;isWhite;x;y]
     if[any not within[;0 7]each x,y;:()];
     
     pos:x+8*y;
 
-    $[iswhite;if[not bd[pos] in BLACK_PIECES;:()];if[not bd[pos] in WHITE_PIECES;:()]];  // Making sure attack squares have enemy pieces on them
+    $[isWhite;if[not bd[pos] in BLACK_PIECES;:()];if[not bd[pos] in WHITE_PIECES;:()]];  // Making sure attack squares have enemy pieces on them
 
     :pos;
-  }[bd;iswhite]'[tgtx;tgty];
+  }[bd;isWhite]'[tgtX;tgtY];
  };
 
-.pawn.addenpassattackmove:{[moves;board;picksq;iswhite]
-  x:picksq mod 8;
-  y:picksq div 8;
-  sign:$[iswhite;1;-1];
+.pawn.addEnpassAttackMove:{[moves;board;pickSq;isWhite]
+  x:pickSq mod 8;
+  y:pickSq div 8;
+  sign:$[isWhite;1;-1];
 
-  tgtx:x + (1, -1);
-  tgty:y + sign * 2#-1;
+  tgtX:x + (1, -1);
+  tgtY:y + sign * 2#-1;
 
-  bd:.play.getboard1d board;
-  enpassstr:(" " vs board)3;
+  bd:.play.getBoard1D board;
+  enpassStr:(" " vs board)3;
 
-  :raze moves,{[bd;enpassstr;x;y]
+  :raze moves,{[bd;enpassStr;x;y]
     if[any not within[;0 7]each x,y;:()];
     
-    posstr:("abcdefgh"`long$x),"87654321"`long$y;
-    if[not posstr~enpassstr;:()];
+    posStr:("abcdefgh"`long$x),"87654321"`long$y;
+    if[not posStr~enpassStr;:()];
 
     :x+8*y;
-  }[bd;enpassstr]'[tgtx;tgty];
+  }[bd;enpassStr]'[tgtX;tgtY];
  };
 
-.pawn.adddoublemove:{[moves;board;picksq;iswhite]
-  excludechars:WHITE_PIECES,BLACK_PIECES;
-  bd:.play.getboard1d board;
-  movesq:$[iswhite;picksq-16;picksq+16];
+.pawn.addDoubleMove:{[moves;board;pickSq;isWhite]
+  excludeChars:WHITE_PIECES,BLACK_PIECES;
+  bd:.play.getBoard1D board;
+  moveSq:$[isWhite;pickSq-16;pickSq+16];
 
   :$[
-    iswhite and 6~picksq div 8;$[bd[movesq] in excludechars;moves;moves,movesq];
-    not[iswhite] and 1~picksq div 8;$[bd[movesq] in excludechars;moves;moves,movesq];
+    isWhite and 6~pickSq div 8;$[bd[moveSq] in excludeChars;moves;moves,moveSq];
+    not[isWhite] and 1~pickSq div 8;$[bd[moveSq] in excludeChars;moves;moves,moveSq];
     moves
   ];
  };
 
-.tl.pawnmoves:{[board;picksq;iswhite]
+.tl.pawnMoves:{[board;pickSq;isWhite]
   moves:();
 
-  moves:.pawn.addbasicmove[moves;board;picksq;iswhite];
-  moves:.pawn.addattackmoves[moves;board;picksq;iswhite];
-  moves:.pawn.addenpassattackmove[moves;board;picksq;iswhite];
-  moves:.pawn.adddoublemove[moves;board;picksq;iswhite];
+  moves:.pawn.addBasicMove[moves;board;pickSq;isWhite];
+  moves:.pawn.addAttackMoves[moves;board;pickSq;isWhite];
+  moves:.pawn.addEnpassAttackMove[moves;board;pickSq;isWhite];
+  moves:.pawn.addDoubleMove[moves;board;pickSq;isWhite];
 
-  moves:.tl.checklimits[moves;board;picksq;iswhite];
+  moves:.tl.checkLimits[moves;board;pickSq;isWhite];
 
   :moves;
  };

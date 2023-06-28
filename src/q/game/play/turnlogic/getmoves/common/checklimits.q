@@ -1,8 +1,8 @@
-.tl.doesnotcheckself:{[board;iswhite;startpos;endpos]
-  bd:first .play.movepiece[board;startpos;endpos];
-  :not .play.ischecked[bd;iswhite];
+.tl.doesNotCheckSelf:{[board;isWhite;startPos;endPos]
+  bd:first .play.movePiece[board;startPos;endPos];
+  :not .play.isChecked[bd;isWhite];
  };
 
-.tl.checklimits:{[moves;board;picksq;iswhite]
-  :moves where .tl.doesnotcheckself[board;iswhite;picksq] each moves;
+.tl.checkLimits:{[moves;board;pickSq;isWhite]
+  :moves where .tl.doesNotCheckSelf[board;isWhite;pickSq] each moves;
  };

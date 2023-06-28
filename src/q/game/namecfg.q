@@ -1,39 +1,39 @@
-system"l game/namecfg/draw.q";
+system"l game/nameCfg/draw.q";
 
-.namecfg.confirmname:{[pname;passtoscene]
-  :`scene`params!(passtoscene;enlist[`pname]!enlist pname);
+.nameCfg.confirmName:{[pName;passToScene]
+  :`scene`params!(passToScene;enlist[`pName]!enlist pName);
  };
 
-.namecfg.isvalidname:{[input]
+.nameCfg.isValidName:{[input]
   input:trim raze input;
-  :all[input in .Q.an] and not ""~limitlen[18;input];  // Name has to be all alphanumeric characters and not an empty string
+  :all[input in .Q.an] and not ""~limitLen[18;input];  // Name has to be all alphanumeric characters and not an empty string
  };
 
-namecfg:{[params]
-  passtoscene:params`passtoscene;
+nameCfg:{[params]
+  passToScene:params`passToScene;
 
-  gd:`scene`params!(`namecfg;()!());
-  gd[`params;`pname]:18#"*";
+  gd:`scene`params!(`nameCfg;()!());
+  gd[`params;`pName]:18#"*";
 
-  isediting:1b;
+  isEditing:1b;
 
-  .namecfg.draw[gd[`params;`pname];isediting];
+  .nameCfg.draw[gd[`params;`pName];isEditing];
 
-  while[`namecfg~gd`scene;
-    input:$[isediting;getfullinput[];getinput[]];
+  while[`nameCfg~gd`scene;
+    input:$[isEditing;getFullInput[];getInput[]];
 
     $[
-      not[isediting] and input~"q";:.game.quitdict;
-      not[isediting] and input~"m";:.game.menudict;
-      not[isediting] and input~"y";:.namecfg.confirmname[gd[`params;`pname];passtoscene];
-      not[isediting] and input~"n";isediting:1b;
-      isediting and .namecfg.isvalidname input;[
-          gd[`params;`pname]:limitlen[18;trim raze input];
-          isediting:0b;
+      not[isEditing] and input~"q";:.game.quitDict;
+      not[isEditing] and input~"m";:.game.menuDict;
+      not[isEditing] and input~"y";:.nameCfg.confirmName[gd[`params;`pName];passToScene];
+      not[isEditing] and input~"n";isEditing:1b;
+      isEditing and .nameCfg.isValidName input;[
+          gd[`params;`pName]:limitLen[18;trim raze input];
+          isEditing:0b;
         ]
     ];
 
-    .namecfg.draw[gd[`params;`pname];isediting];
+    .nameCfg.draw[gd[`params;`pName];isEditing];
   ];
 
   :gd;

@@ -1,17 +1,17 @@
-.play.showcheck:{[lvl;board;iswhite]
-  bd:.play.getboard1d board;
+.play.showCheck:{[lvl;board;isWhite]
+  bd:.play.getBoard1D board;
 
-  if[.play.ischecked[board;1b];  // If white king is checked
+  if[.play.isChecked[board;1b];  // If white king is checked
     pos:first bd ss WHITE_KING_CHAR;
-    if[not iswhite;pos:63-pos];
+    if[not isWhite;pos:63-pos];
 
     indices:.play.indices[key CHECK_CHAR_DICT;pos];
     lvl[indices]:value CHECK_CHAR_DICT;
   ];
 
-  if[.play.ischecked[board;0b];  // If black king is checked
+  if[.play.isChecked[board;0b];  // If black king is checked
     pos:first bd ss BLACK_KING_CHAR;
-    if[not iswhite;pos:63-pos];
+    if[not isWhite;pos:63-pos];
 
     indices:.play.indices[key CHECK_CHAR_DICT;pos];
     lvl[indices]:value CHECK_CHAR_DICT;
@@ -20,9 +20,9 @@
   :lvl;
  };
 
-.play.showcursor:{[lvl;iswhite;pos]
+.play.showCursor:{[lvl;isWhite;pos]
   if[pos~-1;:lvl];  // Do not show if position is -1
-  if[not iswhite;pos:63-pos];
+  if[not isWhite;pos:63-pos];
 
   indices:.play.indices[key CURSOR_CHAR_DICT;pos];
   lvl[indices]:value CURSOR_CHAR_DICT;
@@ -30,19 +30,19 @@
   :lvl;
  };
 
-.play.showselected:{[lvl;iswhite;picksq]
-  if[picksq~-1;:lvl];  // Do not show if position is -1
-  if[not iswhite;picksq:63-picksq];
+.play.showSelected:{[lvl;isWhite;pickSq]
+  if[pickSq~-1;:lvl];  // Do not show if position is -1
+  if[not isWhite;pickSq:63-pickSq];
 
-  indices:.play.indices[key SELECTED_CHAR_DICT;picksq];
+  indices:.play.indices[key SELECTED_CHAR_DICT;pickSq];
   lvl[indices]:value SELECTED_CHAR_DICT;
 
   :lvl;
  };
 
-.play.showmoves:{[lvl;iswhite;moves]
+.play.showMoves:{[lvl;isWhite;moves]
   if[0~count moves;:lvl];  // Do not show if no moves are possible
-  if[not iswhite;moves:63-moves];
+  if[not isWhite;moves:63-moves];
 
   indices:raze .play.indices[key CAN_MOVE_CHAR_DICT;moves];
   chars:raze flip count[moves]#enlist value CAN_MOVE_CHAR_DICT;
@@ -51,23 +51,23 @@
   :lvl;
  };
 
-.play.showlastmove:{[lvl;iswhite;lastmove]
-  if[0~count lastmove;:lvl];  // Do not show if there was no last move (ie. this is the first move)
-  if[iswhite;lastmove:63-lastmove];
+.play.showLastMove:{[lvl;isWhite;lastMove]
+  if[0~count lastMove;:lvl];  // Do not show if there was no last move (ie. this is the first move)
+  if[isWhite;lastMove:63-lastMove];
 
-  indices:raze .play.indices[key LAST_MOVE_CHAR_DICT;lastmove];
-  chars:raze flip count[lastmove]#enlist value LAST_MOVE_CHAR_DICT;
+  indices:raze .play.indices[key LAST_MOVE_CHAR_DICT;lastMove];
+  chars:raze flip count[lastMove]#enlist value LAST_MOVE_CHAR_DICT;
   lvl[indices]:chars;
 
   :lvl;
  };
 
-.play.showboardui:{[lvl;cd;csrd]
-  lvl:.play.showlastmove[lvl;cd`iswhite;cd`lastmove];
-  lvl:.play.showcheck[lvl;cd`bd;cd`iswhite];
-  lvl:.play.showmoves[lvl;cd`iswhite;csrd`moves];
-  lvl:.play.showselected[lvl;cd`iswhite;csrd`picksq];
-  lvl:.play.showcursor[lvl;cd`iswhite;csrd`pos];
+.play.showBoardUI:{[lvl;cd;csrd]
+  lvl:.play.showLastMove[lvl;cd`isWhite;cd`lastMove];
+  lvl:.play.showCheck[lvl;cd`bd;cd`isWhite];
+  lvl:.play.showMoves[lvl;cd`isWhite;csrd`moves];
+  lvl:.play.showSelected[lvl;cd`isWhite;csrd`pickSq];
+  lvl:.play.showCursor[lvl;cd`isWhite;csrd`pos];
 
   :lvl;
  };

@@ -1,15 +1,15 @@
-log_info:{
+.log.info:{
   -1"INFO:  ",x;
  };
 
-log_warn:{
+.log.warn:{
   -1"WARN:  ",x;
  }
 
-log_error:{
+.log.error:{
   -1"ERROR: ",x;
  };
 
-log_debug:{
+.log.debug:{
   if[DEBUG;-1"DEBUG: ",x];
  };

@@ -1,10 +1,10 @@
-.play.get2dpos:{[pos]
+.play.get2DPos:{[pos]
   x:pos mod 8;
   y:pos div 8;
 
   :x,y;
  };
 
-.play.rmoutofgrid:{[xylist]
-  :flip flip[xylist] where {(x<8) and x>=0}[first xylist] and {(x<8) and x>=0}last xylist;
+.play.rmOutOfGrid:{[xyList]
+  :flip flip[xyList] where {(x<8) and x>=0}[first xyList] and {(x<8) and x>=0}last xyList;
  };

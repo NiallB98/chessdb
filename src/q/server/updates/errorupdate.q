@@ -1,20 +1,20 @@
-.eu.errormsg:"";  // Error message to pass to player(s) if an error has occurred
+.eu.errorMsg:"";  // Error message to pass to player(s) if an error has occurred
 
 .eu.reset:{[]  // Resets global variables to their initial values by reloading the server's child scripts that initialise them
-  log_warn"Server resetting . . . ";
+  .log.warn"Server resetting . . . ";
   {system "l server/",x}each("subscription.q";"updates.q");
-  log_info"Server reset";
+  .log.info"Server reset";
  };
 
-.eu.resetonempty:{[]  // Resets the server once the server encounters an error and no player's are connected anymore
-  if[.eu.haserrored[] and 0~count .subs.players;.eu.reset[]];
+.eu.resetOnEmpty:{[]  // Resets the server once the server encounters an error and no player's are connected anymore
+  if[.eu.hasErrored[] and 0~count .subs.players;.eu.reset[]];
  };
 
-.eu.getupdate:{[id]
-  .log.info"Player '",.pre.playernames[id],"' with handle [",string[.z.w],"] getting error message";
-  :(1b;`error;"ERROR: ",.eu.errormsg);
+.eu.getUpdate:{[id]
+  .log.info"Player '",.pre.playerNames[id],"' with handle [",string[.z.w],"] getting error message";
+  :(1b;`error;"ERROR: ",.eu.errorMsg);
  };
 
-.eu.haserrored:{[]
-  :not .eu.errormsg~"";
+.eu.hasErrored:{[]
+  :not .eu.errorMsg~"";
  };

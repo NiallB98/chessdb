@@ -1,9 +1,9 @@
-.tl.notonfriendly:{[bd;iswhite;move]
-  sidepcs:$[iswhite;WHITE_PIECES;BLACK_PIECES];
+.tl.notOnFriendly:{[bd;isWhite;move]
+  sidepcs:$[isWhite;WHITE_PIECES;BLACK_PIECES];
   :not bd[move] in sidepcs;
  };
 
-.tl.notmovesonfriendly:{[moves;board;iswhite]
-  bd:.play.getboard1d board;
-  :moves where .tl.notonfriendly[bd;iswhite]each moves;
+.tl.notMovesonFriendly:{[moves;board;isWhite]
+  bd:.play.getBoard1D board;
+  :moves where .tl.notOnFriendly[bd;isWhite]each moves;
  };

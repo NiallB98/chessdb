@@ -5,7 +5,7 @@ system"l post.q";
 
 FPS:5;
 DEBUG:0b;
-LEVELS:getlevelnames[];
+LEVELS:getLevelNames[];
 
 main:{
   pre[];

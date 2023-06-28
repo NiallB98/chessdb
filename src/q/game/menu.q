@@ -1,6 +1,6 @@
 .menu.confirm:{[choice]
   :$[
-    choice~`join;`scene`params!(`namecfg;enlist[`passtoscene]!enlist`joincfg);
+    choice~`join;`scene`params!(`nameCfg;enlist[`passToScene]!enlist`joinCfg);
     `scene`params!(choice;()!())
   ];
  };
@@ -15,14 +15,14 @@
   :(`scene`params!(`menu;());selected);
  };
 
-.menu.showselection:{[lvl;selected]
-  lvl:replaceone[lvl;"%";">";selected;" "];
-  :replaceone[lvl;"@";"<";selected;" "];
+.menu.showSelection:{[lvl;selected]
+  lvl:replaceOne[lvl;"%";">";selected;" "];
+  :replaceOne[lvl;"@";"<";selected;" "];
  };
 
 .menu.draw:{[selected]
   lvl:.menu.level;
-  lvl:.menu.showselection[lvl;selected];
+  lvl:.menu.showSelection[lvl;selected];
 
   draw[lvl;"Up/Down [W/S], Quit [Q], Select [E] "];
  };
@@ -30,14 +30,14 @@
 menu:{[params]
   gd:`scene`params!(`menu;()!());
 
-  selections:`join`howto`;
+  selections:`join`howTo`;
   selected:0;
 
   .menu.draw[selected];                                                                             // Initial draw step
   
   while[`menu~gd`scene;
-    input:getinput[];
-    if[input~"q";:.game.quitdict];
+    input:getInput[];
+    if[input~"q";:.game.quitDict];
 
     res:.menu.logic[input;selections;selected];
     gd:first res;

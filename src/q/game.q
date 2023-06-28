@@ -1,25 +1,25 @@
-system"l game/howto.q";
-system"l game/joincfg.q";
-system"l game/joinwait.q";
+system"l game/howTo.q";
+system"l game/joinCfg.q";
+system"l game/joinWait.q";
 system"l game/menu.q";
-system"l game/namecfg.q";
+system"l game/nameCfg.q";
 system"l game/play.q";
 
-.game.menudict:`scene`params!(`menu;());
-.game.quitdict:`scene`params!(`;());
+.game.menuDict:`scene`params!(`menu;());
+.game.quitDict:`scene`params!(`;());
 
 game:{[]
-  gamedict:`scene`params!(`menu;());
+  gameDict:`scene`params!(`menu;());
 
-  while[`<>gamedict`scene;
-    gamedict:$[
-      `howto~        gamedict`scene;howto[gamedict`params];
-      `joincfg~      gamedict`scene;joincfg[gamedict`params];
-      `joinwait~     gamedict`scene;joinwait[gamedict`params];
-      `menu~         gamedict`scene;menu[gamedict`params];
-      `namecfg~      gamedict`scene;namecfg[gamedict`params];
-      `play~         gamedict`scene;play[gamedict`params];
-      .game.quitdict
+  while[`<>gameDict`scene;
+    gameDict:$[
+      `howTo~        gameDict`scene;howTo[gameDict`params];
+      `joinCfg~      gameDict`scene;joinCfg[gameDict`params];
+      `joinWait~     gameDict`scene;joinWait[gameDict`params];
+      `menu~         gameDict`scene;menu[gameDict`params];
+      `nameCfg~      gameDict`scene;nameCfg[gameDict`params];
+      `play~         gameDict`scene;play[gameDict`params];
+      .game.quitDict
     ];
   ];
  };

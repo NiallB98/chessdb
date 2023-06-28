@@ -1,4 +1,4 @@
-.tl.getnewpos:{[pos;step;isvertical]
+.tl.getNewCursorPos:{[pos;step;isvertical]
   x:pos mod 8;
   y:pos div 8;
 
@@ -10,11 +10,11 @@
   :x+y*8;
  };
 
-.tl.movecursor:{[input;csrd;iswhite]
+.tl.moveCursor:{[input;csrd;isWhite]
   if[not input in "wasd";:csrd];
 
-  sign:$[((input in "sd") and not iswhite) or iswhite and input in "wa";sign:-1;1];
-  csrd[`pos]:.tl.getnewpos[csrd`pos;1*sign;input in "ws"];
+  sign:$[((input in "sd") and not isWhite) or isWhite and input in "wa";sign:-1;1];
+  csrd[`pos]:.tl.getNewCursorPos[csrd`pos;1*sign;input in "ws"];
 
   :csrd;
  };

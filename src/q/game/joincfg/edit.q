@@ -1,22 +1,22 @@
-.joincfg.isvalidip:{[input]
+.joinCfg.isValidIP:{[input]
   if[any input in ("localhost";".z.a");:1b];  // Special cases
   :raze["1"]~raze system"bash ../sh/verify_ip.sh ",input;
  };
 
-.joincfg.formatip:{[input]
+.joinCfg.formatIP:{[input]
   :$[any input in ("localhost";".z.a");"." sv string"i"$0x0 vs .z.a;input];
  };
 
-.joincfg.editip:{[input;ip]
+.joinCfg.editIP:{[input;ip]
   msg:raze"";
-  $[.joincfg.isvalidip[input];
-    ip:.joincfg.formatip input;
+  $[.joinCfg.isValidIP[input];
+    ip:.joinCfg.formatIP input;
     msg:"ERROR: Inputted IP address was invalid"
   ];
   :(ip;msg);
  };
 
-.joincfg.isvalidport:{[input]
+.joinCfg.isValidPort:{[input]
   res:all input in .Q.n;
   :$[not res;
     0b;
@@ -24,19 +24,19 @@
   ];
  };
 
-.joincfg.editport:{[input;port]
+.joinCfg.editPort:{[input;port]
   msg:raze"";
-  $[.joincfg.isvalidport[input];
+  $[.joinCfg.isValidPort[input];
     port:value input;
     msg:"ERROR: Inputted port was invalid"
   ];
   :(port;msg);
  };
 
-.joincfg.edit:{[input;selections;selected;ip;port;id]
+.joinCfg.edit:{[input;selections;selected;ip;port;id]
   $[`ip~selections selected;
-    [res:.joincfg.editip[input;ip];ip:first res];
-    [res:.joincfg.editport[input;port];port:first res]
+    [res:.joinCfg.editIP[input;ip];ip:first res];
+    [res:.joinCfg.editPort[input;port];port:first res]
   ];
 
   msg:last res;

@@ -1,21 +1,21 @@
 .subs.players:(`symbol$())!`timestamp$();   // Player IDs paired with the most recent time they have queried the server
-.subs.playernames:(`symbol$())!`symbol$();  // Maps player IDs to their chosen names
+.subs.playerNames:(`symbol$())!`symbol$();  // Maps player IDs to their chosen names
 
-.subs.generateid:{[]
+.subs.generateID:{[]
   id:`$32?.Q.an;
   while[id in key .subs.players;id:`$32?.Q.an];  // On the very very small chance the same has been generated twice
   :id;
  };
 
-.subs.chessplayersub:{[pname]
+.subs.chessPlayerSub:{[pName]
   if[2<=count .subs.players;
-    log_warn"Extra player with handle [",string[.z.w],"] tried to connect";:(0b;"Server full")];
+    .log.warn"Extra player with handle [",string[.z.w],"] tried to connect";:(0b;"Server full")];
 
-  log_info"New player '",pname,"' joined with handle [",string[.z.w],"]";
+  .log.info"New player '",pName,"' joined with handle [",string[.z.w],"]";
 
-  id:.subs.generateid[];
+  id:.subs.generateID[];
   .subs.players[id]:.z.p;  // Update player's timestamp
-  .subs.playernames[id]:`$pname;
+  .subs.playerNames[id]:`$pName;
   
   :(1b;id);  // Passing 1b and the player's ID
  };

@@ -1,48 +1,48 @@
-system"l game/play/turnlogic/getmoves/common/checklimits.q";
-system"l game/play/turnlogic/getmoves/common/generallimits.q";
+system"l game/play/turnLogic/getMoves/common/checkLimits.q";
+system"l game/play/turnLogic/getMoves/common/generalLimits.q";
 
-.king.addcastlemoves:{[moves;board;picksq;iswhite]
-  if[.play.ischecked[board;iswhite];:moves];  // Cannot castle if checked
+.king.addCastleMoves:{[moves;board;pickSq;isWhite]
+  if[.play.isChecked[board;isWhite];:moves];  // Cannot castle if checked
 
-  castlestr:(" " vs board)2;
+  castleStr:(" " vs board)2;
 
-  ksidestr:$[iswhite;"K";"k"];
-  qsidestr:$[iswhite;"Q";"q"];
+  kSideStr:$[isWhite;"K";"k"];
+  qSideStr:$[isWhite;"Q";"q"];
 
-  if[all not (ksidestr,qsidestr) in castlestr;:moves];
+  if[all not (kSideStr,qSideStr) in castleStr;:moves];
 
-  ksidemove:();
-  qsidemove:();
+  kSideMove:();
+  qSideMove:();
 
-  if[ksidestr in castlestr;
-    mvs:picksq+(1 2);
-    mvs:.tl.notmovesonfriendly[mvs;board;1b];  // Ensuring moves wont be on white pieces
-    mvs:.tl.notmovesonfriendly[mvs;board;0b];  // Ensuring moves wont be on black pieces
-    mvs:.tl.checklimits[mvs;board;picksq;iswhite];
+  if[kSideStr in castleStr;
+    mvs:pickSq+(1 2);
+    mvs:.tl.notMovesonFriendly[mvs;board;1b];  // Ensuring moves wont be on white pieces
+    mvs:.tl.notMovesonFriendly[mvs;board;0b];  // Ensuring moves wont be on black pieces
+    mvs:.tl.checkLimits[mvs;board;pickSq;isWhite];
 
-    if[2~count mvs;ksidemove:picksq+2];        // If moves were ok, allow castling king-side
+    if[2~count mvs;kSideMove:pickSq+2];        // If moves were ok, allow castling king-side
   ];
 
-  if[qsidestr in castlestr;
-    mvs:picksq-(1 2);
-    mvs:.tl.checklimits[mvs;board;picksq;iswhite];
-    mvs,:picksq-3;                             // Adding extra move to check that there is an empty space beside the rook (Doesn't matter if this square is checked)
-    mvs:.tl.notmovesonfriendly[mvs;board;1b];  // Ensuring moves wont be on white pieces
-    mvs:.tl.notmovesonfriendly[mvs;board;0b];  // Ensuring moves wont be on black pieces
+  if[qSideStr in castleStr;
+    mvs:pickSq-(1 2);
+    mvs:.tl.checkLimits[mvs;board;pickSq;isWhite];
+    mvs,:pickSq-3;                             // Adding extra move to check that there is an empty space beside the rook (Doesn't matter if this square is checked)
+    mvs:.tl.notMovesonFriendly[mvs;board;1b];  // Ensuring moves wont be on white pieces
+    mvs:.tl.notMovesonFriendly[mvs;board;0b];  // Ensuring moves wont be on black pieces
 
-    if[3~count mvs;qsidemove:picksq-2];        // If moves were ok, allow castling king-side
+    if[3~count mvs;qSideMove:pickSq-2];        // If moves were ok, allow castling king-side
   ];
 
-  :raze moves,ksidemove,qsidemove;
+  :raze moves,kSideMove,qSideMove;
  };
 
-.tl.kingmoves:{[board;picksq;iswhite]
-  moves:0N!.play.getmaxkingmoves picksq;
+.tl.kingMoves:{[board;pickSq;isWhite]
+  moves:.play.getMaxKingMoves pickSq;
 
-  moves:0N!.tl.notmovesonfriendly[moves;board;0N!iswhite];
-  moves:0N!.tl.checklimits[moves;board;picksq;iswhite];
+  moves:.tl.notMovesonFriendly[moves;board;0N!isWhite];
+  moves:.tl.checkLimits[moves;board;pickSq;isWhite];
   
-  moves:0N!.king.addcastlemoves[moves;board;picksq;iswhite];
+  moves:.king.addCastleMoves[moves;board;pickSq;isWhite];
 
   :moves;
  };
