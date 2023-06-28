@@ -1,17 +1,17 @@
-.timeout.timeoutplayer:{[id]
-  msg:"Player '",string[.subs.playernames id],"' timed out";
-  removeplayer[id;msg];
+.timeout.timeoutPlayer:{[id]
+  msg:"Player '",string[.subs.playerNames id],"' timed out";
+  removePlayer[id;msg];
  };
 
-.timeout.checkplayertimeout:{[id]
-  res:$[.mid.iscomplete;POSTGAME_PLAYER_TIMEOUT<.z.p-.subs.players id;
-    .mid.isactiveplayer id;ACTIVE_PLAYER_TIMEOUT<.z.p-.subs.players id;
+.timeout.checkPlayerTimeout:{[id]
+  res:$[.mid.isComplete;POSTGAME_PLAYER_TIMEOUT<.z.p-.subs.players id;
+    .mid.isActivePlayer id;ACTIVE_PLAYER_TIMEOUT<.z.p-.subs.players id;
     INACTIVE_PLAYER_TIMEOUT<.z.p-.subs.players id
   ];
 
-  if[res;.timeout.timeoutplayer[id]];
+  if[res;.timeout.timeoutPlayer[id]];
  };
 
-.timeout.checkplayertimeouts:{[]
-  .timeout.checkplayertimeout each key .subs.players;
+.timeout.checkPlayerTimeouts:{[]
+  .timeout.checkPlayerTimeout each key .subs.players;
  };

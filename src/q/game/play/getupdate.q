@@ -1,55 +1,55 @@
-.play.waitingnum:0;
+.play.waitingNum:0;
 
-.play.getpromotedmsg:{[bdstart;bdend;iswhite]
-  bd1dstart:.play.getboard1d bdstart;
-  bd1dend:.play.getboard1d bdend;
+.play.getPromotedMsg:{[bdStart;bdEnd;isWhite]
+  bdStart1D:.play.getBoard1D bdStart;
+  bdEnd1D:.play.getBoard1D bdEnd;
 
-  case:$[not iswhite;upper;lower];  // What case the other player's pieces are
+  case:$[not isWhite;upper;lower];  // What case the other player's pieces are
 
   piece:$[
-    count[bd1dend ss case"q"]>count bd1dstart ss case"q";case"q";
-    count[bd1dend ss case"q"]>count bd1dstart ss case"r";case"r";
+    count[bdEnd1D ss case"q"]>count bdStart1D ss case"q";case"q";
+    count[bdEnd1D ss case"q"]>count bdStart1D ss case"r";case"r";
     case"b"
   ];
 
   :case["p"]," to ",piece," promotion!";
  };
 
-.play.haspromoted:{[bdstart;bdend;iswhite]
-  bd1dstart:.play.getboard1d bdstart;
-  bd1dend:.play.getboard1d bdend;
+.play.hasPromoted:{[bdStart;bdEnd;isWhite]
+  bdStart1D:.play.getBoard1D bdStart;
+  bdEnd1D:.play.getBoard1D bdEnd;
 
-  case:$[not iswhite;upper;lower];  // What case the other player's pieces are
+  case:$[not isWhite;upper;lower];  // What case the other player's pieces are
 
   :$[
-    count[bd1dend ss case"q"]>count bd1dstart ss case"q";1b;
-    count[bd1dend ss case"r"]>count bd1dstart ss case"r";1b;
-    count[bd1dend ss case"b"]>count bd1dstart ss case"b";1b;
+    count[bdEnd1D ss case"q"]>count bdStart1D ss case"q";1b;
+    count[bdEnd1D ss case"r"]>count bdStart1D ss case"r";1b;
+    count[bdEnd1D ss case"b"]>count bdStart1D ss case"b";1b;
     0b
   ];
  };
 
-.play.getwaitingnum:{[]
-  .play.waitingnum:(.play.waitingnum+1) mod 4;
-  :.play.waitingnum;
+.play.getWaitingNum:{[]
+  .play.waitingNum:(.play.waitingNum+1) mod 4;
+  :.play.waitingNum;
  };
 
-.play.generatemsg:{[bdstart;bdend;iswhite;starttknpcs;endtknpcs]
+.play.generateMsg:{[bdStart;bdEnd;isWhite;startTknPcs;endTknPcs]
   msg:$[
-    bdstart~bdend;(n#" "),"Waiting",(n:.play.getwaitingnum[])#".";
-    .play.ischecked[bdend;iswhite];"You are checked!";
-    .play.haspromoted[bdstart;bdend;iswhite];.play.getpromotedmsg[bdstart;bdend;iswhite];
-    not starttknpcs~endtknpcs;"Piece captured!";
+    bdStart~bdEnd;(n#" "),"Waiting",(n:.play.getWaitingNum[])#".";
+    .play.isChecked[bdEnd;isWhite];"You are checked!";
+    .play.hasPromoted[bdStart;bdEnd;isWhite];.play.getPromotedMsg[bdStart;bdEnd;isWhite];
+    not startTknPcs~endTknPcs;"Piece captured!";
     "It is your turn"
   ];
 
   :msg;
  };
 
-.play.getupdate:{[qd;board;takenpcs;iswhite]
-  res:@[{x y}[qd`h];(`getupdate;qd`id);(0b;`)];
+.play.getUpdate:{[qd;board;takenPcs;isWhite]
+  res:@[{x y}[qd`h];(`getUpdate;qd`id);(0b;`)];
   
   if[not[first res] or not `mid~res 1;:(0b;"<Lost connection>")];  // If error has occurred, return 0b along with the error message (Max 20 characters to display fully)
 
-  :(1b;.play.generatemsg[board;res 2;iswhite;takenpcs;res 3];res 2;res 3);
+  :(1b;.play.generateMsg[board;res 2;isWhite;takenPcs;res 3];res 2;res 3);
  };

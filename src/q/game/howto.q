@@ -1,47 +1,47 @@
-.howto.insertdata:{[lvl;section;data]
+.howTo.insertData:{[lvl;section;data]
   :lvl;
  };
 
-.howto.showtitle:{[lvl;sections;opened]
+.howTo.showTitle:{[lvl;sections;opened]
   :lvl;
  };
 
-.howto.showsections:{[lvl;sections;opened;selected]
+.howTo.showSections:{[lvl;sections;opened;selected]
   :lvl;
  };
 
-.howto.showscrollarrows:{[lvl;sections;sectiondata]
+.howTo.showScrollArrows:{[lvl;sections;sectionData]
   :lvl;
  };
 
-.howto.draw:{[sections;sectiondata;opened;selected]
-  lvl:.howto.level;
-  lvl:.howto.insertdata[lvl;sections opened;sectiondata opened];
-  lvl:.howto.showscrollarrows[lvl;sections;sectiondata];
-  lvl:.howto.showtitle[lvl;sections;opened];
-  lvl:.howto.showsections[lvl;sections;opened;selected];
+.howTo.draw:{[sections;sectionData;opened;selected]
+  lvl:.howTo.level;
+  lvl:.howTo.insertData[lvl;sections opened;sectionData opened];
+  lvl:.howTo.showScrollArrows[lvl;sections;sectionData];
+  lvl:.howTo.showTitle[lvl;sections;opened];
+  lvl:.howTo.showSections[lvl;sections;opened;selected];
 
   draw[lvl;"Up/Down [W/S], Quit [Q], Menu [M], Select [E] "];
  };
 
-howto:{[params]
-  gd:`scene`params!(`spectate;()!());
+howTo:{[params]
+  gd:`scene`params!(`howTo;()!());
 
-  sections:key .howto.sections;
-  sectiondata:value .howto.sections;
+  sections:key .howTo.sections;
+  sectionData:value .howTo.sections;
   opened:0;
   selected:0;
 
-  .howto.draw[sections;sectiondata;opened;selected];
+  .howTo.draw[sections;sectionData;opened;selected];
 
-  while[`spectate~gd`scene;
-    input:getinput[];
+  while[`howTo~gd`scene;
+    input:getInput[];
     $[
-      input~"q";:.game.quitdict;
-      input~"m";:.game.menudict;
+      input~"q";:.game.quitDict;
+      input~"m";:.game.menuDict;
     ];
 
-    .howto.draw[sections;sectiondata;opened;selected];
+    .howTo.draw[sections;sectionData;opened;selected];
   ];
 
   :gd;

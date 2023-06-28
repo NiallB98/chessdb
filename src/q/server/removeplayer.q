@@ -1,8 +1,8 @@
-removeplayer:{[id;msg] // Remove player and if the game has progress past the pre-game stage, flag an error
-  doerror:.pre.iscomplete[id];
+removePlayer:{[id;msg] // Remove player and if the game has progress past the pre-game stage, flag an error
+  doError:.pre.isComplete[id];
 
   .subs.players:raze[id] _ .subs.players;
-  .subs.playernames:raze[id] _ .subs.playernames;
+  .subs.playerNames:raze[id] _ .subs.playerNames;
 
-  $[doerror;[log_error msg;.eu.errormsg:msg];log_warn msg];
+  $[doError;[.log.error msg;.eu.errorMsg:msg];.log.warn msg];
  };

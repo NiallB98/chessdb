@@ -8,22 +8,22 @@ DEBUG:0b;                                    // Shows debug logs
 
 system"l server/log.q";
 system"l server/subscription.q";
-system"l server/removeplayer.q";
+system"l server/removePlayer.q";
 system"l server/updates.q";
 system"l server/timeout.q";
 
 .z.ts:{[]
-  .timeout.checkplayertimeouts[];
-  .eu.resetonempty[];
+  .timeout.checkPlayerTimeouts[];
+  .eu.resetOnEmpty[];
  };
 
 .z.pg:{[qry]
-  log_debug"Received query:\n",-3!qry;
+  .log.debug"Received query:\n",-3!qry;
   :value qry;
  };
 
 run:{[]  // Runs on the startup of the server
-  log_info"Chessdb+ server started on:";
+  .log.info"Chessdb+ server started on:";
   -1"- IP:    ","." sv string"i"$0x0 vs .z.a;
   -1"- Port:  ",string[value"\\p"],"\n";
   value"\\t ",string UPDATE_INTERVAL_MS;

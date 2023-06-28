@@ -1,66 +1,66 @@
-system"l game/joinwait/getupdate.q";
+system"l game/joinWait/getUpdate.q";
 
-.joinwait.draw:{[loadstr;ip;portstr;msg;haserrored]
-  lvl:.joinwait.level;
-  lvl:autoshowmsg[lvl;loadstr;"@";`left];
-  lvl:autoshowmsg[lvl;ip;"#";`left];
-  lvl:autoshowmsg[lvl;portstr;"$";`left];
-  lvl:autoshowmsg[lvl;msg;"&";`];
+.joinWait.draw:{[loadStr;ip;portStr;msg;hasErrored]
+  lvl:.joinWait.level;
+  lvl:autoShowMsg[lvl;loadStr;"@";`left];
+  lvl:autoShowMsg[lvl;ip;"#";`left];
+  lvl:autoShowMsg[lvl;portStr;"$";`left];
+  lvl:autoShowMsg[lvl;msg;"&";`];
 
-  prompt:$[haserrored;"Quit [Q], Menu [M] ";""];
+  prompt:$[hasErrored;"Quit [Q], Menu [M] ";""];
 
   draw[lvl;prompt];
  };
 
-joinwait:{[params]  // Repeatedly queries the host address until it receives the other player's name and what colour to start as
-  gd:`scene`params!(`joinwait;()!());
-  gd[`params;`pname]:params`pname;
+joinWait:{[params]  // Repeatedly queries the host address until it receives the other player's name and what colour to start as
+  gd:`scene`params!(`joinWait;()!());
+  gd[`params;`pName]:params`pName;
   gd[`params;`address]:params`address;
   gd[`params;`id]:params`id;
-  gd[`params;`otherpname]:"";  // Will be assigned by the server
-  gd[`params;`iswhite]:0b;     // Will be assigned by the server
+  gd[`params;`otherPName]:"";  // Will be assigned by the server
+  gd[`params;`isWhite]:0b;     // Will be assigned by the server
 
   ip:vs[":";string gd[`params;`address]]1;
-  portstr:vs[":";string gd[`params;`address]]2;
+  portStr:vs[":";string gd[`params;`address]]2;
 
   ready:0b;  // If ready to go to play mode
   msg:"";
-  loadprog:0;
-  haserrored:0b;  // Stops the process trying to query the server if true
+  loadProg:0;
+  hasErrored:0b;  // Stops the process trying to query the server if true
 
-  .joinwait.draw[loadprog#".";ip;portstr;msg;haserrored];
+  .joinWait.draw[loadProg#".";ip;portStr;msg;hasErrored];
 
-  while[`joinwait~gd`scene;
+  while[`joinWait~gd`scene;
     sts:.z.p;
 
-    if[haserrored;  // If an error occurred when trying to query the server, allow user input
-      input:getinput[];
+    if[hasErrored;  // If an error occurred when trying to query the server, allow user input
+      input:getInput[];
       $[
-        input~"q";:.game.quitdict;
-        input~"m";:.game.menudict
+        input~"q";:.game.quitDict;
+        input~"m";:.game.menuDict
       ];
     ];
 
-    if[not haserrored;
-      loadprog:mod[loadprog+1;4];
+    if[not hasErrored;
+      loadProg:mod[loadProg+1;4];
 
-      res:.joinwait.getupdate[gd[`params;`address];gd[`params;`id]];
+      res:.joinWait.getUpdate[gd[`params;`address];gd[`params;`id]];
       $[first res;if[res 1;  // If received all the details needed from the server
-          gd[`params;`otherpname]:res 2;
-          gd[`params;`iswhite]:res 3;
+          gd[`params;`otherPName]:res 2;
+          gd[`params;`isWhite]:res 3;
           gd[`scene]:`play;
           :gd;  // Move to play mode
         ];
         [
           msg:last res;  // If an error occurred, allow it to be logged on screen
-          haserrored:1b;
+          hasErrored:1b;
         ]
       ];
     ];
 
-    .joinwait.draw[loadprog#".";ip;portstr;msg;haserrored];
+    .joinWait.draw[loadProg#".";ip;portStr;msg;hasErrored];
 
-    if[not haserrored;limitfps sts];  // Prevents too much refreshing
+    if[not hasErrored;limitFPS sts];  // Prevents too much refreshing
   ];
 
   :gd;

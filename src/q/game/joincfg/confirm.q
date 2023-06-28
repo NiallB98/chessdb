@@ -1,5 +1,5 @@
-.joincfg.tryquery:{[ip;port;pname]
-  res:@[{(`$":",x,":",string y)z}[ip;port];(`.subs.chessplayersub;pname);0b];
+.joinCfg.tryQuery:{[ip;port;pName]
+  res:@[{(`$":",x,":",string y)z}[ip;port];(`.subs.chessPlayerSub;pName);0b];
   
   confirmed:first res;
   msg:$[confirmed;raze"";"ERROR: Host unreachable"];
@@ -8,8 +8,8 @@
   :(confirmed;msg;id);
  };
 
-.joincfg.confirm:{[ip;port;pname]  // Confirms the following the host exists and they were looking for a player
-  res:.joincfg.tryquery[ip;port;pname];
+.joinCfg.confirm:{[ip;port;pName]  // Confirms the following the host exists and they were looking for a player
+  res:.joinCfg.tryQuery[ip;port;pName];
   
   confirmed:res 0;
   msg:res 1;

@@ -1,117 +1,117 @@
-.play.rmcastle:{[castlestr;iswhite;side]
+.play.rmCastle:{[castleStr;isWhite;side]
   rmstr:$[
-    side~`;$[iswhite;"KQ";"kq"];
-    side~`k;$[iswhite;"K";"q"];
-    side~`q;$[iswhite;"Q";"q"];
+    side~`;$[isWhite;"KQ";"kq"];
+    side~`k;$[isWhite;"K";"q"];
+    side~`q;$[isWhite;"Q";"q"];
     ""
   ];
 
-  castlestr:castlestr except rmstr;
-  if[castlestr~"";castlestr:raze"-"];
+  castleStr:castleStr except rmstr;
+  if[castleStr~"";castleStr:raze"-"];
 
-  :castlestr;
+  :castleStr;
  };
 
-.play.updatecastle:{[bd;castlestr;movepiece;startpos;endpos]
-  iswhite:movepiece in WHITE_PIECES;
+.play.updateCastle:{[bd;castleStr;movePiece;startPos;endPos]
+  isWhite:movePiece in WHITE_PIECES;
 
   $[
-    (startpos~0) and movepiece~"r";castlestr:.play.rmcastle[castlestr;iswhite;`q];
-    (startpos~7) and movepiece~"r";castlestr:.play.rmcastle[castlestr;iswhite;`k];
-    (startpos~56) and movepiece~"R";castlestr:.play.rmcastle[castlestr;iswhite;`q];
-    (startpos~63) and movepiece~"R";castlestr:.play.rmcastle[castlestr;iswhite;`k]
+    (startPos~0) and movePiece~"r";castleStr:.play.rmCastle[castleStr;isWhite;`q];
+    (startPos~7) and movePiece~"r";castleStr:.play.rmCastle[castleStr;isWhite;`k];
+    (startPos~56) and movePiece~"R";castleStr:.play.rmCastle[castleStr;isWhite;`q];
+    (startPos~63) and movePiece~"R";castleStr:.play.rmCastle[castleStr;isWhite;`k]
   ];
 
-  if["k"<>lower movepiece;:(bd;castlestr)];
+  if["k"<>lower movePiece;:(bd;castleStr)];
 
-  castlestr:.play.rmcastle[castlestr;iswhite;`];
+  castleStr:.play.rmCastle[castleStr;isWhite;`];
 
-  if[2<>abs startpos-endpos;:(bd;castlestr)];
+  if[2<>abs startPos-endPos;:(bd;castleStr)];
 
-  dir:$[0<endpos-startpos;`k;`q];  // Determining whether king or queen side castling
+  dir:$[0<endPos-startPos;`k;`q];  // Determining whether king or queen side castling
 
-  rookstartpos:$[dir~`k;startpos+3;startpos-4];
-  rookendpos:$[dir~`k;startpos+1;startpos-1];
+  rookStartPos:$[dir~`k;startPos+3;startPos-4];
+  rookEndPos:$[dir~`k;startPos+1;startPos-1];
 
-  rookchar:bd[rookstartpos];
+  rookChar:bd[rookStartPos];
 
-  bd[rookstartpos]:" ";
-  bd[rookendpos]:rookchar;
+  bd[rookStartPos]:" ";
+  bd[rookEndPos]:rookChar;
 
-  :(bd;castlestr);
+  :(bd;castleStr);
  };
 
-.play.updateenpass:{[movepiece;startpos;endpos]
-  if["p"<>lower movepiece;:raze"-"];
-  if[16<>abs startpos-endpos;:raze"-"];
+.play.updateEnpass:{[movePiece;startPos;endPos]
+  if["p"<>lower movePiece;:raze"-"];
+  if[16<>abs startPos-endPos;:raze"-"];
 
-  enpasspos:startpos+(endpos-startpos)%2;
-  x:"abcdefgh"`long$enpasspos mod 8;
-  y:"87654321"`long$enpasspos div 8;
+  enpassPos:startPos+(endPos-startPos)%2;
+  x:"abcdefgh"`long$enpassPos mod 8;
+  y:"87654321"`long$enpassPos div 8;
 
   :x,y;
  };
 
-.play.getenpasspiece:{[bd;enpassstr]
-  if[first[enpassstr]~"-";:" "];
+.play.getEnpassPiece:{[bd;enpassStr]
+  if[first[enpassStr]~"-";:" "];
 
-  tgtx:first where (`$first enpassstr)=`a`b`c`d`e`f`g`h;
-  tgty:$["3"~last enpassstr;4;3];
+  tgtX:first where (`$first enpassStr)=`a`b`c`d`e`f`g`h;
+  tgtY:$["3"~last enpassStr;4;3];
   
-  :bd tgtx+8*tgty;
+  :bd tgtX+8*tgtY;
  };
 
-.play.rmenpasspiece:{[bd;enpassstr]
-  tgtx:first where (`$first enpassstr)=`a`b`c`d`e`f`g`h;
-  tgty:$["3"~last enpassstr;4;3];
+.play.rmEnpassPiece:{[bd;enpassStr]
+  tgtX:first where (`$first enpassStr)=`a`b`c`d`e`f`g`h;
+  tgtY:$["3"~last enpassStr;4;3];
 
-  bd[tgtx+8*tgty]:" ";
+  bd[tgtX+8*tgtY]:" ";
 
   :bd;
  };
 
-.play.isenpasscapture:{[bd;enpassstr;movepiece;startpos;endpos]
-  if[" "~.play.getenpasspiece[bd;enpassstr];:0b];
-  if["p"<>lower movepiece;:0b];
-  if[not abs[endpos-startpos] in 7 9;:0b];
+.play.isEnpassCapture:{[bd;enpassStr;movePiece;startPos;endPos]
+  if[" "~.play.getEnpassPiece[bd;enpassStr];:0b];
+  if["p"<>lower movePiece;:0b];
+  if[not abs[endPos-startPos] in 7 9;:0b];
 
-  tgtx:first where (`$first enpassstr)=`a`b`c`d`e`f`g`h;
-  tgty:8-value last enpassstr;
+  tgtX:first where (`$first enpassStr)=`a`b`c`d`e`f`g`h;
+  tgtY:8-value last enpassStr;
 
-  :endpos~tgtx+8*tgty;
+  :endPos~tgtX+8*tgtY;
  };
 
-.play.movepiece:{[board;startpos;endpos]
-  bd:.play.getboard1d board;
+.play.movePiece:{[board;startPos;endPos]
+  bd:.play.getBoard1D board;
 
-  splitbd:" " vs board;
-  sidestr:splitbd 1;
-  castlestr:splitbd 2;
-  enpassstr:splitbd 3;
-  halfturnstr:splitbd 4;
-  fullturnstr:splitbd 5;
+  splitBd:" " vs board;
+  sideStr:splitBd 1;
+  castleStr:splitBd 2;
+  enpassStr:splitBd 3;
+  halfTurnStr:splitBd 4;
+  fullTurnStr:splitBd 5;
 
-  movepiece:bd[startpos];
-  takenpiece:$[
-    .play.isenpasscapture[bd;enpassstr;movepiece;startpos;endpos];
-      .play.getenpasspiece[bd;enpassstr];
-    bd[endpos]
+  movePiece:bd[startPos];
+  takenPiece:$[
+    .play.isEnpassCapture[bd;enpassStr;movePiece;startPos;endPos];
+      .play.getEnpassPiece[bd;enpassStr];
+    bd[endPos]
   ];
 
-  bd[startpos]:" ";
-  bd[endpos]:movepiece;
-  if[.play.isenpasscapture[bd;enpassstr;movepiece;startpos;endpos];
-    bd:.play.rmenpasspiece[bd;enpassstr];
+  bd[startPos]:" ";
+  bd[endPos]:movePiece;
+  if[.play.isEnpassCapture[bd;enpassStr;movePiece;startPos;endPos];
+    bd:.play.rmEnpassPiece[bd;enpassStr];
   ];
 
-  sidestr:raze $[first[sidestr]~"w";"b";"w"];                                             // Switching sides
-  res:.play.updatecastle[bd;castlestr;movepiece;startpos;endpos];                         // Update castling if it happened (If castling also move rook)
-  bd:res 0; castlestr: res 1;
-  enpassstr:.play.updateenpass[movepiece;startpos;endpos];                                // Update enpassant square if it needs to change
-  halfturnstr:raze $[(movepiece~"p") or takenpiece<>" ";"0";string 1+value halfturnstr];  // Update half turns since last pawn move or piece capture
-  fullturnstr:$[first[sidestr]~"w";string 1+value fullturnstr;fullturnstr];               // Update full move if new sidestr is white (ie. black just moved)
+  sideStr:raze $[first[sideStr]~"w";"b";"w"];                                             // Switching sides
+  res:.play.updateCastle[bd;castleStr;movePiece;startPos;endPos];                         // Update castling if it happened (If castling also move rook)
+  bd:res 0; castleStr: res 1;
+  enpassStr:.play.updateEnpass[movePiece;startPos;endPos];                                // Update enpassant square if it needs to change
+  halfTurnStr:raze $[(movePiece~"p") or takenPiece<>" ";"0";string 1+value halfTurnStr];  // Update half turns since last pawn move or piece capture
+  fullTurnStr:$[first[sideStr]~"w";string 1+value fullTurnStr;fullTurnStr];               // Update full move if new sideStr is white (ie. black just moved)
 
-  board:" " sv (.play.fmtboard1d bd;sidestr;castlestr;enpassstr;halfturnstr;fullturnstr);
+  board:" " sv (.play.fmtBoard1D bd;sideStr;castleStr;enpassStr;halfTurnStr;fullTurnStr);
 
-  :(board;takenpiece);
+  :(board;takenPiece);
  };

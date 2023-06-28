@@ -1,13 +1,13 @@
-system"l game/joincfg/edit.q";
-system"l game/joincfg/confirm.q";
-system"l game/joincfg/draw.q";
-system"l game/joincfg/logic.q";
+system"l game/joinCfg/edit.q";
+system"l game/joinCfg/confirm.q";
+system"l game/joinCfg/draw.q";
+system"l game/joinCfg/logic.q";
 
-joincfg:{[params]
-  pname:params`pname;
+joinCfg:{[params]
+  pName:params`pName;
 
-  gd:`scene`params!(`joincfg;()!());
-  gd[`params;`pname]:params`pname;
+  gd:`scene`params!(`joinCfg;()!());
+  gd[`params;`pName]:params`pName;
   gd[`params;`address]:`::0;
   gd[`params;`id]:`;
 
@@ -21,26 +21,26 @@ joincfg:{[params]
   ip:"." sv string"i"$0x0 vs .z.a;
   id:`;
 
-  .joincfg.draw[selections;selected;msg;ip;port];
+  .joinCfg.draw[selections;selected;msg;ip;port];
 
-  while[`joincfg~gd`scene;
-    input:getfullinput[];
+  while[`joinCfg~gd`scene;
+    input:getFullInput[];
     $[
-      "q"~lower last input;:.game.quitdict;
-      "m"~lower last input;:.game.menudict
+      "q"~lower last input;:.game.quitDict;
+      "m"~lower last input;:.game.menuDict
     ];
 
-    res:.joincfg.logic[input;selections;selected;ip;port;gd[`params;`pname];id];
+    res:.joinCfg.logic[input;selections;selected;ip;port;gd[`params;`pName];id];
     confirmed:res 0; selected:res 1; msg:res 2; ip:res 3; port:res 4; id:res 5;
 
     if[confirmed;
-      gd[`scene]:`joinwait;
+      gd[`scene]:`joinWait;
       gd[`params;`address]:`$":",ip,":",string port;
       gd[`params;`id]:id;
       :gd;
     ];
 
-    .joincfg.draw[selections;selected;msg;ip;port];
+    .joinCfg.draw[selections;selected;msg;ip;port];
 
     msg:"";
   ];
