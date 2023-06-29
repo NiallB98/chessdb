@@ -43,7 +43,7 @@ play:{[params]
     ];
 
     if[not[hasErrored] and cd`turnDone;                             // If turn is done (and not errored)
-          res:.play.postUpdate[qd;cd`bd;cd`takenPcs];               // Send updated board to server
+          res:.play.postUpdate[qd;cd`bd;cd`takenPcs;cd`lastMove];   // Send updated board to server
           hasErrored:not res 0; logMsg:res 1;
 
           cd[`turnDone]:0b; csrd[`pickSq]:-1; csrd[`pos]: -1;
@@ -53,7 +53,8 @@ play:{[params]
       res:.play.getUpdate[qd;cd`bd;cd`takenPcs;cd`isWhite];
       hasErrored:not res 0; logMsg:res 1;
 
-      if[not hasErrored; cd[`bd]:res 2; cd[`takenPcs]:res 3];
+      if[not hasErrored; cd[`bd]:res 2; cd[`takenPcs]:res 3; cd[`lastMove]:res 4];
+      0N!cd`lastMove;
     ];
 
     if[.play.isTurn[cd] and -1~csrd`pos;csrd[`pos]:$[cd`isWhite;63-11;11]];

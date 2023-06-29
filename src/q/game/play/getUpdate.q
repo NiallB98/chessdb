@@ -51,5 +51,5 @@
   
   if[not[first res] or not `mid~res 1;:(0b;"<Lost connection>")];  // If error has occurred, return 0b along with the error message (Max 20 characters to display fully)
 
-  :(1b;.play.generateMsg[board;res 2;isWhite;takenPcs;res 3];res 2;res 3);
+  :(1b;.play.generateMsg[board;res 2;isWhite;takenPcs;res 3];res 2;res 3;res 4);
  };

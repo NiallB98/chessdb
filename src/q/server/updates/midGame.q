@@ -3,6 +3,7 @@ START_BOARD:"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";  // Boar
 .mid.isComplete:0b;                                                      // When 1b the server knows to run the post-game updates
 .mid.wins:(`symbol$())!`long$();                                         // Tracks number of wins for both players
 .mid.takenPcs:("";"");
+.mid.lastMove:();
 
 .mid.isActivePlayer:{[id]
   if[not .pre.isComplete[id];:0b];
@@ -34,19 +35,27 @@ START_BOARD:"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";  // Boar
   .log.debug"Taken pieces are now:\n",-3!.mid.takenPcs;
  };
 
+.mid.updateLastMove:{[lastMove]
+  `.mid.lastMove set lastMove;
+  .log.info"Last move updated";
+  .log.debug"Last move is now: ",-3!.mid.lastMove;
+ };
+
 .mid.getUpdate:{[id]  // For the players to get updates on the progress of the ongoing game
   .log.debug"Player '",string[.subs.playerNames id],
            "' with handle [",string[.z.w],"] getting a mid-game update";
   
-  :(1b;`mid;.mid.board;.mid.takenPcs);
+  :(1b;`mid;.mid.board;.mid.takenPcs;.mid.lastMove);
  };
 
 .mid.postUpdate:{[id;res]  // For the players to send updates after they move
   board:res 0;
   takenPcs:res 1;
+  lastMove:res 2;
 
   .mid.updateBoard board;
   .mid.updateTakenPcs takenPcs;
+  .mid.updateLastMove lastMove;
  };
 
 .mid.startNew:{[]  // For the new game to start

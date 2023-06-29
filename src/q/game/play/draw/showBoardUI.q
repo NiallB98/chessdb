@@ -53,7 +53,7 @@
 
 .play.showLastMove:{[lvl;isWhite;lastMove]
   if[0~count lastMove;:lvl];  // Do not show if there was no last move (ie. this is the first move)
-  if[isWhite;lastMove:63-lastMove];
+  if[not isWhite;lastMove:63-lastMove];
 
   indices:raze .play.indices[key LAST_MOVE_CHAR_DICT;lastMove];
   chars:raze flip count[lastMove]#enlist value LAST_MOVE_CHAR_DICT;
