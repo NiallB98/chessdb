@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script takes the port of the server as an argument, though a default is specified if one isn't passed
+# This script takes the port of the server as an argument, though a default port number is set if one isn't passed
 
 case "$OSTYPE" in
     msys*)  # Windows
