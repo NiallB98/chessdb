@@ -5,6 +5,7 @@ system"l game/play/turnLogic/getMoves.q";
   res:.play.movePiece[cd`bd;startPos;endPos];
 
   cd[`bd]:first res;
+  cd[`lastMove]:startPos,endPos;
 
   if[last res<>" ";
     $[cd`isWhite;cd[`takenPcs;0],:last res;cd[`takenPcs;1],:last res];
