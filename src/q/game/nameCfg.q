@@ -6,7 +6,7 @@ system"l game/nameCfg/draw.q";
 
 .nameCfg.isValidName:{[input]
   input:trim raze input;
-  :all[input in .Q.an] and not ""~limitLen[18;input];  // Name has to be all alphanumeric characters and not an empty string
+  :all[input in .Q.an," "] and not ""~limitLen[18;input];  // Name has to be all alphanumeric characters and not an empty string
  };
 
 nameCfg:{[params]
