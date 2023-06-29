@@ -1,10 +1,10 @@
 #!/bin/bash
 
 case "$OSTYPE" in
-    msys*)  # Windows
+    msys*)  # Windows (Assumes q.exe has been added to PATH)
         Q_CMD="q"
         ;;
-    *)      # Other (Linux for example)
+    *)      # Other (ie. Linux)
         if [ ! -z "`command -v rlwrap`" ]; then
             RLWRAP_CMD="rlwrap"
         else
