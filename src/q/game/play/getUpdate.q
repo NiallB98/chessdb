@@ -34,13 +34,40 @@
   :.play.waitingNum;
  };
 
-.play.generateMsg:{[bdStart;bdEnd;isWhite;startTknPcs;endTknPcs]
+.play.getMovedPieceMsg:{[board;lastMove]
+  if[0~count lastMove;:""];  // Only possible on the first turn for the waiting player, this won't show anyway
+
+  bd:.play.getBoard1D board;
+  piece:bd[last lastMove];
+
+  pieceStr:("Pawn";"Knight";"Bishop";"Rook";"Queen";"King")first where "pnbrqk"=lower piece;
+
+  :pieceStr," moved";
+ };
+
+.play.getTknPcsMsg:{[startTknPcs;endTknPcs]
+  startTknPcs:lower raze startTknPcs;
+  endTknPcs:lower raze endTknPcs;
+
+  baseCounts:BLACK_PIECES!count[BLACK_PIECES]#0;  // (Since the black pieces are lowercase)
+
+  startCounts:(count each group startTknPcs)+baseCounts;
+  endCounts:(count each group endTknPcs)+baseCounts;
+
+  piece:first where not startCounts=endCounts;
+
+  pieceStr:("Pawn";"Knight";"Bishop";"Rook";"Queen";"King")first where "pnbrqk"=lower piece;
+
+  :pieceStr," captured!";
+ };
+
+.play.generateMsg:{[bdStart;bdEnd;isWhite;startTknPcs;endTknPcs;lastMove]
   msg:$[
     bdStart~bdEnd;(n#" "),"Waiting",(n:.play.getWaitingNum[])#".";
     .play.isChecked[bdEnd;isWhite];"You are checked!";
     .play.hasPromoted[bdStart;bdEnd;isWhite];.play.getPromotedMsg[bdStart;bdEnd;isWhite];
-    not startTknPcs~endTknPcs;"Piece captured!";
-    "It is your turn"
+    not startTknPcs~endTknPcs;.play.getTknPcsMsg[startTknPcs;endTknPcs];
+    .play.getMovedPieceMsg[bdEnd;lastMove]
   ];
 
   :msg;
@@ -51,5 +78,5 @@
   
   if[not[first res] or not `mid~res 1;:(0b;"<Lost connection>")];  // If error has occurred, return 0b along with the error message (Max 20 characters to display fully)
 
-  :(1b;.play.generateMsg[board;res 2;isWhite;takenPcs;res 3];res 2;res 3;res 4);
+  :(1b;.play.generateMsg[board;res 2;isWhite;takenPcs;res 3;res 4];res 2;res 3;res 4);
  };
