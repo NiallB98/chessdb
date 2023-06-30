@@ -1,7 +1,8 @@
 system"l common/levelEditing.q";
 
 cls:{
-  -1"",100#"\n";
+  -1"\033[3;J\033[H\033[2J";
+  -1"\033[3;J\033[H\033[2J";
  };
 
 getFullInput:{
