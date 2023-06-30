@@ -61,12 +61,28 @@
   :pieceStr," captured!";
  };
 
+.play.hasCastled:{[bdEnd;lastMove]
+  if[0~count lastMove;:0b];
+
+  bd:.play.getBoard1D bdEnd;
+
+  piece:lower bd[last lastMove];
+  moveLen:abs last[lastMove]-first lastMove;
+
+  :(moveLen~2) and piece~"k";
+ };
+
+.play.getCastledMsg:{[lastMove]
+  :$[0<last[lastMove]-first lastMove;"Castled Kingside";"Castled Queenside"];
+ };
+
 .play.generateMsg:{[bdStart;bdEnd;isWhite;startTknPcs;endTknPcs;lastMove]
   msg:$[
     bdStart~bdEnd;(n#" "),"Waiting",(n:.play.getWaitingNum[])#".";
     .play.isChecked[bdEnd;isWhite];"You are checked!";
     .play.hasPromoted[bdStart;bdEnd;isWhite];.play.getPromotedMsg[bdStart;bdEnd;isWhite];
     not startTknPcs~endTknPcs;.play.getTknPcsMsg[startTknPcs;endTknPcs];
+    .play.hasCastled[bdEnd;lastMove];.play.getCastledMsg[lastMove];
     .play.getMovedPieceMsg[bdEnd;lastMove]
   ];
 
