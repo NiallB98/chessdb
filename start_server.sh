@@ -2,25 +2,32 @@
 
 # This script takes the port of the server as an argument, though a default port number is set if one isn't passed
 
-case "$OSTYPE" in
-    msys*)  # Windows
-        Q_CMD="q"
-        ;;
-    *)      # Other (Linux for example)
-        if [ ! -z "`command -v rlwrap`" ]; then
-            RLWRAP_CMD="rlwrap"
-        else
-            RLWRAP_CMD=""
-        fi
-
-        Q_CMD="$RLWRAP_CMD $QHOME/l[36][24]/q"
-        ;;
-esac
-
 DEFAULT_PORT=25565
 RUN_SCRIPT_DIR=$(cd -- "$( dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 MAIN_SCRIPT_DIR="${RUN_SCRIPT_DIR}/src/q"
 PAUSE_ON_END="true";
+
+. "$RUN_SCRIPT_DIR/config.env"
+
+if [ ! -z "$Q_CMD" ]; then
+    echo "Using custom Q command"
+else
+    echo "Using default Q command"
+    case "$OSTYPE" in
+        msys*)  # Windows (Assumes q.exe has been added to PATH)
+            Q_CMD="q"
+            ;;
+        *)      # Other (ie. Linux)
+            if [ ! -z "`command -v rlwrap`" ]; then
+                RLWRAP_CMD="rlwrap"
+            else
+                RLWRAP_CMD=""
+            fi
+
+            Q_CMD="$RLWRAP_CMD $QHOME/l[36][24]/q"
+            ;;
+    esac
+fi
 
 # Setting port
 if [ -z "$1" ]; then
