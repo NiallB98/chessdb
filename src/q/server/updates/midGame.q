@@ -1,5 +1,4 @@
 START_BOARD:"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";  // Board uses FEN notation which holds all the information the player processes need to update the sections seperated by spaces represent: 1. piece positions, 2. turn taker, 3. available castling moves, 4. enpassant target square for opposite pawns to capture the pawn that just moved two squares, 5. number of halfmoves since the last capture or pawn advance, 6. number of the full moves
-START_BOARD:"2k5/8/8/8/8/8/8/3QQK2 w - - 0 1";
 .mid.board:START_BOARD;                                                  // Board variable that is modified throught the game
 .mid.isComplete:0b;                                                      // When 1b the server knows to run the post-game updates
 .mid.wins:(`symbol$())!`long$();                                         // Tracks number of wins for both players
