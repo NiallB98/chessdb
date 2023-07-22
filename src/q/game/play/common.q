@@ -51,3 +51,22 @@ system"l game/play/common/movePiece.q";
 
   :$[kingPos~0N;0b;.play.isAttacked[kingPos;board;isWhite]];
  };
+
+.play.canMakeMove:{[board;isWhite]
+  bd:.play.getBoard1D board;
+  pieceTypes:$[isWhite;WHITE_PIECES;BLACK_PIECES];
+
+  piecesPos:where bd in pieceTypes;
+
+  :0<sum count each .tl.getMoves[board;;isWhite]each piecesPos;
+ };
+
+.play.getStatus:{[board]
+  isWhitesTurn:"w"~first(" " vs board)1;
+
+  :$[
+    .play.canMakeMove[board;isWhitesTurn];`playing;
+    .play.isChecked[board;isWhitesTurn];`checkmate;
+    `stalemate
+  ];
+ };
