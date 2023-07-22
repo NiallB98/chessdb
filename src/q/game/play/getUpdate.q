@@ -77,8 +77,12 @@
  };
 
 .play.generateMsg:{[bdStart;bdEnd;isWhite;startTknPcs;endTknPcs;lastMove]
+  gameStatus:.play.getStatus bdEnd;
+
   msg:$[
     bdStart~bdEnd;(n#" "),"Waiting",(n:.play.getWaitingNum[])#".";
+    gameStatus~`checkmate;"Checkmate";
+    gameStatus~`stalemate;"Stalemate";
     .play.isChecked[bdEnd;isWhite];"You are checked!";
     .play.hasPromoted[bdStart;bdEnd;isWhite];.play.getPromotedMsg[bdStart;bdEnd;isWhite];
     not startTknPcs~endTknPcs;.play.getTknPcsMsg[startTknPcs;endTknPcs];

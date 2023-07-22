@@ -47,6 +47,8 @@ system"l game/play/draw/showBoardUI.q";
   $[hasErrored;:"Quit [Q], Menu [M] ";not .play.isTurn cd;:""];
 
   if[.play.isPromoting cd`bd;:"Promote to: Queen [Q], Rook [R], Bishop [B] ? "];
+  
+  if[`playing<>.play.getStatus cd`bd;:"Rematch [Y/N] ? "];
 
   prompt:"Up/Left/Down/Right [W/A/S/D], Quit [Q], Menu [M]";  // Base prompt
 
