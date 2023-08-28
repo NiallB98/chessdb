@@ -44,7 +44,15 @@ system"l game/play/draw/showBoardUI.q";
  };
 
 .play.showPrompt:{[hasErrored;cd;csrd]
-  $[hasErrored;:"Quit [Q], Menu [M] ";not .play.isTurn cd;:""];
+  $[
+    hasErrored;:"Quit [Q], Menu [M] ";
+    not .play.isTurn cd;:$[
+      ""~cd`bd;"";
+      `playing<>.play.getStatus cd`bd;"Asking other player for a rematch",.play.getWaitingNum[]#".";
+      ""
+    ];
+    0
+  ];
 
   if[.play.isPromoting cd`bd;:"Promote to: Queen [Q], Rook [R], Bishop [B] ? "];
   
@@ -63,7 +71,7 @@ system"l game/play/draw/showBoardUI.q";
   :prompt;
  };
 
-.play.draw:{[cd;nd;csrd;logMsg;hasErrored]
+.play.draw:{[cd;nd;csrd;wins;logMsg;hasErrored]
   lvl:$[cd`isWhite;.play.level;.playFlipped.level];
 
   lvl:.play.showPiecestaken[lvl;cd`takenPcs];
@@ -71,7 +79,7 @@ system"l game/play/draw/showBoardUI.q";
   lvl:.play.showPieces[lvl;cd`bd;cd`isWhite];
   lvl:autoShowMsg[lvl;logMsg;"^";`];
   lvl:.play.showTurnNum[lvl;cd`bd];
-  lvl:.play.showWins[lvl;nd`other;(0;0)];  // Need to track wins
+  lvl:.play.showWins[lvl;nd`other;wins];  // Need to track wins
   lvl:.play.showBoardUI[lvl;cd;csrd];
 
   prompt:.play.showPrompt[hasErrored;cd;csrd];

@@ -70,3 +70,15 @@ system"l game/play/common/movePiece.q";
     `stalemate
   ];
  };
+
+.play.getScoreChange:{[board;isWhite]
+  status:.play.getStatus;
+  isWhitesTurn"w"~first(" " vs board)1;
+  isTurn:isWhite~isWhitesTurn;
+  
+  :$[
+    not[isTurn] and status~`checkmate;1 0;
+    isTurn and status~`checkmate;0 1;
+    0 0
+  ];
+ };

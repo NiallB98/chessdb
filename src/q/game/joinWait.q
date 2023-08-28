@@ -19,6 +19,7 @@ joinWait:{[params]  // Repeatedly queries the host address until it receives the
   gd[`params;`id]:params`id;
   gd[`params;`otherPName]:"";  // Will be assigned by the server
   gd[`params;`isWhite]:0b;     // Will be assigned by the server
+  gd[`params;`wins]:0 0;
 
   ip:vs[":";string gd[`params;`address]]1;
   portStr:vs[":";string gd[`params;`address]]2;
