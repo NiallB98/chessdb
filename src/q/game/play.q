@@ -54,7 +54,7 @@ play:{[params]
           cd[`turnDone]:0b; csrd[`pickSq]:-1; csrd[`pos]: -1;
     ];
 
-    if[(not ""~cd`bd) and not[hasErrored] and not .play.isTurn cd;  // If other player's turn (and not errored)
+    if[.play.canPlay[hasErrored;cd`bd] and not .play.isTurn cd;     // If other player's turn (and not errored)
       res:.play.getUpdate[qd;cd`bd;cd`takenPcs;cd`isWhite];
       hasErrored:not res 0; logMsg:res 1;
 
