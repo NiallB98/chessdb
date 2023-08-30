@@ -7,6 +7,10 @@ system"l game/play/postUpdate.q";
 system"l game/play/draw.q";
 system"l game/play/quitGame.q";
 
+.play.canPlay:{[hasErrored;bd]
+  :not[hasErrored] and not ""~bd;
+ };
+
 play:{[params]
   gd:`scene`params!(`play;()!());
 
@@ -58,7 +62,9 @@ play:{[params]
         cd[`bd]:res 2; cd[`takenPcs]:res 3; cd[`lastMove]:res 4; if[res 5;wins+:0 1]];
     ];
 
-    if[.play.isTurn[cd] and -1~csrd`pos;csrd[`pos]:$[cd`isWhite;63-11;11]];
+    if[(`playing~.play.getStatus cd`bd) and .play.isTurn[cd] and -1~csrd`pos;
+      csrd[`pos]:$[cd`isWhite;63-11;11];
+    ];
 
     .play.draw[cd;nd;csrd;wins;logMsg;hasErrored];
 
