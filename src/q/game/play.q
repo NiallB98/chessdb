@@ -8,7 +8,7 @@ system"l game/play/draw.q";
 system"l game/play/quitGame.q";
 
 .play.canPlay:{[hasErrored;bd]
-  :not[hasErrored] and not ""~bd;
+  :not[hasErrored] and not bd~"";
  };
 
 play:{[params]
