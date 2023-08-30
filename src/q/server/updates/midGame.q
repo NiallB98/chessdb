@@ -1,9 +1,11 @@
 START_BOARD:"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";  // Board uses FEN notation which holds all the information the player processes need to update the sections seperated by spaces represent: 1. piece positions, 2. turn taker, 3. available castling moves, 4. enpassant target square for opposite pawns to capture the pawn that just moved two squares, 5. number of halfmoves since the last capture or pawn advance, 6. number of the full moves
+START_BOARD:"4k3/R6R/8/8/8/8/8/R2QK3 w KQkq - 0 1";
 .mid.board:START_BOARD;                                                  // Board variable that is modified throught the game
 .mid.isComplete:0b;                                                      // When 1b the server knows to run the post-game updates
 .mid.wins:(`symbol$())!`long$();                                         // Tracks number of wins for both players
 .mid.takenPcs:("";"");
 .mid.lastMove:();
+.mid.resetOtherPlayer:0b;                                                // Tracks whether the server should reset the other player
 
 .mid.isActivePlayer:{[id]
   if[not .pre.isComplete[id];:0b];
@@ -45,7 +47,10 @@ START_BOARD:"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";  // Boar
   .log.debug"Player '",string[.subs.playerNames id],
            "' with handle [",string[.z.w],"] getting a mid-game update";
   
-  :(1b;`mid;.mid.board;.mid.takenPcs;.mid.lastMove);
+  doReset:.mid.resetOtherPlayer;
+  if[.mid.resetOtherPlayer;.mid.resetOtherPlayer:0b];
+
+  :(1b;`mid;.mid.board;.mid.takenPcs;.mid.lastMove;doReset);
  };
 
 .mid.postUpdate:{[id;res]  // For the players to send updates after they move
@@ -58,9 +63,23 @@ START_BOARD:"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";  // Boar
   .mid.updateLastMove lastMove;
  };
 
-.mid.startNew:{[]  // For the new game to start
-  .log.warn"Starting new game . . .";
-  system"l server/updates/midgame.q";
+.mid.startNew:{[id]  // For the new game to start
+  if[not verifyPlayer id;
+    .log.warn"Unverified instance tried to connect with handle [",string[.z.w],"]";
+    :(0b;"Unverified instance");
+  ];
+
+  .log.warn"Player '",string[.subs.playerNames id],
+          "' with handle [",string[.z.w],"] is starting a new game . . .";
+  
+  .mid.board:START_BOARD;
+  .mid.isComplete:0b;
+  .mid.wins:(`symbol$())!`long$();
+  .mid.takenPcs:("";"");
+  .mid.lastMove:();
+  .mid.resetOtherPlayer:1b;
+
   .pre.sides:key[.pre.sides]!reverse value .pre.sides;
+
   .log.info"New game started";
  };

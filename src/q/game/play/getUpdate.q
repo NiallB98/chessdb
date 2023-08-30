@@ -80,9 +80,9 @@
   gameStatus:.play.getStatus bdEnd;
 
   msg:$[
-    bdStart~bdEnd;(n#" "),"Waiting",(n:.play.getWaitingNum[])#".";
     gameStatus~`checkmate;"Checkmate";
     gameStatus~`stalemate;"Stalemate";
+    bdStart~bdEnd;(n#" "),"Waiting",(n:.play.getWaitingNum[])#".";
     .play.isChecked[bdEnd;isWhite];"You are checked!";
     .play.hasPromoted[bdStart;bdEnd;isWhite];.play.getPromotedMsg[bdStart;bdEnd;isWhite];
     not startTknPcs~endTknPcs;.play.getTknPcsMsg[startTknPcs;endTknPcs];
@@ -98,5 +98,10 @@
   
   if[not[first res] or not `mid~res 1;:(0b;"<Lost connection>")];  // If error has occurred, return 0b along with the error message (Max 20 characters to display fully)
 
-  :(1b;.play.generateMsg[board;res 2;isWhite;takenPcs;res 3;res 4];res 2;res 3;res 4);
+  otherPlayerWon:$[
+    first[res] and `mid~res 1;(`checkmate~.play.getStatus res 2)and not board~res 2;
+    0b
+  ];
+
+  :(1b;.play.generateMsg[board;res 2;isWhite;takenPcs;res 3;res 4];res 2;res 3;res 4;otherPlayerWon;res 5);
  };
