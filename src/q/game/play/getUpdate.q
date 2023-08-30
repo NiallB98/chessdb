@@ -103,5 +103,5 @@
     0b
   ];
 
-  :(1b;.play.generateMsg[board;res 2;isWhite;takenPcs;res 3;res 4];res 2;res 3;res 4;otherPlayerWon);
+  :(1b;.play.generateMsg[board;res 2;isWhite;takenPcs;res 3;res 4];res 2;res 3;res 4;otherPlayerWon;res 5);
  };

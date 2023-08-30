@@ -39,7 +39,7 @@ system"l game/play/turnLogic/getMoves/common/generalLimits.q";
 .tl.kingMoves:{[board;pickSq;isWhite]
   moves:.play.getMaxKingMoves pickSq;
 
-  moves:.tl.notMovesonFriendly[moves;board;0N!isWhite];
+  moves:.tl.notMovesonFriendly[moves;board;isWhite];
   moves:.tl.checkLimits[moves;board;pickSq;isWhite];
   
   moves:.king.addCastleMoves[moves;board;pickSq;isWhite];

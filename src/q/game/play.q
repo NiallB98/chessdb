@@ -11,6 +11,15 @@ system"l game/play/quitGame.q";
   :not[hasErrored] and not bd~"";
  };
 
+.play.restartGame:{[qd;params;wins;resetServer]
+  params[`wins]:wins;
+  params[`isWhite]:not params`isWhite;
+
+  if[resetServer;@[{x y}[qd`h];(`.mid.startNew;qd`id);()]];
+
+  :`scene`params!(`play;params);
+ };
+
 play:{[params]
   gd:`scene`params!(`play;()!());
 
@@ -28,13 +37,20 @@ play:{[params]
   while[`play~gd`scene;
     sts:.z.p;
 
-    input:$[hasErrored or .play.isTurn[cd];getInput[];""];          // Getting input if it is the player's turn or the server flagged an error
+    // Getting input if player's turn or error occurred
+    if[canInput:hasErrored or .play.isTurn[cd];
+      input:getInput[]];
+    if[not canInput;input:""];
 
-    $[                                                              // Checking standard input
-      not[.play.isPromoting cd`bd] and input~"q";:.play.quitGame[qd;hasErrored;`];
-      not[.play.isPromoting cd`bd] and input~"m";:.play.quitGame[qd;hasErrored;`menu]
+    // Checking standard input
+    if[not[.play.isPromoting cd`bd] and input~"q";:.play.quitGame[qd;hasErrored;`]];
+    if[not[.play.isPromoting cd`bd] and input~"m";:.play.quitGame[qd;hasErrored;`menu]];
+
+    if[not[hasErrored] and .play.isTurn[cd] and `playing<>.play.getStatus cd`bd;  // If checkmate or stalemate occurred and player can input
+      if[input~"y";:.play.restartGame[qd;params;wins;1b]];
+      if[input~"n";:.play.quitGame[qd;hasErrored;`menu]];
     ];
-  
+
     if[""~cd`bd;                                                    // If waiting to get initial board from server
       res:.play.initBoard[qd];
       hasErrored:not res 0; logMsg:res 1;
@@ -42,7 +58,7 @@ play:{[params]
       if[not hasErrored;cd[`bd]:res 2];
     ];
 
-    if[(not ""~cd`bd) and not[hasErrored] and .play.isTurn cd;      // If taking turn (and not errored)
+    if[.play.canPlay[hasErrored;cd`bd] and (`playing~.play.getStatus cd`bd) and .play.isTurn cd;         // If taking turn (and not errored)
       res:.play.turnLogic[input;cd;csrd];
       cd:res 0; csrd:res 1;
     ];
@@ -52,6 +68,8 @@ play:{[params]
           hasErrored:not res 0; logMsg:res 1;
 
           cd[`turnDone]:0b; csrd[`pickSq]:-1; csrd[`pos]: -1;
+
+          if[`checkmate~.play.getStatus cd`bd;wins+:1 0];
     ];
 
     if[.play.canPlay[hasErrored;cd`bd] and not .play.isTurn cd;     // If other player's turn (and not errored)
@@ -59,7 +77,9 @@ play:{[params]
       hasErrored:not res 0; logMsg:res 1;
 
       if[not hasErrored;
-        cd[`bd]:res 2; cd[`takenPcs]:res 3; cd[`lastMove]:res 4; if[res 5;wins+:0 1]];
+        cd[`bd]:res 2; cd[`takenPcs]:res 3; cd[`lastMove]:res 4; if[res 5;wins+:0 1];
+        if[res 6;:.play.restartGame[qd;params;wins;0b]];
+      ];
     ];
 
     if[(`playing~.play.getStatus cd`bd) and .play.isTurn[cd] and -1~csrd`pos;
@@ -68,7 +88,7 @@ play:{[params]
 
     .play.draw[cd;nd;csrd;wins;logMsg;hasErrored];
 
-    if[(""~cd`bd) or not[hasErrored] and not .play.isTurn cd;limitFPS sts];
+    if[input~"";limitFPS sts];
   ];
 
   :gd;

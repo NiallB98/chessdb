@@ -62,6 +62,8 @@ system"l game/play/common/movePiece.q";
  };
 
 .play.getStatus:{[board]
+  if[board~"";:`starting];
+
   isWhitesTurn:"w"~first(" " vs board)1;
 
   :$[
