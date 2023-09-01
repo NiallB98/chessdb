@@ -14,8 +14,8 @@ getInput:{
  };
 
 limitFPS:{[sts]
-  ts:max(%[1;FPS]-(.z.p-sts)%1e9;0);
-  system"sleep ",string ts;
+  ts:sts+`time$1e3%FPS;
+  {t:.z.p;while[.z.p<x]}ts;
  };
 
 draw:{[lvl;prompt]
