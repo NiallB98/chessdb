@@ -12,6 +12,8 @@ system"l server/removePlayer.q";
 system"l server/updates.q";
 system"l server/timeout.q";
 
+reset:.eu.reset;  // Makes it easier to type when wanting to reset the server manually
+
 .z.ts:{[]
   .timeout.checkPlayerTimeouts[];
   .eu.resetOnEmpty[];
