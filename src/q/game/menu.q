@@ -30,7 +30,7 @@
 menu:{[params]
   gd:`scene`params!(`menu;()!());
 
-  selections:`join`howTo`;
+  selections:`join`;
   selected:0;
 
   .menu.draw[selected];                                                                             // Initial draw step

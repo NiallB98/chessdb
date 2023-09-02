@@ -7,16 +7,6 @@ loadHowToData:{[dir;fileStr]
   :"\n" sv read0`$":",tgt;
  };
 
-loadHowToSections:{[]
-  dir:"../../resources/levels/howTo/";
-  files:key`$":",dir;
-  sections:`$_[-4]each string files;
-
-  data:loadHowToData[dir]each string files;
-  
-  .howTo.sections:sections!data;
- };
-
 loadLevel:{[lvl]
   file:"../../resources/levels/",string[lvl],".txt";
 
@@ -29,7 +19,6 @@ loadLevels:{
   -1"Loading level data . . .";
 
   loadLevel each LEVELS;
-  loadHowToSections[];
 
   -1"All level data loaded";
  };

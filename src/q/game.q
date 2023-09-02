@@ -1,4 +1,3 @@
-system"l game/howTo.q";
 system"l game/joinCfg.q";
 system"l game/joinWait.q";
 system"l game/menu.q";
@@ -13,7 +12,6 @@ game:{[]
 
   while[`<>gameDict`scene;
     gameDict:$[
-      `howTo~        gameDict`scene;howTo[gameDict`params];
       `joinCfg~      gameDict`scene;joinCfg[gameDict`params];
       `joinWait~     gameDict`scene;joinWait[gameDict`params];
       `menu~         gameDict`scene;menu[gameDict`params];
