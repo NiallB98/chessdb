@@ -22,10 +22,20 @@ system"l server/timeout.q";
   :value qry;
  };
 
+getPublicIPStr:{[]
+  ipStr:raze system"bash ../sh/getPublicIP.sh";
+  isValidIP:raze["1"]~raze system"bash ../sh/verifyIP.sh ",ipStr;
+  $[
+    isValidIP;:ipStr;
+    :"<Failed to get public IP address>"
+  ];
+ };
+
 run:{[]  // Runs on the startup of the server
   .log.info"Chessdb+ server started on:";
-  -1"- IP:    ","." sv string"i"$0x0 vs .z.a;
-  -1"- Port:  ",string[value"\\p"],"\n";
+  -1"- Public IP:   ",getPublicIPStr[];
+  -1"- Local IP:    ","." sv string"i"$0x0 vs .z.a;
+  -1"- Local Port:  ",string[value"\\p"],"\n";
   value"\\t ",string UPDATE_INTERVAL_MS;
  };
 
