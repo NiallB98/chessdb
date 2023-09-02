@@ -1,5 +1,5 @@
 # ChessDB
-A text-based multiplayer chess game written in the Kx System's (https://kx.com/) programming language Q
+A text-based multiplayer chess game written in Kx System's (https://kx.com/) programming language Q
 
 ---
 
