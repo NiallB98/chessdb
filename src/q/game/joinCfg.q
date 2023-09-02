@@ -17,7 +17,7 @@ joinCfg:{[params]
 
   confirmed:0b;
 
-  port:25565;
+  port:value getenv`DEFAULT_PORT;
   ip:"." sv string"i"$0x0 vs .z.a;
   id:`;
 

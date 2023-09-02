@@ -2,7 +2,6 @@
 
 # This script takes the port of the server as an argument, though a default port number is set if one isn't passed
 
-DEFAULT_PORT=25565
 RUN_SCRIPT_DIR=$(cd -- "$( dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 MAIN_SCRIPT_DIR="${RUN_SCRIPT_DIR}/src/q"
 PAUSE_ON_END="true";
