@@ -16,6 +16,7 @@ Clicking `run.sh` will start a client process for playing the game, to join a se
 To play a game hosted on another network port forwarding may be necessary on the host network (Search "How to port forward" for more information)
 
 ## Tips
+- If `run.sh` and `start_server.sh` cannot start Q you may need to edit the Q_CMD override variable in `config.env` to a command that works on your machine
 - To reset the server you can execute `reset[]` in its console
 - When typing in the server IP address you can enter `localhost` or `.z.a` to easily set the IP to your local address
 - You can move the game cursor out of bounds to wrap it around to the other side of the board
