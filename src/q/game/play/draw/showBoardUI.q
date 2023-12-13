@@ -1,7 +1,7 @@
 .play.showCheck:{[lvl;board;isWhite]
-  bd:.play.getBoard1D board;
+  bd:.common.game.getBoard1D board;
 
-  if[.play.isChecked[board;1b];  // If white king is checked
+  if[.common.play.isChecked[board;1b];  // If white king is checked
     pos:first bd ss WHITE_KING_CHAR;
     if[not isWhite;pos:63-pos];
 
@@ -9,7 +9,7 @@
     lvl[indices]:value CHECK_CHAR_DICT;
   ];
 
-  if[.play.isChecked[board;0b];  // If black king is checked
+  if[.common.play.isChecked[board;0b];  // If black king is checked
     pos:first bd ss BLACK_KING_CHAR;
     if[not isWhite;pos:63-pos];
 

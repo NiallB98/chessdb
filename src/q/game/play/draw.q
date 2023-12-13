@@ -9,7 +9,7 @@ system"l game/play/draw/showBoardUI.q";
     :lvl;
   ];
 
-  board1D:$[isWhite;.play.getBoard1D board;reverse .play.getBoard1D board];
+  board1D:$[isWhite;.common.game.getBoard1D board;reverse .common.game.getBoard1D board];
 
   sqs:{$[x~" ";y;x]}'[board1D;emptySqChars];
   lvl[indices]:sqs;
@@ -46,23 +46,23 @@ system"l game/play/draw/showBoardUI.q";
 .play.showPrompt:{[hasErrored;cd;csrd]
   $[
     hasErrored;:"Quit [Q], Menu [M] ";
-    not .play.isTurn cd;:$[
+    not .common.play.isTurn cd;:$[
       ""~cd`bd;"";
-      `playing<>.play.getStatus cd`bd;"Asking other player for a rematch",.play.getWaitingNum[]#".";
+      `playing<>.common.play.getStatus cd`bd;"Asking other player for a rematch",.play.getWaitingNum[]#".";
       ""
     ];
     0
   ];
 
-  if[.play.isPromoting cd`bd;:"Promote to: Queen [Q], Rook [R], Bishop [B] ? "];
+  if[.common.play.isPromoting cd`bd;:"Promote to: Queen [Q], Rook [R], Bishop [B] ? "];
   
-  if[`playing<>.play.getStatus cd`bd;:"Rematch [Y/N] ? "];
+  if[`playing<>.common.play.getStatus cd`bd;:"Rematch [Y/N] ? "];
 
   prompt:"Up/Left/Down/Right [W/A/S/D], Quit [Q], Menu [M]";  // Base prompt
 
   prompt,:$[
     csrd[`pos]~csrd`pickSq;", Deselect [E] ";
-    .play.isOwnedPiece[cd`bd;csrd`pos;cd`isWhite];", Select [E] ";
+    .common.play.isOwnedPiece[cd`bd;csrd`pos;cd`isWhite];", Select [E] ";
     -1~csrd`pickSq;" ";
     csrd[`pos] in csrd`moves;", Move [E] ";
     ", Deselect [E] "
@@ -75,7 +75,7 @@ system"l game/play/draw/showBoardUI.q";
   lvl:$[cd`isWhite;.play.level;.playFlipped.level];
 
   lvl:.play.showPiecestaken[lvl;cd`takenPcs];
-  lvl:.play.showTurnTaker[lvl;.play.isTurn[cd];nd`other];
+  lvl:.play.showTurnTaker[lvl;.common.play.isTurn[cd];nd`other];
   lvl:.play.showPieces[lvl;cd`bd;cd`isWhite];
   lvl:autoShowMsg[lvl;logMsg;"^";`];
   lvl:.play.showTurnNum[lvl;cd`bd];

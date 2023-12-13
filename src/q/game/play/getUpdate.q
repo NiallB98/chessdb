@@ -1,8 +1,8 @@
 .play.waitingNum:0;
 
 .play.getPromotedMsg:{[bdStart;bdEnd;isWhite]
-  bdStart1D:.play.getBoard1D bdStart;
-  bdEnd1D:.play.getBoard1D bdEnd;
+  bdStart1D:.common.game.getBoard1D bdStart;
+  bdEnd1D:.common.game.getBoard1D bdEnd;
 
   case:$[not isWhite;upper;lower];  // What case the other player's pieces are
 
@@ -16,8 +16,8 @@
  };
 
 .play.hasPromoted:{[bdStart;bdEnd;isWhite]
-  bdStart1D:.play.getBoard1D bdStart;
-  bdEnd1D:.play.getBoard1D bdEnd;
+  bdStart1D:.common.game.getBoard1D bdStart;
+  bdEnd1D:.common.game.getBoard1D bdEnd;
 
   case:$[not isWhite;upper;lower];  // What case the other player's pieces are
 
@@ -37,7 +37,7 @@
 .play.getMovedPieceMsg:{[board;lastMove]
   if[0~count lastMove;:""];  // Only possible on the first turn for the waiting player, this won't show anyway
 
-  bd:.play.getBoard1D board;
+  bd:.common.game.getBoard1D board;
   piece:bd[last lastMove];
 
   pieceStr:("Pawn";"Knight";"Bishop";"Rook";"Queen";"King")first where "pnbrqk"=lower piece;
@@ -64,7 +64,7 @@
 .play.hasCastled:{[bdEnd;lastMove]
   if[0~count lastMove;:0b];
 
-  bd:.play.getBoard1D bdEnd;
+  bd:.common.game.getBoard1D bdEnd;
 
   piece:lower bd[last lastMove];
   moveLen:abs last[lastMove]-first lastMove;
@@ -77,13 +77,13 @@
  };
 
 .play.generateMsg:{[bdStart;bdEnd;isWhite;startTknPcs;endTknPcs;lastMove]
-  gameStatus:.play.getStatus bdEnd;
+  gameStatus:.common.play.getStatus bdEnd;
 
   msg:$[
     gameStatus~`checkmate;"Checkmate";
     gameStatus~`stalemate;"Stalemate";
     bdStart~bdEnd;(n#" "),"Waiting",(n:.play.getWaitingNum[])#".";
-    .play.isChecked[bdEnd;isWhite];"You are checked!";
+    .common.play.isChecked[bdEnd;isWhite];"You are checked!";
     .play.hasPromoted[bdStart;bdEnd;isWhite];.play.getPromotedMsg[bdStart;bdEnd;isWhite];
     not startTknPcs~endTknPcs;.play.getTknPcsMsg[startTknPcs;endTknPcs];
     .play.hasCastled[bdEnd;lastMove];.play.getCastledMsg[lastMove];
@@ -99,7 +99,7 @@
   if[not[first res] or not `mid~res 1;:(0b;"<Lost connection>")];  // If error has occurred, return 0b along with the error message (Max 20 characters to display fully)
 
   otherPlayerWon:$[
-    first[res] and `mid~res 1;(`checkmate~.play.getStatus res 2)and not board~res 2;
+    first[res] and `mid~res 1;(`checkmate~.common.play.getStatus res 2)and not board~res 2;
     0b
   ];
 

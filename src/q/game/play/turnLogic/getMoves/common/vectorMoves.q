@@ -15,8 +15,8 @@
 
 .tl.addDiagonalMoves:{[moves;board;pickSq;isWhite]
   sidechars:$[isWhite;WHITE_PIECES;BLACK_PIECES];
-  xy:.play.get2DPos pickSq;
-  board1D:.play.getBoard1D board;
+  xy:.common.play.get2DPos pickSq;
+  board1D:.common.game.getBoard1D board;
 
   moves:.tl.genVectorMoves[moves;board1D;sidechars;xy;(1,1)];
   moves:.tl.genVectorMoves[moves;board1D;sidechars;xy;(1,-1)];
@@ -28,8 +28,8 @@
 
 .tl.addOrthogonalMoves:{[moves;board;pickSq;isWhite]
   sidechars:$[isWhite;WHITE_PIECES;BLACK_PIECES];
-  xy:.play.get2DPos pickSq;
-  board1D:.play.getBoard1D board;
+  xy:.common.play.get2DPos pickSq;
+  board1D:.common.game.getBoard1D board;
 
   moves:.tl.genVectorMoves[moves;board1D;sidechars;xy;(1,0)];
   moves:.tl.genVectorMoves[moves;board1D;sidechars;xy;(0,1)];

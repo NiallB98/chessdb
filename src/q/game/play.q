@@ -38,15 +38,15 @@ play:{[params]
     sts:.z.p;
 
     // Getting input if player's turn or error occurred
-    if[canInput:hasErrored or .play.isTurn[cd];
+    if[canInput:hasErrored or .common.play.isTurn[cd];
       input:getInput[]];
     if[not canInput;input:""];
 
     // Checking standard input
-    if[not[.play.isPromoting cd`bd] and input~"q";:.play.quitGame[qd;hasErrored;`]];
-    if[not[.play.isPromoting cd`bd] and input~"m";:.play.quitGame[qd;hasErrored;`menu]];
+    if[not[.common.play.isPromoting cd`bd] and input~"q";:.play.quitGame[qd;hasErrored;`]];
+    if[not[.common.play.isPromoting cd`bd] and input~"m";:.play.quitGame[qd;hasErrored;`menu]];
 
-    if[not[hasErrored] and .play.isTurn[cd] and `playing<>.play.getStatus cd`bd;  // If checkmate or stalemate occurred and player can input
+    if[not[hasErrored] and .common.play.isTurn[cd] and `playing<>.common.play.getStatus cd`bd;  // If checkmate or stalemate occurred and player can input
       if[input~"y";:.play.restartGame[qd;params;wins;1b]];
       if[input~"n";:.play.quitGame[qd;hasErrored;`menu]];
     ];
@@ -58,7 +58,7 @@ play:{[params]
       if[not hasErrored;cd[`bd]:res 2];
     ];
 
-    if[.play.canPlay[hasErrored;cd`bd] and (`playing~.play.getStatus cd`bd) and .play.isTurn cd;         // If taking turn (and not errored)
+    if[.play.canPlay[hasErrored;cd`bd] and (`playing~.common.play.getStatus cd`bd) and .common.play.isTurn cd;         // If taking turn (and not errored)
       res:.play.turnLogic[input;cd;csrd];
       cd:res 0; csrd:res 1;
     ];
@@ -69,10 +69,10 @@ play:{[params]
 
           cd[`turnDone]:0b; csrd[`pickSq]:-1; csrd[`pos]: -1;
 
-          if[`checkmate~.play.getStatus cd`bd;wins+:1 0];
+          if[`checkmate~.common.play.getStatus cd`bd;wins+:1 0];
     ];
 
-    if[.play.canPlay[hasErrored;cd`bd] and not .play.isTurn cd;     // If other player's turn (and not errored)
+    if[.play.canPlay[hasErrored;cd`bd] and not .common.play.isTurn cd;     // If other player's turn (and not errored)
       res:.play.getUpdate[qd;cd`bd;cd`takenPcs;cd`isWhite];
       hasErrored:not res 0; logMsg:res 1;
 
@@ -82,7 +82,7 @@ play:{[params]
       ];
     ];
 
-    if[(`playing~.play.getStatus cd`bd) and .play.isTurn[cd] and -1~csrd`pos;
+    if[(`playing~.common.play.getStatus cd`bd) and .common.play.isTurn[cd] and -1~csrd`pos;
       csrd[`pos]:$[cd`isWhite;63-11;11];
     ];
 

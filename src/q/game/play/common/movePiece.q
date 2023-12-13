@@ -1,4 +1,4 @@
-.play.rmCastle:{[castleStr;isWhite;side]
+.common.play.rmCastle:{[castleStr;isWhite;side]
   rmstr:$[
     side~`;$[isWhite;"KQ";"kq"];
     side~`k;$[isWhite;"K";"q"];
@@ -12,19 +12,19 @@
   :castleStr;
  };
 
-.play.updateCastle:{[bd;castleStr;movePiece;startPos;endPos]
+.common.play.updateCastle:{[bd;castleStr;movePiece;startPos;endPos]
   isWhite:movePiece in WHITE_PIECES;
 
   $[
-    (startPos~0) and movePiece~"r";castleStr:.play.rmCastle[castleStr;isWhite;`q];
-    (startPos~7) and movePiece~"r";castleStr:.play.rmCastle[castleStr;isWhite;`k];
-    (startPos~56) and movePiece~"R";castleStr:.play.rmCastle[castleStr;isWhite;`q];
-    (startPos~63) and movePiece~"R";castleStr:.play.rmCastle[castleStr;isWhite;`k]
+    (startPos~0) and movePiece~"r";castleStr:.common.play.rmCastle[castleStr;isWhite;`q];
+    (startPos~7) and movePiece~"r";castleStr:.common.play.rmCastle[castleStr;isWhite;`k];
+    (startPos~56) and movePiece~"R";castleStr:.common.play.rmCastle[castleStr;isWhite;`q];
+    (startPos~63) and movePiece~"R";castleStr:.common.play.rmCastle[castleStr;isWhite;`k]
   ];
 
   if["k"<>lower movePiece;:(bd;castleStr)];
 
-  castleStr:.play.rmCastle[castleStr;isWhite;`];
+  castleStr:.common.play.rmCastle[castleStr;isWhite;`];
 
   if[2<>abs startPos-endPos;:(bd;castleStr)];
 
@@ -41,7 +41,7 @@
   :(bd;castleStr);
  };
 
-.play.updateEnpass:{[movePiece;startPos;endPos]
+.common.play.updateEnpass:{[movePiece;startPos;endPos]
   if["p"<>lower movePiece;:raze"-"];
   if[16<>abs startPos-endPos;:raze"-"];
 
@@ -52,7 +52,7 @@
   :x,y;
  };
 
-.play.getEnpassPiece:{[bd;enpassStr]
+.common.play.getEnpassPiece:{[bd;enpassStr]
   if[first[enpassStr]~"-";:" "];
 
   tgtX:first where (`$first enpassStr)=`a`b`c`d`e`f`g`h;
@@ -61,7 +61,7 @@
   :bd tgtX+8*tgtY;
  };
 
-.play.rmEnpassPiece:{[bd;enpassStr]
+.common.play.rmEnpassPiece:{[bd;enpassStr]
   tgtX:first where (`$first enpassStr)=`a`b`c`d`e`f`g`h;
   tgtY:$["3"~last enpassStr;4;3];
 
@@ -70,8 +70,8 @@
   :bd;
  };
 
-.play.isEnpassCapture:{[bd;enpassStr;movePiece;startPos;endPos]
-  if[" "~.play.getEnpassPiece[bd;enpassStr];:0b];
+.common.play.isEnpassCapture:{[bd;enpassStr;movePiece;startPos;endPos]
+  if[" "~.common.play.getEnpassPiece[bd;enpassStr];:0b];
   if["p"<>lower movePiece;:0b];
   if[not abs[endPos-startPos] in 7 9;:0b];
 
@@ -81,8 +81,8 @@
   :endPos~tgtX+8*tgtY;
  };
 
-.play.movePiece:{[board;startPos;endPos]
-  bd:.play.getBoard1D board;
+.common.play.movePiece:{[board;startPos;endPos]
+  bd:.common.game.getBoard1D board;
 
   splitBd:" " vs board;
   sideStr:splitBd 1;
@@ -93,25 +93,25 @@
 
   movePiece:bd[startPos];
   takenPiece:$[
-    .play.isEnpassCapture[bd;enpassStr;movePiece;startPos;endPos];
-      .play.getEnpassPiece[bd;enpassStr];
+    .common.play.isEnpassCapture[bd;enpassStr;movePiece;startPos;endPos];
+      .common.play.getEnpassPiece[bd;enpassStr];
     bd[endPos]
   ];
 
   bd[startPos]:" ";
   bd[endPos]:movePiece;
-  if[.play.isEnpassCapture[bd;enpassStr;movePiece;startPos;endPos];
-    bd:.play.rmEnpassPiece[bd;enpassStr];
+  if[.common.play.isEnpassCapture[bd;enpassStr;movePiece;startPos;endPos];
+    bd:.common.play.rmEnpassPiece[bd;enpassStr];
   ];
 
   sideStr:raze $[first[sideStr]~"w";"b";"w"];                                             // Switching sides
-  res:.play.updateCastle[bd;castleStr;movePiece;startPos;endPos];                         // Update castling if it happened (If castling also move rook)
+  res:.common.play.updateCastle[bd;castleStr;movePiece;startPos;endPos];                         // Update castling if it happened (If castling also move rook)
   bd:res 0; castleStr: res 1;
-  enpassStr:.play.updateEnpass[movePiece;startPos;endPos];                                // Update enpassant square if it needs to change
+  enpassStr:.common.play.updateEnpass[movePiece;startPos;endPos];                                // Update enpassant square if it needs to change
   halfTurnStr:raze $[(movePiece~"p") or takenPiece<>" ";"0";string 1+value halfTurnStr];  // Update half turns since last pawn move or piece capture
   fullTurnStr:$[first[sideStr]~"w";string 1+value fullTurnStr;fullTurnStr];               // Update full move if new sideStr is white (ie. black just moved)
 
-  board:" " sv (.play.fmtBoard1D bd;sideStr;castleStr;enpassStr;halfTurnStr;fullTurnStr);
+  board:" " sv (.common.play.fmtBoard1D bd;sideStr;castleStr;enpassStr;halfTurnStr;fullTurnStr);
 
   :(board;takenPiece);
  };

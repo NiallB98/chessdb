@@ -1,6 +1,6 @@
 .tl.doesNotCheckSelf:{[board;isWhite;startPos;endPos]
-  bd:first .play.movePiece[board;startPos;endPos];
-  :not .play.isChecked[bd;isWhite];
+  bd:first .common.play.movePiece[board;startPos;endPos];
+  :not .common.play.isChecked[bd;isWhite];
  };
 
 .tl.checkLimits:{[moves;board;pickSq;isWhite]

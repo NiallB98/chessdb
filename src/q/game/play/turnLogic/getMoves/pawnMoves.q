@@ -2,7 +2,7 @@ system"l game/play/turnLogic/getMoves/common/checkLimits.q";
 
 .pawn.addBasicMove:{[moves;board;pickSq;isWhite]
   excludeChars:WHITE_PIECES,BLACK_PIECES;
-  bd:.play.getBoard1D board;
+  bd:.common.game.getBoard1D board;
   moveSq:$[isWhite;pickSq-8;pickSq+8];
 
   :$[(moveSq div 8) within 0 7;$[bd[moveSq] in excludeChars;moves;moves,moveSq];moves];
@@ -16,7 +16,7 @@ system"l game/play/turnLogic/getMoves/common/checkLimits.q";
   tgtX:x + (1, -1);
   tgtY:y + sign * 2#-1;
 
-  bd:.play.getBoard1D board;
+  bd:.common.game.getBoard1D board;
 
   :raze moves,{[bd;isWhite;x;y]
     if[any not within[;0 7]each x,y;:()];
@@ -37,7 +37,7 @@ system"l game/play/turnLogic/getMoves/common/checkLimits.q";
   tgtX:x + (1, -1);
   tgtY:y + sign * 2#-1;
 
-  bd:.play.getBoard1D board;
+  bd:.common.game.getBoard1D board;
   enpassStr:(" " vs board)3;
 
   :raze moves,{[bd;enpassStr;x;y]
@@ -52,7 +52,7 @@ system"l game/play/turnLogic/getMoves/common/checkLimits.q";
 
 .pawn.addDoubleMove:{[moves;board;pickSq;isWhite]
   excludeChars:WHITE_PIECES,BLACK_PIECES;
-  bd:.play.getBoard1D board;
+  bd:.common.game.getBoard1D board;
   moveSq:$[isWhite;pickSq-16;pickSq+16];
 
   :$[

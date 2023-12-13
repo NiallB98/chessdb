@@ -2,7 +2,7 @@ system"l game/play/turnLogic/getMoves/common/checkLimits.q";
 system"l game/play/turnLogic/getMoves/common/generalLimits.q";
 
 .king.addCastleMoves:{[moves;board;pickSq;isWhite]
-  if[.play.isChecked[board;isWhite];:moves];  // Cannot castle if checked
+  if[.common.play.isChecked[board;isWhite];:moves];  // Cannot castle if checked
 
   castleStr:(" " vs board)2;
 
@@ -37,7 +37,7 @@ system"l game/play/turnLogic/getMoves/common/generalLimits.q";
  };
 
 .tl.kingMoves:{[board;pickSq;isWhite]
-  moves:.play.getMaxKingMoves pickSq;
+  moves:.common.play.getMaxKingMoves pickSq;
 
   moves:.tl.notMovesonFriendly[moves;board;isWhite];
   moves:.tl.checkLimits[moves;board;pickSq;isWhite];

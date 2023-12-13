@@ -7,7 +7,7 @@ system"l game/play/turnLogic/getMoves/kingMoves.q";
 
 
 .tl.getPiece:{[board;pos]
-  bd:.play.getBoard1D[board];
+  bd:.common.game.getBoard1D[board];
   :bd[pos];
  };
 
