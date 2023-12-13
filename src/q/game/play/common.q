@@ -13,7 +13,7 @@ system"l game/play/common/movePiece.q";
 .common.play.isTurn:{[cd]
   if[.common.play.isPromoting cd`bd;:1b];
 
-  :$[cd[`bd]~"";0b;cd[`isWhite]~"w"~first vs[" ";cd`bd]1];
+  :$[cd[`bd]~"";0b;cd[`isWhite]~.common.game.isWhiteTurn cd`bd];
  };
 
 .common.play.fmtBoard1D:{[board1D]
@@ -45,11 +45,11 @@ system"l game/play/common/movePiece.q";
 .common.play.getStatus:{[board]
   if[board~"";:`starting];
 
-  isWhitesTurn:"w"~first(" " vs board)1;
+  isWTurn:.common.game.isWhiteTurn board;
 
   :$[
-    .common.play.canMakeMove[board;isWhitesTurn];`playing;
-    .common.play.isChecked[board;isWhitesTurn];`checkmate;
+    .common.play.canMakeMove[board;isWTurn];`playing;
+    .common.play.isChecked[board;isWTurn];`checkmate;
     `stalemate
   ];
  };

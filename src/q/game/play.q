@@ -1,4 +1,4 @@
-system"l game/play/constants.q";
+system"l game/constants.q";
 system"l game/play/common.q";
 system"l game/play/turnLogic.q";
 system"l game/play/initBoard.q";

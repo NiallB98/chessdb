@@ -13,3 +13,7 @@
 .common.game.getBoard1D:{[board]
   :raze .common.game.getBoard2D[board];
  };
+
+.common.game.isWhiteTurn:{[board]
+  :"w"~first vs[" ";board]1;
+ };
