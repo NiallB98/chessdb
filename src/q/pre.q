@@ -49,5 +49,5 @@ pre:{
   indexGameBoard[];
 
   -1"Starting game . . .";
-  cls[];
+  .common.cls[];
  };

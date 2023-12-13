@@ -24,7 +24,7 @@ joinCfg:{[params]
   .joinCfg.draw[selections;selected;msg;ip;port];
 
   while[`joinCfg~gd`scene;
-    input:getFullInput[];
+    input:.common.getFullInput[];
     $[
       "q"~lower last input;:.game.quitDict;
       "m"~lower last input;:.game.menuDict

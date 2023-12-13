@@ -39,7 +39,7 @@ play:{[params]
 
     // Getting input if player's turn or error occurred
     if[canInput:hasErrored or .common.play.isTurn[cd];
-      input:getInput[]];
+      input:.common.getInput[]];
     if[not canInput;input:""];
 
     // Checking standard input
@@ -88,7 +88,7 @@ play:{[params]
 
     .play.draw[cd;nd;csrd;wins;logMsg;hasErrored];
 
-    if[input~"";limitFPS sts];
+    if[input~"";.common.limitFPS sts];
   ];
 
   :gd;

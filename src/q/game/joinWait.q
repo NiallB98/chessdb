@@ -2,14 +2,14 @@ system"l game/joinWait/getUpdate.q";
 
 .joinWait.draw:{[loadStr;ip;portStr;msg;hasErrored]
   lvl:.joinWait.level;
-  lvl:autoShowMsg[lvl;loadStr;"@";`left];
-  lvl:autoShowMsg[lvl;ip;"#";`left];
-  lvl:autoShowMsg[lvl;portStr;"$";`left];
-  lvl:autoShowMsg[lvl;msg;"&";`];
+  lvl:.common.levelEdit.autoShowMsg[lvl;loadStr;"@";`left];
+  lvl:.common.levelEdit.autoShowMsg[lvl;ip;"#";`left];
+  lvl:.common.levelEdit.autoShowMsg[lvl;portStr;"$";`left];
+  lvl:.common.levelEdit.autoShowMsg[lvl;msg;"&";`];
 
   prompt:$[hasErrored;"Quit [Q], Menu [M] ";""];
 
-  draw[lvl;prompt];
+  .common.draw[lvl;prompt];
  };
 
 joinWait:{[params]  // Repeatedly queries the host address until it receives the other player's name and what colour to start as
@@ -35,7 +35,7 @@ joinWait:{[params]  // Repeatedly queries the host address until it receives the
     sts:.z.p;
 
     if[hasErrored;  // If an error occurred when trying to query the server, allow user input
-      input:getInput[];
+      input:.common.getInput[];
       $[
         input~"q";:.game.quitDict;
         input~"m";:.game.menuDict
@@ -61,7 +61,7 @@ joinWait:{[params]  // Repeatedly queries the host address until it receives the
 
     .joinWait.draw[loadProg#".";ip;portStr;msg;hasErrored];
 
-    if[not hasErrored;limitFPS sts];  // Prevents too much refreshing
+    if[not hasErrored;.common.limitFPS sts];  // Prevents too much refreshing
   ];
 
   :gd;

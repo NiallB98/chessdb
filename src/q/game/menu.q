@@ -16,15 +16,15 @@
  };
 
 .menu.showSelection:{[lvl;selected]
-  lvl:replaceOne[lvl;"%";">";selected;" "];
-  :replaceOne[lvl;"@";"<";selected;" "];
+  lvl:.common.levelEdit.replaceOne[lvl;"%";">";selected;" "];
+  :.common.levelEdit.replaceOne[lvl;"@";"<";selected;" "];
  };
 
 .menu.draw:{[selected]
   lvl:.menu.level;
   lvl:.menu.showSelection[lvl;selected];
 
-  draw[lvl;"Up/Down [W/S], Quit [Q], Select [E] "];
+  .common.draw[lvl;"Up/Down [W/S], Quit [Q], Select [E] "];
  };
 
 menu:{[params]
@@ -36,7 +36,7 @@ menu:{[params]
   .menu.draw[selected];                                                                             // Initial draw step
   
   while[`menu~gd`scene;
-    input:getInput[];
+    input:.common.getInput[];
     if[input~"q";:.game.quitDict];
 
     res:.menu.logic[input;selections;selected];

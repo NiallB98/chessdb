@@ -19,26 +19,26 @@ system"l game/play/draw/showBoardUI.q";
 
 .play.showTurnTaker:{[lvl;isTurn;otherPName]
   msg:$[isTurn;"Your";otherPName,"'s"];
-  :autoShowMsg[lvl;msg;"`";`];
+  :.common.levelEdit.autoShowMsg[lvl;msg;"`";`];
  };
 
 .play.showPiecestaken:{[lvl;takenPcs]
-  lvl:showMsg[lvl;asc takenPcs 0;16#"w";`];
-  lvl:showMsg[lvl;asc takenPcs 1;16#"b";`];
+  lvl:.common.levelEdit.showMsg[lvl;asc takenPcs 0;16#"w";`];
+  lvl:.common.levelEdit.showMsg[lvl;asc takenPcs 1;16#"b";`];
 
   :lvl;
  };
 
 .play.showTurnNum:{[lvl;board]
   msg:"Turn number: ",last " " vs board;
-  :showMsg[lvl;msg;20#"T";`];
+  :.common.levelEdit.showMsg[lvl;msg;20#"T";`];
  };
 
 .play.showWins:{[lvl;otherPName;wins]
-  lvl:showMsg[lvl;"You:";20#"P";`];
-  lvl:showMsg[lvl;string first wins;18#"!";`];
-  lvl:showMsg[lvl;otherPName,":";20#"p";`];
-  lvl:showMsg[lvl;string last wins;18#";";`];
+  lvl:.common.levelEdit.showMsg[lvl;"You:";20#"P";`];
+  lvl:.common.levelEdit.showMsg[lvl;string first wins;18#"!";`];
+  lvl:.common.levelEdit.showMsg[lvl;otherPName,":";20#"p";`];
+  lvl:.common.levelEdit.showMsg[lvl;string last wins;18#";";`];
 
   :lvl;
  };
@@ -77,12 +77,12 @@ system"l game/play/draw/showBoardUI.q";
   lvl:.play.showPiecestaken[lvl;cd`takenPcs];
   lvl:.play.showTurnTaker[lvl;.common.play.isTurn[cd];nd`other];
   lvl:.play.showPieces[lvl;cd`bd;cd`isWhite];
-  lvl:autoShowMsg[lvl;logMsg;"^";`];
+  lvl:.common.levelEdit.autoShowMsg[lvl;logMsg;"^";`];
   lvl:.play.showTurnNum[lvl;cd`bd];
   lvl:.play.showWins[lvl;nd`other;wins];  // Need to track wins
   lvl:.play.showBoardUI[lvl;cd;csrd];
 
   prompt:.play.showPrompt[hasErrored;cd;csrd];
 
-  draw[lvl;prompt];
+  .common.draw[lvl;prompt];
  };

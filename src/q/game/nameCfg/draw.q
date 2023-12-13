@@ -2,17 +2,17 @@
   tgtChar:"&";
 
   :$[
-    not isEditing;autoShowMsg[lvl;"Confirm? [Y/N]";tgtChar;`];
-    autoShowMsg[lvl;"";tgtChar;`]
+    not isEditing;.common.levelEdit.autoShowMsg[lvl;"Confirm? [Y/N]";tgtChar;`];
+    .common.levelEdit.autoShowMsg[lvl;"";tgtChar;`]
   ];
  };
 
 .nameCfg.draw:{[pName;isEditing]
   lvl:.nameCfg.level;
-  lvl:autoShowMsg[lvl;pName;"@";`];
+  lvl:.common.levelEdit.autoShowMsg[lvl;pName;"@";`];
   lvl:.nameCfg.showMsg[lvl;isEditing];
 
   prompt:$[isEditing;"> ";"Quit [Q], Menu [M], Yes [Y], No [N] "];
 
-  draw[lvl;prompt];
+  .common.draw[lvl;prompt];
  };

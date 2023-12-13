@@ -6,7 +6,7 @@ system"l game/nameCfg/draw.q";
 
 .nameCfg.isValidName:{[input]
   input:trim raze input;
-  :all[input in .Q.an," "] and not ""~limitLen[18;input];  // Name has to be all alphanumeric characters and not an empty string
+  :all[input in .Q.an," "] and not ""~.common.limitLen[18;input];  // Name has to be all alphanumeric characters and not an empty string
  };
 
 nameCfg:{[params]
@@ -20,7 +20,7 @@ nameCfg:{[params]
   .nameCfg.draw[gd[`params;`pName];isEditing];
 
   while[`nameCfg~gd`scene;
-    input:$[isEditing;getFullInput[];getInput[]];
+    input:$[isEditing;.common.getFullInput[];.common.getInput[]];
 
     $[
       not[isEditing] and input~"q";:.game.quitDict;
@@ -28,7 +28,7 @@ nameCfg:{[params]
       not[isEditing] and input~"y";:.nameCfg.confirmName[gd[`params;`pName];passToScene];
       not[isEditing] and input~"n";isEditing:1b;
       isEditing and .nameCfg.isValidName input;[
-          gd[`params;`pName]:limitLen[18;trim raze input];
+          gd[`params;`pName]:.common.limitLen[18;trim raze input];
           isEditing:0b;
         ]
     ];

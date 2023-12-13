@@ -1,15 +1,15 @@
-replaceAll:{[lvl;char;newChar]
+.common.levelEdit.replaceAll:{[lvl;char;newChar]
   :ssr[lvl;char;newChar];
  };
 
-replaceOne:{[lvl;char;newChar;charNum;otherChar]
+.common.levelEdit.replaceOne:{[lvl;char;newChar;charNum;otherChar]
   indices:lvl ss char;
   lvl[indices[charNum]]:newChar;
 
-  :replaceAll[lvl;char;otherChar];
+  :.common.levelEdit.replaceAll[lvl;char;otherChar];
  };
 
-setLen:{[size;str;align]
+.common.levelEdit.setLen:{[size;str;align]
   c:count str;
   if[c>=size;:size#str];
 
@@ -22,13 +22,13 @@ setLen:{[size;str;align]
   :#[lNum;" "],str,rNum#" ";
  };
 
-showMsg:{[lvl;msg;tgtStr;align]
-  msg:setLen[count tgtStr;msg;align];
-  :replaceAll[lvl;tgtStr;msg];
+.common.levelEdit.showMsg:{[lvl;msg;tgtStr;align]
+  msg:.common.levelEdit.setLen[count tgtStr;msg;align];
+  :.common.levelEdit.replaceAll[lvl;tgtStr;msg];
  };
 
-autoShowMsg:{[lvl;msg;tgtChar;align]
+.common.levelEdit.autoShowMsg:{[lvl;msg;tgtChar;align]
   tgtChar;
-  num:getNumChars[lvl;tgtChar];
-  :showMsg[lvl;msg;num#tgtChar;align];
+  num:.common.getNumChars[lvl;tgtChar];
+  :.common.levelEdit.showMsg[lvl;msg;num#tgtChar;align];
  };
