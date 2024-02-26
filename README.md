@@ -3,6 +3,13 @@ A text-based multiplayer chess game written in Kx System's (https://kx.com/) pro
 
 ---
 
+## Requirements
+
+* `bash` (Tested with Git Bash for Windows' MinTTY terminal)
+* `q/kdb+` (Tested in version 4.0)
+
+**Note:** Some terminals may be too slow at refreshing their visuals to show the game at 60 FPS properly, it is recommended to run through a faster terminal than the default, like running through a [MinTTY](https://mintty.github.io/) terminal
+
 ## How to Start a Game
 First you will need a server to join; to start a server run `start_server.sh`, which can **optionally be passed a port number as an argument** for which it will host the server on, otherwise the server's port will default to the `DEFAULT_PORT` variable's value defined in `config.env` and the public and local IP address of the server will be logged upon it starting up
 
