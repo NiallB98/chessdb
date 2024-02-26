@@ -18,10 +18,20 @@ system"l common/levelEditing.q";
   {t:.z.p;while[.z.p<x]}ts;
  };
 
+.common.centreLvl:{[lvl]
+  splitLvl:"\n" vs lvl;
+
+  lvlWidth:count first splitLvl;
+  termSize:@[{"J"$first system x};"tput cols";0];
+
+  spacesCount:0|(floor termSize%2)-floor lvlWidth%2;
+
+  :"\n" sv ,[spacesCount#" "]each splitLvl;
+ };
+
 .common.draw:{[lvl;prompt]
   .common.cls[];
-  -1 lvl;
-  if[not prompt~"";1 prompt];
+  1 .common.centreLvl lvl,"\n",prompt;
  };
 
 .common.limitLen:{[size;str]
