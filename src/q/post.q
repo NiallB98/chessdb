@@ -1,6 +1,6 @@
 post:{[]
   cls[];
 
-  -1"\nThank you for playing!\n";
+  -1"\n",centreLvl"Thank you for playing!\n";
   exit 0;
  };

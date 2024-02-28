@@ -17,10 +17,20 @@ limitFPS:{[sts]
   {t:.z.p;while[.z.p<x]}ts;
  };
 
+centreLvl:{[lvl]
+  splitLvl:"\n" vs lvl;
+
+  lvlWidth:count first splitLvl;
+  termSize:@[{"J"$first system x};"tput cols";0];
+
+  spacesCount:0|(floor termSize%2)-floor lvlWidth%2;
+
+  :"\n" sv ,[spacesCount#" "]each splitLvl;
+ };
+
 draw:{[lvl;prompt]
   cls[];
-  -1 lvl;
-  if[not prompt~"";1 prompt];
+  1 centreLvl lvl,"\n",prompt;
  };
 
 limitLen:{[size;str]
